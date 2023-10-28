@@ -1,8 +1,6 @@
 package top.lyahm.readlist.utils;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class DbUtil {
     private static final String URL = "jdbc:mariadb://47.97.16.22:3306/CInfo";
@@ -15,7 +13,7 @@ public class DbUtil {
         conn = DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
-    public List<String> getColumn(String... columns) throws Exception {
+    public ResultSet getColumn(String... columns) throws Exception {
         // 构建 SQL 查询语句
         StringBuilder query = new StringBuilder("SELECT ");
         for (int i = 0; i < columns.length; i++) {
@@ -27,22 +25,52 @@ public class DbUtil {
         query.append(" FROM Emp;");
 
         PreparedStatement stmt = conn.prepareStatement(query.toString());
-        ResultSet rs = stmt.executeQuery();
-        while (rs.next()) {
-            System.out.println(rs.getInt(1));
-            System.out.println(rs.getString(2));
+        return stmt.executeQuery();
+    }
+
+    public static String echoResult(ResultSet rs) throws Exception{
+        // 获取结果原数据用于分析类型
+        ResultSetMetaData metaData = rs.getMetaData();
+        int columnCount = metaData.getColumnCount();
+        StringBuilder text = new StringBuilder("select result:\n");
+
+        // 输出列名
+        for (int i = 1; i <= columnCount; i++) {
+            String columnName = metaData.getColumnName(i);
+            text.append(columnName);
+            // 输出属性间空格
+            text.append(" ");
         }
 
-        List<String> arr = new ArrayList<>();
+        while (rs.next()) {
+            // 换行开始输出数据
+            text.append("\n");
 
-        return arr;
+            // 遍历列处理
+            for (int i = 1; i <= columnCount; i++) {
+                String columnTypeName = metaData.getColumnTypeName(i);
+
+                // 根据不同类型实现分支
+                switch (columnTypeName) {
+                    case "INTEGER":
+                        text.append(rs.getInt(i));
+                        break;
+                    case "VARCHAR":
+                        text.append(rs.getString(i));
+                        break;
+                }
+                // 输出属性间空格
+                text.append(" ");
+            }
+        }
+        return text.toString();
     }
 
     public static void main(String[] args) {
         try {
             DbUtil db = new DbUtil();
             System.out.println("selecting......");
-            System.out.println(db.getColumn("ENo", "Phone", "EName"));;
+            System.out.println(DbUtil.echoResult(db.getColumn("ENo", "Phone", "EName")));
         }
         catch (Exception e) {
             System.out.println("Some wrong happen !");
