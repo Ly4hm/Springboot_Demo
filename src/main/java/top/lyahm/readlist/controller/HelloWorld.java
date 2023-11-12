@@ -29,6 +29,7 @@ public class HelloWorld {
     }
 
     /* 需要 GET 参数传入 name, age 实现 tmp 的插入
+    1
      */
     @GetMapping("/insertToTmp")
     public RedirectView insertToTmp(@RequestParam String name, @RequestParam Integer age) {
