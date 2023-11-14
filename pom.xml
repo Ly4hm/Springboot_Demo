@@ -59,6 +59,13 @@
             <version>1.37.0</version>
         </dependency>
 
+        <!-- jbcrypt随机盐哈希加密算法 -->
+        <dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+            <version>0.4</version>
+        </dependency>
+
     </dependencies>
 
     <build>
