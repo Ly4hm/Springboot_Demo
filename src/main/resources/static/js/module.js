@@ -15,10 +15,14 @@ export function showRightMessage(text) {
     const mes = document.querySelector("#message");
     const icon = document.querySelector("#icon");
     const message_title = document.querySelector("#message_title");
-    message_title.textContent = "Right！"
-    icon.setAttribute("class","fa-regular fa-circle-check");
-    mes.textContent = text;
+    // 修改图标颜色
+    const iconElement = document.getElementById('icon');
+    iconElement.style.color = "#2c5fee";
+    // 修改弹窗内容
     section.classList.add("active");
+    mes.textContent = text;
+    icon.setAttribute("class","fa-regular fa-circle-check");
+    message_title.textContent = "Right！";
 }
 
 // 异或加密函数
@@ -33,22 +37,4 @@ export function xorEncrypt(text, key) {
 // 异或解密函数
 export function xorDecrypt(encryptedText, key) {
     return xorEncrypt(encryptedText, key); // 异或解密和加密操作相同
-}
-
-// 数据传输加密
-export async function calculateMD5(inputText) {
-    // 使用 Web Crypto API 计算 MD5 值
-    const encoder = new TextEncoder();
-    const data = encoder.encode(inputText);
-    const hashBuffer = await crypto.subtle.digest('MD5', data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
-}
-
-export function md5(text) {
-    let passwd;
-    calculateMD5(text).then(hash => {
-        passwd = hash;
-    })
-    return passwd;
 }
