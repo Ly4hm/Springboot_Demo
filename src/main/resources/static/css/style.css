@@ -9,6 +9,10 @@
   margin: 0;
 }
 
+#register_btn {
+  margin-top: 19px;
+}
+
 body {
   background-color: rgb(22, 30, 49);
 }
@@ -43,7 +47,7 @@ body {
   height: 10%;
   box-sizing: border-box;
   font-size: 25px;
-  margin: 8vh;
+  margin: 4vh;
 }
 .box .forms .tips span {
   margin: 0 10px 0 0;
@@ -64,7 +68,7 @@ body {
 .box .forms .register,
 .box .forms .fogot-pwd {
   width: 70%;
-  top: 25%;
+  top: 19%;
 }
 .box .forms .login .form-title h1,
 .box .forms .register .form-title h1,
@@ -74,7 +78,7 @@ body {
 .box .forms .login .form,
 .box .forms .register .form,
 .box .forms .fogot-pwd .form {
-  margin-top: 3vw;
+  margin-top: 2vw;
 }
 .box .forms .login .form .username::before,
 .box .forms .register .form .username::before,
@@ -217,7 +221,7 @@ body {
   font-size: 20px;
   box-shadow: 0 0 10px rgb(249, 177, 122);
   transition: 0.3s;
-  margin: 3vw 0 10px;
+  margin: 2vw 0 10px;
   font-family: NeueMachina-Regular, serif;
 }
 .box .forms .login .form .btn:hover,

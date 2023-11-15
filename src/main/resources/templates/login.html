@@ -1,19 +1,30 @@
 <!doctype html>
+<!--suppress HtmlFormInputWithoutLabel -->
 <html lang='ch' xmlns:th='http://www.thymeleaf.org'>
 <head>
     <meta charset="UTF-8">
     <title th:text="请先登录呀">请登录</title>
+    <link rel="icon" type="image/x-icon" href="../static/css/asset/favicon.ico" th:href="@{css/asset/favicon.ico}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{css/style.css}">
+    <link rel="stylesheet" href="../static/css/show_message.css" th:href="@{css/show_message.css}">
+    <!--用于生成弹窗的样式-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+          integrity="sha384-..." crossorigin="anonymous">
+    <!-- md5 计算-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.10.0/js/md5.min.js"></script>
 </head>
 
 <body>
 <div class="box">
     <div class="forms">
+        <!--模式选择按钮-->
         <div class="tips">
             <span class="login-btn">login</span>
             <span class="register-btn">register</span>
         </div>
+
+        <!--        登录界面-->
         <div class="login">
             <div class="form-title">
                 <h1>Hello</h1>
@@ -21,14 +32,10 @@
             </div>
             <div class="form">
                 <div class="username input-item">
-                    <label>
-                        <input type="text" class="ipts">
-                    </label>
+                    <input type="text" class="uname" id="login_uname">
                 </div>
                 <div class="password input-item">
-                    <label>
-                        <input type="password" class="ipts">
-                    </label>
+                    <input type="password" class="passwd" id="login_passwd">
                 </div>
                 <div class="other-select">
                     <div class="rem-pwd">
@@ -37,9 +44,11 @@
                     </div>
                     <span class="fogot-pwd-btn">forgot password</span>
                 </div>
-                <button class="btn">Login</button>
+                <button class="btn" id="login_btn">Login</button>
             </div>
         </div>
+
+        <!--        注册界面-->
         <div class="register">
             <div class="form-title">
                 <h1>Register</h1>
@@ -47,17 +56,21 @@
             </div>
             <div class="form">
                 <div class="username input-item">
-                    <input type="text" class="ipts">
+                    <label>
+                        <input type="text" class="uname" id="register_uname">
+                    </label>
                 </div>
                 <div class="password input-item">
-                    <input type="password" class="ipts">
+                    <input type="password" class="passwd" id="register_passwd">
                 </div>
                 <div class="conform-password input-item">
-                    <input type="password" class="ipts">
+                    <input type="password" class="ipts" id="register_con_passwd">
                 </div>
-                <button class="btn">Register</button>
+                <button class="btn" id="register_btn">Register</button>
             </div>
         </div>
+
+        <!--        忘记密码界面-->
         <div class="fogot-pwd">
             <div class="form-title">
                 <h1>fogot-pwd</h1>
@@ -74,88 +87,33 @@
                     <input type="text" class="ipts">
                     <span class="veri-code-tips">Click To Get</span>
                 </div>
-                <button class="btn">Confirm</button>
+                <button class="btn" id="foget_btn">Confirm</button>
             </div>
         </div>
     </div>
-
 </div>
+
+<!--        密码错误弹窗-->
+<section>
+    <span class="overlay"></span>
+
+    <div class="modal-box">
+        <i class="far fa-times-circle" id="icon"></i>
+        <h2 id="message_title">Wrong!!!</h2>
+        <h3 id="message">一个应该在 js 中被替换的消息信息</h3>
+
+        <div class="buttons">
+            <button class="close-btn">Close</button>
+        </div>
+    </div>
+</section>
+
 </body>
-<script>
-    const login = document.querySelector('.login')
-    const register = document.querySelector('.register')
-    const fogotPwd = document.querySelector('.fogot-pwd')
-    const registerBtn = document.querySelector('.register-btn')
-    const loginBtn = document.querySelector('.login-btn')
-    const fogotPwdBtn = document.querySelector('.fogot-pwd-btn')
-    const veriCodeTips = document.querySelector('.veri-code-tips');
-    let reckonTimeFlag = 5; //倒计时
-    let reckonTime; //定时器
-    //定时器
-    function countDown() {
-        veriCodeTips.innerHTML = `RESEND(${reckonTimeFlag})`
-        reckonTimeFlag--;
-        if (reckonTimeFlag < 0) {
-            clearInterval(reckonTime);
-            reckonTimeFlag = 5;
-            veriCodeTips.innerHTML = `Click To Get`;
-            veriCodeTips.style.color = "rgb(113 123 185)";
-            veriCodeTips.onclick = veriCodeTipsClick;
-        }
-    }
 
-    //点击事件触发的方法
-    function veriCodeTipsClick() {
-        veriCodeTips.onclick = null;
-        veriCodeTips.style.color = "rgb(153, 151, 151)";
-        reckonTime = setInterval(countDown, 1000);
-        countDown();
-    }
-
-    veriCodeTips.addEventListener('click', function () {
-        veriCodeTipsClick()
-    })
-    registerBtn.addEventListener('click', function () {
-        login.style.opacity = '0'
-        fogotPwd.style.opacity = '0'
-        register.style.opacity = '1'
-        login.style.zIndex = '-1'
-        fogotPwd.style.zIndex = '-1'
-        register.style.zIndex = '10'
-        register.style.animation = 'into 1s ease'
-        login.style.animation = 'none'
-        fogotPwd.style.animation = 'none'
-        registerBtn.style.borderBottom = '4px solid rgb(249, 177, 122)'
-        registerBtn.style.color = '#fff'
-        loginBtn.style.borderBottom = 'none'
-        loginBtn.style.color = 'rgb(100, 108, 154)'
-    })
-    loginBtn.addEventListener('click', function () {
-        login.style.opacity = '1'
-        register.style.opacity = '0'
-        fogotPwd.style.opacity = '0'
-        login.style.zIndex = '10'
-        fogotPwd.style.zIndex = '-1'
-        register.style.zIndex = '-1'
-        login.style.animation = 'into 1s ease'
-        register.style.animation = 'none'
-        fogotPwd.style.animation = 'none'
-        registerBtn.style.borderBottom = ''
-        registerBtn.style.color = 'rgb(100, 108, 154)'
-        loginBtn.style.borderBottom = '4px solid rgb(249, 177, 122)'
-        loginBtn.style.color = '#fff'
-    })
-    fogotPwdBtn.addEventListener('click', function () {
-        fogotPwd.style.opacity = '1'
-        login.style.opacity = '0'
-        register.style.opacity = '0'
-        login.style.zIndex = '-1'
-        fogotPwd.style.zIndex = '10'
-        register.style.zIndex = '-1'
-        fogotPwd.style.animation = 'into 1s ease'
-        register.style.animation = 'none'
-        login.style.animation = 'none'
-
-    })
-</script>
+<!--引入 js 代码-->
+<script type="module" src="../static/js/module.js" th:src="@{js/module.js}"></script>
+<script type="module" src="../static/js/show_message.js" th:src="@{js/show_message.js}"></script>
+<script type="module" src="../static/js/login.js" th:src="@{js/login.js}"></script>
+<script type="module" src="../static/js/register.js" th:src="@{js/register.js}"></script>
+<script type="module" src="../static/js/login_view.js" th:src="@{js/login_view.js}"></script>
 </html>
