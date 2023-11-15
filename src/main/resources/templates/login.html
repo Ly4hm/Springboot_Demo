@@ -8,8 +8,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/css/style.css" th:href="@{css/style.css}">
     <link rel="stylesheet" href="../static/css/show_message.css" th:href="@{css/show_message.css}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha384-..." crossorigin="anonymous">
-
+    <!--用于生成弹窗的样式-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+          integrity="sha384-..." crossorigin="anonymous">
+    <!-- md5 计算-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.10.0/js/md5.min.js"></script>
 </head>
 
 <body>
@@ -84,7 +87,7 @@
                     <input type="text" class="ipts">
                     <span class="veri-code-tips">Click To Get</span>
                 </div>
-                <button class="btn">Confirm</button>
+                <button class="btn" id="foget_btn">Confirm</button>
             </div>
         </div>
     </div>

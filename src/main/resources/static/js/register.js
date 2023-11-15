@@ -1,4 +1,4 @@
-import {showWrongMessage, showRightMessage, md5} from "./module.js"
+import {showWrongMessage, showRightMessage} from "./module.js"
 
 const register_btn = document.querySelector('#register_btn');
 const register_uname = document.querySelector("#register_uname");
@@ -15,7 +15,7 @@ register_btn.addEventListener("click", function (event) {
     if (passwd === con_passwd) {
         // 用于发包的数据
         const data = {
-            username: uname, password: passwd  // 传输过程加密
+            username: uname, password: md5(passwd)  // 传输过程加密,md5 函数在html中引入
         };
         console.log(JSON.stringify(data));
 

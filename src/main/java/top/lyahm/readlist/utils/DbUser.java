@@ -7,7 +7,7 @@ public class DbUser{
     public static void doRegiser(int id,String name,int access,String password){
         Connection conn=null;
         PreparedStatement pstmt=null;
-        String encodepassword=null;
+        String encodepassword;
 
         encodepassword=BCryptUtil.encode(password);
 
