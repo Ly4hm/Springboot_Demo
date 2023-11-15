@@ -1,17 +1,14 @@
 package top.lyahm.readlist.utils;
 
-import cn.dev33.satoken.secure.BCrypt;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 import java.util.Properties;
 
 public class DbUtil {
-    private static String username = null;
-    private static String password = null;
-    private static String driver = null;
-    private static String url = null;
+    private static final String username;
+    private static final String password;
+    private static final String url;
 
     static {
         try {
@@ -20,7 +17,7 @@ public class DbUtil {
             properties.load(is);
 
             // 获取Db.property信息
-            driver = properties.getProperty("driver");
+            String driver = properties.getProperty("driver");
             url = properties.getProperty("url");
             username = properties.getProperty("username");
             password = properties.getProperty("password");
