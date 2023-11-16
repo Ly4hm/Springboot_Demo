@@ -30,8 +30,18 @@
             <div class="user-profile">Username</div>
         </header>
 
-        <!-- Page Content -->
-        <div class="page-content" id="user-list">
+        <!--dashboard 界面-->
+        <div class="page-content" id="dashboard-content">
+            <h2>dashboard</h2>
+        </div>
+
+        <!--List 界面-->
+        <div class="page-content" id="list-content">
+            <h2>list</h2>
+        </div>
+
+        <!-- User 页面 -->
+        <div class="page-content" id="users-content">
             <h2>User Management</h2>
             <div class="table-header">
                 <span class="list-item">Name</span>
@@ -62,9 +72,15 @@
                 </div>
             </div>
         </div>
+
+
+        <!--        setting 界面-->
+        <div class="page-content" id="settings-content">
+            <h2>settings</h2>
+        </div>
     </div>
 </div>
 
-<script type="module" src="../static/js/index/index.js" th:src="@{js/index/index.js}"></script>
+<script type="module" src="../static/js/index/index_view.js" th:src="@{js/index/index_view.js}"></script>
 </body>
 </html>
