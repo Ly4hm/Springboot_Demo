@@ -2,10 +2,42 @@
 <html lang="ch" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title th:text="${user.name}+的管理面板">管理面板</title>
+    <link rel="icon" type="image/x-icon" href="../static/css/asset/favicon.ico" th:href="@{css/asset/favicon.ico}"/>
+    <link rel="stylesheet" href="../static/css/index/style.css" th:href="@{css/index/style.css}">
 </head>
+
 <body>
-<h1>占位用的 index 界面</h1>
-<a href="/logout">logout</a>
+<div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">Your Logo</div>
+        <ul class="sidebar-menu">
+            <li id="init_click"><a href="#" id="dashboard">Dashboard</a></li>
+            <li><a href="#" id="list">List</a></li>
+            <li><a href="#" id="users">Users</a></li>
+            <li><a href="#" id="settings">Settings</a></li>
+            <!-- Add more menu items as needed -->
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Navigation -->
+        <header class="top-nav">
+            <div class="menu-toggle">&#9776; Menu</div>
+            <div class="user-profile">Username</div>
+        </header>
+
+        <!-- Page Content -->
+        <div class="page-content">
+            <!-- Your content goes here -->
+            <h2>Welcome to the Admin Dashboard</h2>
+            <p>This is the main content area.</p>
+        </div>
+    </div>
+</div>
+
+<script type="module" src="../static/js/index/index.js" th:src="@{js/index/index.js}"></script>
 </body>
 </html>

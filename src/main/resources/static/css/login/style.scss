@@ -1,7 +1,7 @@
 @font-face {
     font-family: NeueMachina-Regular;
     font-weight: 400;
-    src: url(asset/font/NeueMachina-Regular.woff2) format("truetype");
+    src: url(../asset/font/NeueMachina-Regular.woff2) format("truetype");
 }
 * {
     padding: 0;
@@ -15,7 +15,7 @@ body {
 .box {
     width: 80vw;
     height: 80vh;
-    background: url(./asset/bg.jpg) fixed;
+    background: url(../asset/bg.jpg) fixed;
     background-size: cover;
     position: absolute;
     left: 50%;

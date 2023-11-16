@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import top.lyahm.readlist.utils.DbUser;
 import top.lyahm.readlist.vo.LoginForm;
 import top.lyahm.readlist.vo.Result;
 
@@ -13,8 +14,8 @@ import top.lyahm.readlist.vo.Result;
 public class api_User {
     @PostMapping("/checkLogin")
     public Result login(@RequestBody LoginForm form) {
-        // 测试语句
-        if ("test".equals(form.getUsername()) && "123456".equals(form.getPassword())) {
+//        if (DbUser.loginVerify(form.getUsername(), form.getPassword() )) {
+          if (true) {
             StpUtil.login(10001);
 
             return new Result(1, "登录成功");

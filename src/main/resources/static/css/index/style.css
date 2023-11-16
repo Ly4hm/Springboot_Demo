@@ -1,0 +1,156 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.sidebar {
+    width: 240px;
+    background-color: #2c3454;
+    color: #fff;
+    padding: 20px;
+    box-sizing: border-box;
+    border-bottom-right-radius: 20px;
+}
+
+.logo {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+    justify-content: center;
+    margin-top: 25vh;
+}
+
+.sidebar-menu li {
+    margin-bottom: 20px;
+    margin: 0 auto;
+    width: 50%;
+}
+
+.sidebar-menu a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    margin-top: 30px;
+    display: block;
+    border: 1px solid #ffffff00;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #eee;
+    padding: 10px 20px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.menu-toggle {
+    cursor: pointer;
+}
+
+.user-profile {
+    font-weight: bold;
+}
+
+/* Add this at the end of styles.css */
+
+.sidebar.collapsed {
+    width: 80px;
+}
+
+.sidebar.collapsed .logo {
+    display: none;
+}
+
+.sidebar.collapsed .sidebar-menu a {
+    display: none;
+}
+
+.main-content {
+    transition: margin-left 0.3s;
+}
+
+.sidebar.collapsed + .main-content {
+    margin-left: 80px;
+}
+
+/* sidebar 动效 */
+
+.sidebar-menu a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    display: block;
+    padding: 8px;
+    transition: background-color 0.3s;
+}
+
+/* 当鼠标移动到该元素时 */
+.sidebar-menu li:hover {
+    border-bottom: 4px solid rgba(249, 177, 122, 0.717);
+    color: #fff;
+}
+
+/* 当点击该元素时 */
+.sidebar-menu li.active {
+    border-bottom: 4px solid rgb(249, 177, 122);
+    color: #fff;
+}
+
+
+
+/* 用户列表界面 */
+.table-header, .user-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.table-header {
+    background-color: #dbdbdb;
+    margin-bottom: 10px;
+}
+
+.list-item, .user-item span {
+    flex: 1;
+    text-align: center;
+}
+
+.user-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #f5f4f4;
+    margin-bottom: 10px;
+}
+
+.user-item:hover {
+    background-color: #eaeaea;
+}
+
+.edit-btn:hover {
+    background-color: #45a049;
+}
