@@ -1,35 +1,56 @@
 package top.lyahm.readlist.utils;
 
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DbUser{
-//    执行插入操作，用jbcrypt加密
-    public static void doRegiser(int id,String name,int access,String password){
+    private static final Logger LOGGER = Logger.getLogger(DbUser.class.getName());
+//    执行插入操作，用jbcrypt加密密码（60位）
+    public static boolean doRegiser(String username,String password){
         Connection conn=null;
         PreparedStatement pstmt=null;
-        String encodepassword;
 
-        encodepassword=BCryptUtil.encode(password);
+//        对用户名和密码格式长度进行限制
+        String usernamePattern="\\w{1,20}";
+        String passwordPattern=".{1,10}";
+
+        if(!username.matches(usernamePattern)||!password.matches(passwordPattern)){
+            System.out.println("用户名或密码格式不符合要求");
+            return false;
+        }
+
+        String encodedpassword;
+//        md5加密用户id，避免id重复，32位
+        String encrypedtid=md5Encrypt.encode(username);
+        encodedpassword=BCryptUtil.encode(password);
+//        默认普通用户
+        int access=2;
 
 //        预编译sql语句
         try{
             conn = DbUtil.getConnection();
-            String sql="INSERT INTO user(ID,NAME,ACCESS,PASSWORD) VALUES (?,?,?,?)";
+            String sql="INSERT INTO User(ID,NAME,ACCESS,PASSWORD) VALUES (?,?,?,?)";
             pstmt=conn.prepareStatement(sql);
-            pstmt.setInt(1,id);
-            pstmt.setString(2,name);
+            pstmt.setString(1,encrypedtid);
+            pstmt.setString(2,username);
             pstmt.setInt(3,access);
-            pstmt.setString(4,encodepassword);
+            pstmt.setString(4,encodedpassword);
 
             int affectedRows=pstmt.executeUpdate();
             if (affectedRows > 0) {
                 System.out.println("插入成功");
+                return true;
+            } else {
+                System.out.println("插入失败：受影响行数为零");
             }
-        }catch (SQLException e){
-                e.printStackTrace();
+        }catch (SQLException e) {
+            // 记录数据库异常信息
+            LOGGER.log(Level.SEVERE,"数据库异常： "+ e.getMessage(),e);
         }finally{
             DbUtil.release(conn,pstmt,null);
         }
+        return false;
     }
 
     public static boolean registerCheck(String username) {
@@ -39,7 +60,7 @@ public class DbUser{
 
         try {
             conn = DbUtil.getConnection();
-            String sql = "SELECT COUNT(*) FROM user WHERE name=?";
+            String sql = "SELECT COUNT(*) FROM User WHERE name=?";
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, username);
 
@@ -50,7 +71,7 @@ public class DbUser{
                 return count > 0; // 如果 count 大于 0，表示用户名已存在
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE,"数据库异常： "+ e.getMessage(),e);
         } finally {
             DbUtil.release(conn, pstmt, rs);
         }
@@ -65,7 +86,7 @@ public class DbUser{
 
         try {
             conn = DbUtil.getConnection();
-            String sql = "SELECT name,password,salt FROM User WHERE name=?";
+            String sql = "SELECT name,password FROM User WHERE name=?";
             pstmt = conn.prepareStatement(sql);
 
             pstmt.setString(1, username);
@@ -78,7 +99,7 @@ public class DbUser{
                 return BCryptUtil.match(password, storedHashedPassword);
             }
             }catch(SQLException e){
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE,"数据库异常： "+ e.getMessage(),e);
             }finally{
                 DbUtil.release(conn, pstmt, rs);
             }
@@ -93,7 +114,7 @@ public class DbUser{
 
         try {
             conn = DbUtil.getConnection();
-            String sql = "DELETE FROM user WHERE name=?";
+            String sql = "DELETE FROM User WHERE name=?";
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, username);
 
@@ -104,7 +125,7 @@ public class DbUser{
                 System.out.println("未找到要删除的用户");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE,"数据库异常： "+ e.getMessage(),e);
         } finally {
             DbUtil.release(conn, pstmt, null);
         }
@@ -117,7 +138,7 @@ public class DbUser{
 
         try {
             conn = DbUtil.getConnection();
-            String sql = "UPDATE user SET name=?, access=? WHERE name=?";
+            String sql = "UPDATE User SET name=?, access=? WHERE name=?";
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, newName);
             pstmt.setInt(2, newAccess);
@@ -130,7 +151,7 @@ public class DbUser{
                 System.out.println("未找到要更新的用户");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE,"数据库异常： "+ e.getMessage(),e);
         } finally {
             DbUtil.release(conn, pstmt, null);
         }
