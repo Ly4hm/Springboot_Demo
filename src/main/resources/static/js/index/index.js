@@ -1,3 +1,13 @@
+// 主要内容显示
+const user_lst = document.querySelector("#user-list");
+const user_btn = document.querySelector("#users")
+// 初始隐藏
+user_lst.classList.add("hidden");
+
+user_btn.addEventListener("click", function () {
+    user_lst.classList.remove("hidden");
+});
+
 // sidebar 动效
 document.addEventListener('DOMContentLoaded', function () {
     const menuToggle = document.querySelector('.menu-toggle');
@@ -18,4 +28,3 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
-

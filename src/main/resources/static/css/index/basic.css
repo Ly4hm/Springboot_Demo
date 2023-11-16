@@ -116,41 +116,8 @@ body {
     color: #fff;
 }
 
-
-
-/* 用户列表界面 */
-.table-header, .user-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    border-radius: 10px;
+.hidden {
+    display: none;
 }
 
-.table-header {
-    background-color: #dbdbdb;
-    margin-bottom: 10px;
-}
 
-.list-item, .user-item span {
-    flex: 1;
-    text-align: center;
-}
-
-.user-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    border-radius: 10px;
-    background-color: #f5f4f4;
-    margin-bottom: 10px;
-}
-
-.user-item:hover {
-    background-color: #eaeaea;
-}
-
-.edit-btn:hover {
-    background-color: #45a049;
-}

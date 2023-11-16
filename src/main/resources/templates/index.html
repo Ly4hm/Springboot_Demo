@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <title th:text="${user.name}+的管理面板">管理面板</title>
     <link rel="icon" type="image/x-icon" href="../static/css/asset/favicon.ico" th:href="@{css/asset/favicon.ico}"/>
-    <link rel="stylesheet" href="../static/css/index/style.css" th:href="@{css/index/style.css}">
+    <link rel="stylesheet" href="../static/css/index/basic.css" th:href="@{css/index/basic.css}">
+    <link rel="stylesheet" href="../static/css/index/user_list.css" th:href="@{css/index/user_list.css}">
 </head>
 
 <body>
@@ -30,10 +31,36 @@
         </header>
 
         <!-- Page Content -->
-        <div class="page-content">
-            <!-- Your content goes here -->
-            <h2>Welcome to the Admin Dashboard</h2>
-            <p>This is the main content area.</p>
+        <div class="page-content" id="user-list">
+            <h2>User Management</h2>
+            <div class="table-header">
+                <span class="list-item">Name</span>
+                <span class="list-item">Email</span>
+                <span class="list-item">Admin</span>
+                <span class="list-item">Actions</span>
+            </div>
+            <div>
+                <!-- user-item demo 已经实现了对齐 -->
+                <div class="user-item">
+                    <span class="list-item">John Doe</span>
+                    <span class="list-item">johndoe@example.com</span>
+                    <span class="list-item">No</span>
+                    <span class="list-item">
+                            <button class="set-btn">注册为管理员</button>
+                            <button class="rm-btn">删除用户</button>
+                        </span>
+                </div>
+
+                <div class="user-item">
+                    <span class="list-item">John Doe</span>
+                    <span class="list-item">johndoe@example.com</span>
+                    <span class="list-item">No</span>
+                    <span class="list-item">
+                            <button class="set-btn">注册为管理员</button>
+                            <button class="rm-btn">删除用户</button>
+                        </span>
+                </div>
+            </div>
         </div>
     </div>
 </div>
