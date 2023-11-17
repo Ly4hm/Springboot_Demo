@@ -36,34 +36,37 @@ login_form.addEventListener('click', function (event) {
 
     // 创建一个对象来存储要发送的数据
     const data = {
-        username: username, password: password
+        username: username, password: md5(password)
     };
 
     // 决定是否保存密码
     saveCredentials();
 
-    //TODO: 表单验证
-
-    // 发送POST请求到login路由
-    fetch('/api/checkLogin', {
-        method: 'POST', headers: {
-            'Content-Type': 'application/json'
-        }, body: JSON.stringify(data)
-    })
-        .then(response => {
-            response.json().then(data => {
-                if (data["code"]) {
-                    window.location.href = 'index';
-                } else {
-                    // 密码错误
-                    showWrongMessage("Check your username and password");
-                }
-            })
+    // 表单验证
+    if (username !== "" || password !== "") {
+        // 发送POST请求到login路由
+        fetch('/api/checkLogin', {
+            method: 'POST', headers: {
+                'Content-Type': 'application/json'
+            }, body: JSON.stringify(data)
         })
-        .catch(error => {
-            // 处理请求错误
-            console.log('请求错误:', error);
-        });
+            .then(response => {
+                response.json().then(data => {
+                    if (data["code"]) {
+                        window.location.href = 'index';
+                    } else {
+                        // 密码错误
+                        showWrongMessage("用户名或密码错误");
+                    }
+                })
+            })
+            .catch(error => {
+                // 处理请求错误
+                console.log('请求错误:', error);
+            });
+    } else {
+        showWrongMessage("怎么什么都不填呢？")
+    }
 });
 
 // remember password 功能实现

@@ -21,26 +21,29 @@ register_btn.addEventListener("click", function (event) {
 
         //TOdo: 表单验证
 
-        // 向服务端验证注册
-        fetch("/api/checkRegister", {
-            method: 'POST', headers: {
-                'Content-Type': 'application/json'
-            }, body: JSON.stringify(data)
-        })
-            // 处理服务端返回值
-            .then(response => {
-                response.json().then(data => {
-                    if (data["code"]) {
-                        showRightMessage("注册成功，即将跳转到登录界面")
-                        setTimeout(() => {
-                            window.location.href = "login"
-                        }, 2000);
-                    } else {
-                        showWrongMessage(data["message"]);
-                    }
-                })
+        if (uname !== "" && passwd !== "") {
+            // 向服务端验证注册
+            fetch("/api/checkRegister", {
+                method: 'POST', headers: {
+                    'Content-Type': 'application/json'
+                }, body: JSON.stringify(data)
             })
-
+                // 处理服务端返回值
+                .then(response => {
+                    response.json().then(data => {
+                        if (data["code"]) {
+                            showRightMessage("注册成功，即将跳转到登录界面")
+                            setTimeout(() => {
+                                window.location.href = "login"
+                            }, 2000);
+                        } else {
+                            showWrongMessage(data["message"]);
+                        }
+                    })
+                });
+        } else {
+            showWrongMessage("什么都不输入可没办法注册哦")
+        }
 
     } else {
         showWrongMessage("两次密码不一致哦~")

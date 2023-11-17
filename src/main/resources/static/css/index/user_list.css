@@ -1,0 +1,71 @@
+/* 用户列表 */
+.table-header, .user-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.table-header {
+    background-color: #dbdbdb;
+    margin-bottom: 10px;
+}
+
+.list-item, .user-item span {
+    flex: 1;
+    text-align: center;
+}
+
+.user-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #f5f4f4;
+    margin-bottom: 10px;
+}
+
+.user-item:hover {
+    background-color: #eaeaea;
+}
+
+.edit-btn:hover {
+    background-color: #45a049;
+}
+
+
+/* 按钮样式 */
+.set-btn, .rm-btn {
+    padding: 6px 20px;
+    border: none;
+    color: white;
+    border-radius: 15px; /* 圆角 */
+    cursor: pointer;
+    outline: none;
+    transition: all 0.3s ease; /* 平滑过渡效果 */
+}
+
+/* 注册为管理员按钮的特定样式 */
+.set-btn {
+    background-color: #fb8c00; /* 深绿色背景 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 添加阴影 */
+    transition: all 0.3s ease; /* 平滑过渡效果 */
+}
+
+.set-btn:hover {
+    background-color: #ffa726; /* 悬停时的浅绿色 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* 悬停时阴影变大 */
+}
+
+.rm-btn {
+    background-color: #e64a19; /* 深绿色背景 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 添加阴影 */
+    transition: all 0.3s ease; /* 平滑过渡效果 */
+}
+
+.rm-btn:hover {
+    background-color: #ff7043; /* 悬停时的浅绿色 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* 悬停时阴影变大 */
+}
