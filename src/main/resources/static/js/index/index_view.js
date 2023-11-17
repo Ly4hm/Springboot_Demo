@@ -1,3 +1,5 @@
+import {showWrongMessage, showRightMessage} from "../module.js";
+
 // 初始隐藏
 const page_content = document.querySelectorAll('.page-content');
 page_content.forEach(item => {
@@ -5,6 +7,7 @@ page_content.forEach(item => {
 })
 // 初始显示 dashboard 页面
 document.querySelector("#dashboard-content").classList.remove("hidden");
+
 
 // sidebar 动效
 document.addEventListener('DOMContentLoaded', function () {
@@ -48,5 +51,38 @@ document.addEventListener('DOMContentLoaded', function () {
                 let a = e;
             }
         });
+    });
+});
+
+
+//// 弹窗逻辑
+// 获取所有包含用户信息的容器
+var userItems = document.querySelectorAll('.user-item');
+// 遍历每个容器
+userItems.forEach(function(userItem) {
+    // 获取当前容器下的 set-btn 按钮
+    var setBtn = userItem.querySelector('.set-btn');
+    var rmBtn = userItem.querySelector('.rm-btn');
+
+    // 添加 set-btn 点击事件监听器
+    setBtn.addEventListener('click', function() {
+        // 查询当前容器下的第一个 list-item 的内容
+        var firstListItemContent = userItem.querySelector('.list-item').textContent;
+
+        // 打印获取到的内容
+        // Todo: 发送请求的代码
+        // console.log('点击的 set-btn 对应的第一个 list-item 内容:', firstListItemContent);
+
+    });
+
+
+    // 添加 rm-btn 点击事件监听器
+    rmBtn.addEventListener('click', function() {
+        // 查询当前容器下的第一个 list-item 的内容
+        var firstListItemContent = userItem.querySelector('.list-item').textContent;
+
+        // 打印获取到的内容
+        // Todo: 发送请求的代码
+        console.log('点击的 rm-btn 对应的第一个 list-item 内容:', firstListItemContent);
     });
 });

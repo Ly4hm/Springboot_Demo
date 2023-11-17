@@ -27,7 +27,7 @@
         <!-- Top Navigation -->
         <header class="top-nav">
             <div class="menu-toggle">&#9776; Menu</div>
-            <div class="user-profile">Username</div>
+            <div class="user-profile" th:text="${user.name}">Username</div>
         </header>
 
         <!--dashboard 界面-->
@@ -42,7 +42,7 @@
 
         <!-- User 页面 -->
         <div class="page-content" id="users-content">
-            <h2>User Management</h2>
+            <h2>用户管理面板</h2>
             <div class="table-header">
                 <span class="list-item">Name</span>
                 <span class="list-item">Email</span>
@@ -62,7 +62,7 @@
                 </div>
 
                 <div class="user-item">
-                    <span class="list-item">John Doe</span>
+                    <span class="list-item">lyh</span>
                     <span class="list-item">johndoe@example.com</span>
                     <span class="list-item">No</span>
                     <span class="list-item">
@@ -74,13 +74,30 @@
         </div>
 
 
-        <!--        setting 界面-->
+        <!-- setting 界面-->
         <div class="page-content" id="settings-content">
             <h2>settings</h2>
         </div>
     </div>
 </div>
 
+<!-- 消息弹窗 -->
+<section>
+    <span class="overlay"></span>
+
+    <div class="modal-box">
+        <i class="far fa-times-circle" id="icon"></i>
+        <h2 id="message_title">Wrong!!!</h2>
+        <h3 id="message">一个应该在 js 中被替换的消息信息</h3>
+
+        <div class="buttons">
+            <button class="close-btn">Close</button>
+        </div>
+    </div>
+</section>
+
+<!-- 前端 JS 代码引入-->
+<script type="module" src="../static/js/module.js" th:src="@{js/module.js}"></script>
 <script type="module" src="../static/js/index/index_view.js" th:src="@{js/index/index_view.js}"></script>
 </body>
 </html>
