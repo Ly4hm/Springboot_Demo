@@ -6,6 +6,14 @@
     <link rel="icon" type="image/x-icon" href="../static/css/asset/favicon.ico" th:href="@{css/asset/favicon.ico}"/>
     <link rel="stylesheet" href="../static/css/index/basic.css" th:href="@{css/index/basic.css}">
     <link rel="stylesheet" href="../static/css/index/user_list.css" th:href="@{css/index/user_list.css}">
+    <link rel="stylesheet" href="../static/css/show_message.css" th:href="@{css/show_message.css}">
+    <!-- 卡片样式-->
+    <link rel="stylesheet" href="../static/css/index/music-card.css" th:href="@{css/index/music-card.css}">
+    <link rel="stylesheet" href="../static/css/index/weather-card.css" th:href="@{css/index/weather-card.css}">
+
+    <!--用于生成弹窗的样式-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+          integrity="sha384-..." crossorigin="anonymous">
 </head>
 
 <body>
@@ -14,7 +22,7 @@
     <aside class="sidebar">
         <div class="logo">Your Logo</div>
         <ul class="sidebar-menu">
-            <li id="init_click"><a href="#" id="dashboard">Dashboard</a></li>
+            <li><a href="#" id="dashboard">Dashboard</a></li>
             <li><a href="#" id="list">List</a></li>
             <li><a href="#" id="users">Users</a></li>
             <li><a href="#" id="settings">Settings</a></li>
@@ -32,7 +40,103 @@
 
         <!--dashboard 界面-->
         <div class="page-content" id="dashboard-content">
-            <h2>dashboard</h2>
+            <h2>控制面板</h2>
+
+            <!-- 音乐播放卡片 -->
+            <div class="music-card">
+                <div class="currentplaying">
+                    <p class="heading">Currently Playing</p>
+                </div>
+                <div class="loader">
+                    <div class="song">
+                        <p class="name">Time in a Bottle</p>
+                        <p class="artist">Jim Corce</p>
+                    </div>
+                    <div class="albumcover">
+                        <img src="../static/css/asset/album1.png" th:src="@{css/asset/album2.png}"
+                             alt="albumcover"></div>
+                    <div class="loading">
+                        <div class="load"></div>
+                        <div class="load"></div>
+                        <div class="load"></div>
+                        <div class="load"></div>
+                    </div>
+                </div>
+                <div class="loader">
+                    <div class="song">
+                        <p class="name">My Way</p>
+                        <p class="artist">Frank Sinatra</p>
+                    </div>
+                    <div class="albumcover">
+                        <img src="../static/css/asset/album1.png" th:src="@{css/asset/album1.png}" alt="albumcover">
+                    </div>
+                    <div class="play"></div>
+                </div>
+                <div class="loader">
+                    <div class="song">
+                        <p class="name">Lemon Tree</p>
+                        <p class="artist">Fools Garden</p>
+                    </div>
+                    <div class="albumcover">
+                        <img src="../static/css/asset/album1.png" th:src="@{css/asset/album3.png}"
+                             alt="albumcover"></div>
+                    <div class="play"></div>
+                </div>
+                <div class="loader">
+                    <div class="song">
+                        <p class="name">Lemon Tree</p>
+                        <p class="artist">Fools Garden</p>
+                    </div>
+                    <div class="albumcover">
+                        <img src="../static/css/asset/album1.png" th:src="@{css/asset/album3.png}"
+                             alt="albumcover"></div>
+                    <div class="play"></div>
+                </div>
+                <div class="loader">
+                    <div class="song">
+                        <p class="name">Lemon Tree</p>
+                        <p class="artist">Fools Garden</p>
+                    </div>
+                    <div class="albumcover">
+                        <img src="../static/css/asset/album1.png" th:src="@{css/asset/album3.png}"
+                             alt="albumcover"></div>
+                    <div class="play"></div>
+                </div>
+                <div class="loader">
+                    <div class="song">
+                        <p class="name">Lemon Tree</p>
+                        <p class="artist">Fools Garden</p>
+                    </div>
+                    <div class="albumcover">
+                        <img src="../static/css/asset/album1.png" th:src="@{css/asset/album3.png}"
+                             alt="albumcover"></div>
+                    <div class="play"></div>
+                </div>
+            </div>
+
+            <!-- 天气显示卡片 -->
+            <div class="weather-card">
+                <div class="weather-container">
+                    <div class="cloud front">
+                        <span class="left-front"></span>
+                        <span class="right-front"></span>
+                    </div>
+                    <span class="sun sunshine"></span>
+                    <span class="sun"></span>
+                    <div class="cloud back">
+                        <span class="left-back"></span>
+                        <span class="right-back"></span>
+                    </div>
+                </div>
+                <div class="card-header">
+                    <span>Messadine, Susah<br>Tunisia</span>
+                    <span>March 13</span>
+                </div>
+                <span class="temp">23°</span>
+                <div class="temp-scale">
+                    <span>Celcius</span>
+                </div>
+            </div>
         </div>
 
         <!--List 界面-->

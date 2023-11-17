@@ -7,6 +7,9 @@ page_content.forEach(item => {
 })
 // 初始显示 dashboard 页面
 document.querySelector("#dashboard-content").classList.remove("hidden");
+// 隐藏弹窗
+const section = document.querySelector("section");
+section.classList.remove("active");
 
 
 // sidebar 动效
