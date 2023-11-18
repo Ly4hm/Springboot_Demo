@@ -1,6 +1,6 @@
 .weather-card {
     width: 350px;
-    height: 235px;
+    height: 25vh;
     /*position: relative;*/
     padding: 25px;
     background: radial-gradient(178.94% 106.41% at 26.42% 106.41%, #FFF7B1 0%, rgba(255, 255, 255, 0) 71.88%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, #FFFFFF;
@@ -135,24 +135,24 @@
 .card-header span:first-child {
     word-break: break-all;
     font-weight: 800;
-    font-size: 15px;
+    font-size: 18px;
     line-height: 135%;
     color: rgba(87, 77, 51, 0.66);
 }
 
 .card-header span:last-child {
     font-weight: 700;
-    font-size: 15px;
+    font-size: 18px;
     line-height: 135%;
     color: rgba(87, 77, 51, 0.33);
 }
 
 .temp {
     position: absolute;
-    left: 25px;
-    bottom: 12px;
+    left: 40px;
+    bottom: 20px;
     font-weight: 700;
-    font-size: 64px;
+    font-size: 70px;
     line-height: 77px;
     color: rgba(87, 77, 51, 1);
 }
@@ -162,7 +162,7 @@
     height: 36px;
     position: absolute;
     right: 25px;
-    bottom: 25px;
+    bottom: 20px;
     display: flex;
     align-items: center;
     justify-content: center;

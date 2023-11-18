@@ -2,13 +2,13 @@
     background-color: #f8f3f3;
     padding: 1em 1em 1.1em;
     border-radius: 15px;
-    margin: 1em;
     width: 350px;
-    height: 52%;
+    height: 50vh;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
     position: absolute;
     bottom: 20px;
     right: 20px;
+    margin: 20px 1em 1em;
 }
 
 .loader {

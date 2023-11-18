@@ -102,16 +102,6 @@
                              alt="albumcover"></div>
                     <div class="play"></div>
                 </div>
-                <div class="loader">
-                    <div class="song">
-                        <p class="name">Lemon Tree</p>
-                        <p class="artist">Fools Garden</p>
-                    </div>
-                    <div class="albumcover">
-                        <img src="../static/css/asset/album1.png" th:src="@{css/asset/album3.png}"
-                             alt="albumcover"></div>
-                    <div class="play"></div>
-                </div>
             </div>
 
             <!-- 天气显示卡片 -->
@@ -129,10 +119,10 @@
                     </div>
                 </div>
                 <div class="card-header">
-                    <span>Messadine, Susah<br>Tunisia</span>
-                    <span>March 13</span>
+                    <span id="weather-province-city">Messadine, Susah<br>Tunisia</span>
+                    <span id="weather-date">March 13</span>
                 </div>
-                <span class="temp">23°</span>
+                <span class="temp" id="weatehr-temp">23°</span>
                 <div class="temp-scale">
                     <span>Celcius</span>
                 </div>
@@ -203,5 +193,6 @@
 <!-- 前端 JS 代码引入-->
 <script type="module" src="../static/js/module.js" th:src="@{js/module.js}"></script>
 <script type="module" src="../static/js/index/index_view.js" th:src="@{js/index/index_view.js}"></script>
+<script type="module" src="../static/js/index/weather_card.js" th:src="@{js/index/weather_card.js}"></script>
 </body>
 </html>
