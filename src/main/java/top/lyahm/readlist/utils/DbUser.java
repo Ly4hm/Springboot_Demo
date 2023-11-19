@@ -1,6 +1,9 @@
 package top.lyahm.readlist.utils;
 
+import top.lyahm.readlist.vo.User;
+
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,6 +20,11 @@ public class DbUser{
 
         if(!username.matches(usernamePattern)||!password.matches(passwordPattern)){
             System.out.println("用户名或密码格式不符合要求");
+            return false;
+        }
+
+        if(registerCheck(username)){
+            System.out.println("用户名已存在");
             return false;
         }
 
@@ -53,6 +61,7 @@ public class DbUser{
         return false;
     }
 
+//    根据用户名验证用户是否存在
     public static boolean registerCheck(String username) {
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -77,6 +86,37 @@ public class DbUser{
         }
 
         return false; // 如果发生异常，默认返回 false
+    }
+
+    public static ArrayList<User> getAllUser() {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        ArrayList<User> userList = new ArrayList<>();
+
+        try {
+            conn = DbUtil.getConnection();
+            String sql = "SELECT name,email,access FROM User WHERE access!=?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1,0);
+
+            rs = pstmt.executeQuery();
+
+            while(rs.next()) {
+                User user=new User();
+                user.setName(rs.getString(1));
+                user.setEmail(rs.getString(2));
+                user.setAccess(rs.getInt(3));
+                userList.add(user);
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE,"数据库异常： "+ e.getMessage(),e);
+        } finally {
+            DbUtil.release(conn, pstmt, rs);
+        }
+
+        return userList; // 如果发生异常，默认返回 false
     }
 
     public static boolean loginVerify(String username,String password){
@@ -131,22 +171,23 @@ public class DbUser{
         }
     }
 
-    // 更新用户信息
-    public static void updateUser(String username, String newName, int newAccess) {
+    // 将用户更改为管理员
+    public static boolean setAdmin(String username) {
         Connection conn = null;
         PreparedStatement pstmt = null;
+        int newAccess=1;
 
         try {
             conn = DbUtil.getConnection();
-            String sql = "UPDATE User SET name=?, access=? WHERE name=?";
+            String sql = "UPDATE User SET  access=? WHERE name=?";
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, newName);
-            pstmt.setInt(2, newAccess);
-            pstmt.setString(3, username);
+            pstmt.setInt(1, newAccess);
+            pstmt.setString(2, username);
 
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows > 0) {
                 System.out.println("更新成功");
+                return true;
             } else {
                 System.out.println("未找到要更新的用户");
             }
@@ -155,5 +196,10 @@ public class DbUser{
         } finally {
             DbUtil.release(conn, pstmt, null);
         }
+        return false;
+    }
+
+    public static void main(String[] args){
+            System.out.println(getAllUser());
     }
 }

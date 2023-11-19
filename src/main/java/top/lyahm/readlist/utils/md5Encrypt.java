@@ -10,8 +10,7 @@ public class md5Encrypt{
             try {
                 MessageDigest md = MessageDigest.getInstance("MD5");// 生成一个MD5加密计算摘要
                 md.update(pwd.getBytes());// 计算md5函数
-                String hashedPwd = new BigInteger(1, md.digest()).toString(16);// 16是表示转换为16进制数
-                return hashedPwd;
+                return new BigInteger(1, md.digest()).toString(16);
             } catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();
             }
