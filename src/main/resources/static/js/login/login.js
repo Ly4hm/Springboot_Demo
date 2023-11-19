@@ -1,4 +1,4 @@
-import {showWrongMessage, xorDecrypt, xorEncrypt} from "./module.js";
+import {showWrongMessage, xorDecrypt, xorEncrypt, requestByRoute} from "../module.js";
 
 // 获取login表单元素
 const login_form = document.querySelector('#login_btn');
@@ -45,25 +45,7 @@ login_form.addEventListener('click', function (event) {
     // 表单验证
     if (username !== "" || password !== "") {
         // 发送POST请求到login路由
-        fetch('/api/checkLogin', {
-            method: 'POST', headers: {
-                'Content-Type': 'application/json'
-            }, body: JSON.stringify(data)
-        })
-            .then(response => {
-                response.json().then(data => {
-                    if (data["code"]) {
-                        window.location.href = 'index';
-                    } else {
-                        // 密码错误
-                        showWrongMessage("用户名或密码错误");
-                    }
-                })
-            })
-            .catch(error => {
-                // 处理请求错误
-                console.log('请求错误:', error);
-            });
+        requestByRoute("/api/checkLogin", data, "index", 1000)
     } else {
         showWrongMessage("怎么什么都不填呢？")
     }

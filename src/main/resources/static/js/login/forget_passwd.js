@@ -1,4 +1,4 @@
-import {showWrongMessage} from "./module.js";
+import {showWrongMessage} from "../module.js";
 
 const forget_btn = document.querySelector("#foget_btn");
 
