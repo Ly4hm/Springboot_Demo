@@ -4,15 +4,25 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DbUtil {
-    private static final String username;
-    private static final String password;
-    private static final String url;
+
+    private static final Logger LOGGER = Logger.getLogger(DbUtil.class.getName());
+    private static String username=null;
+    private static String password=null;
+    private static String url=null;
 
     static {
         try {
-            InputStream is = DbUtil.class.getClassLoader().getResourceAsStream("Db.properties");
+            String path = "Db.properties";
+            InputStream is = DbUtil.class.getClassLoader().getResourceAsStream(path);
+
+            if (is == null) {
+                throw new RuntimeException("Could not find resource: " + path);
+            }
+
             Properties properties = new Properties();
             properties.load(is);
 
@@ -25,7 +35,7 @@ public class DbUtil {
             // 加载驱动
             Class.forName(driver);
         } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException("Error loading database properties", e);
+            LOGGER.log(Level.SEVERE,"数据库异常： "+ e.getMessage(),e);
         }
     }
 
@@ -40,21 +50,21 @@ public class DbUtil {
             try {
                 rs.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE,"数据库异常： "+ e.getMessage(),e);
             }
         }
         if (stmt != null) {
             try {
                 stmt.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE,"数据库异常： "+ e.getMessage(),e);
             }
         }
         if (conn != null) {
             try {
                 conn.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE,"数据库异常： "+ e.getMessage(),e);
             }
         }
     }

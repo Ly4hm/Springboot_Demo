@@ -8,4 +8,5 @@ public class User {
     private String name;
     private String passwd;  // hash
     private int access;
+    private String email;
 }
