@@ -9,6 +9,7 @@ import cn.dev33.satoken.stp.StpUtil;
  */
 public class AccessUser {
     // 判断用户是否具有超级管理员权限
+    // TODO: 处理这个函数的bug，无法正常鉴权
     public static Boolean haveAccess() {
         if (!StpUtil.isLogin()) {
             return false;

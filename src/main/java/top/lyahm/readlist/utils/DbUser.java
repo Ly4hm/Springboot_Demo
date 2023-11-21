@@ -111,7 +111,7 @@ public class DbUser{
                 user.setEmail(rs.getString(2));
                 user.setAccess(rs.getInt(3));
 //                如果access码为0，则设置isAdmin为true
-                if(rs.getInt(3)==0){
+                if(rs.getInt(3)==1){
                     user.setAdmin(true);
                 }else{
                     user.setAdmin(false);

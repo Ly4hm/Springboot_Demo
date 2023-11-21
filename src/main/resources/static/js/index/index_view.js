@@ -1,4 +1,4 @@
-import {showWrongMessage, showRightMessage} from "../module.js";
+import {showWrongMessage, showRightMessage, requestByRoute} from "../module.js";
 
 // 初始隐藏
 const page_content = document.querySelectorAll('.page-content');
@@ -10,6 +10,13 @@ document.querySelector("#dashboard-content").classList.remove("hidden");
 // 隐藏弹窗
 const section = document.querySelector("section");
 section.classList.remove("active");
+
+
+// 关闭弹窗
+const close_btn = document.querySelector(".close-btn")
+close_btn.addEventListener("click", function () {
+    section.classList.remove("active")
+})
 
 
 // sidebar 动效
@@ -58,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-//// 弹窗逻辑
+// 弹窗逻辑
 // 获取所有包含用户信息的容器
 var userItems = document.querySelectorAll('.user-item');
 // 遍历每个容器
@@ -72,9 +79,10 @@ userItems.forEach(function(userItem) {
         // 查询当前容器下的第一个 list-item 的内容
         var firstListItemContent = userItem.querySelector('.list-item').textContent;
 
-        // 打印获取到的内容
         // Todo: 发送请求的代码
-        // console.log('点击的 set-btn 对应的第一个 list-item 内容:', firstListItemContent);
+        // 向服务器提交请求
+        const data = {"username" : firstListItemContent}
+        requestByRoute("/api/setAdmin", data);
 
     });
 
@@ -86,6 +94,7 @@ userItems.forEach(function(userItem) {
 
         // 打印获取到的内容
         // Todo: 发送请求的代码
-        console.log('点击的 rm-btn 对应的第一个 list-item 内容:', firstListItemContent);
+        alert("rm" + firstListItemContent);
+        // console.log('点击的 rm-btn 对应的第一个 list-item 内容:', firstListItemContent);
     });
 });

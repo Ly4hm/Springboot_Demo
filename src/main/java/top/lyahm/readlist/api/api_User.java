@@ -1,11 +1,13 @@
 package top.lyahm.readlist.api;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.lyahm.readlist.utils.AccessUser;
+import top.lyahm.readlist.utils.DbUser;
 import top.lyahm.readlist.vo.LoginForm;
 import top.lyahm.readlist.vo.Result;
 
@@ -31,10 +33,11 @@ public class api_User {
             return new Result(0, "注册失败，该用户已注册");
         } else {
             // 执行注册
-            if (doRegiser(form.getUsername(), form.getPassword())) {
-                return new Result(1, "注册成功，即将跳转到登录界面");
+            Result r = doRegiser(form.getUsername(), form.getPassword());
+            if (r.getCode() == 0) {
+                return r;  // 直接返回 api 抛出的错误
             } else {
-                return new Result(0, "用户名或密码格式不符合要求");
+                return new Result(1, "注册成功，即将跳转到登录界面");
             }
         }
     }
@@ -43,17 +46,22 @@ public class api_User {
      * 将一个普通用户注册为管理员
      * 需要超级管理员权限
      */
+    @SaCheckLogin
     @PostMapping("/setAdmin")
     public Result setAdmin(@RequestBody LoginForm form) {
-        // 这里直接重用了 LoginForm 的代码
+        // 这里直接重用了 LoginForm 的数据框架
         // 权限校验
         if (!AccessUser.haveAccess()) {
             return new Result(0, "无权限");
         }
 
-        //TODO: 设置管理员
+        if (DbUser.setAdmin(form.getUsername())) {
+            return new Result(1, "设置成功");
+        } else {
+            return new Result(0, "发生了些小意外");
+        }
 
-        return new Result(1, "设置成功");
+
     }
 
     @PostMapping("/rmUser")

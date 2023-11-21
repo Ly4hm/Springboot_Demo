@@ -9,19 +9,20 @@
         <span class="list-item">Name</span>
         <span class="list-item">Email</span>
         <span class="list-item">Admin</span>
-        <span class="list-item">Actions</span>
+        <span class="actions">Actions</span>
     </div>
 
     <!-- 数据填充 -->
     <div>
         <div class="user-item" th:each="singleUser, Stat:${user_list}">
             <span class="list-item" th:text="${singleUser.name}">lyh</span>
-            <span class="list-item" th:text="${singleUser.email}">johndoe@example.com</span>
-            <span class="list-item">No</span>.
-            <span class="list-item">
+            <span class="list-item" th:text="${singleUser.haveEmail} ? ${singleUser.email} : '未设置邮箱'">johndoe@example.com</span>
+            <span class="list-item" th:text="${singleUser.isAdmin} ? 'Yes' : 'No'">是否是管理员</span>
+            <div class="actions">
                     <button class="set-btn">注册为管理员</button>
+                    <button class="unset-btn">移除管理员</button>
                     <button class="rm-btn">删除用户</button>
-                </span>
+                </div>
         </div>
     </div>
 </div>
