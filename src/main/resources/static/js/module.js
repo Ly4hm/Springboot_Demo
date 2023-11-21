@@ -76,5 +76,6 @@ export function requestByRoute(route, value, redirect, delay) {
         .catch(error => {
             // 处理请求错误
             console.log('请求错误:', error);
+            showWrongMessage("出现了一些小问题");
         });
 }

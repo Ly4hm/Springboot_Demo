@@ -9,4 +9,6 @@ public class User {
     private String passwd;  // hash
     private int access;
     private String email;
+    private boolean isAdmin;
+    private boolean haveEmail;
 }

@@ -130,48 +130,14 @@
         </div>
 
         <!--List 界面-->
-        <div class="page-content" id="list-content">
-            <h2>list</h2>
-        </div>
+        <div th:replace="~{list::list}"> list 页面替换div，替换文件：list.html</div>
 
         <!-- User 页面 -->
-        <div class="page-content" id="users-content">
-            <h2>用户管理面板</h2>
-            <div class="table-header">
-                <span class="list-item">Name</span>
-                <span class="list-item">Email</span>
-                <span class="list-item">Admin</span>
-                <span class="list-item">Actions</span>
-            </div>
-            <div>
-                <!-- user-item demo 已经实现了对齐 -->
-                <div class="user-item">
-                    <span class="list-item">John Doe</span>
-                    <span class="list-item">johndoe@example.com</span>
-                    <span class="list-item">No</span>
-                    <span class="list-item">
-                            <button class="set-btn">注册为管理员</button>
-                            <button class="rm-btn">删除用户</button>
-                        </span>
-                </div>
-
-                <div class="user-item">
-                    <span class="list-item">lyh</span>
-                    <span class="list-item">johndoe@example.com</span>
-                    <span class="list-item">No</span>
-                    <span class="list-item">
-                            <button class="set-btn">注册为管理员</button>
-                            <button class="rm-btn">删除用户</button>
-                        </span>
-                </div>
-            </div>
-        </div>
+        <div th:replace="~{users::users}"> users 页面替换div，替换文件：users.html</div>
 
 
         <!-- setting 界面-->
-        <div class="page-content" id="settings-content">
-            <h2>settings</h2>
-        </div>
+        <div th:replace="~{settings::settings}"> settings 页面替换div，替换文件：settings.html </div>
     </div>
 </div>
 
@@ -183,7 +149,6 @@
         <i class="far fa-times-circle" id="icon"></i>
         <h2 id="message_title">Wrong!!!</h2>
         <h3 id="message">一个应该在 js 中被替换的消息信息</h3>
-
         <div class="buttons">
             <button class="close-btn">Close</button>
         </div>

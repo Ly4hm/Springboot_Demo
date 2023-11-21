@@ -200,6 +200,7 @@ public class DbUser{
     }
 
     public static void main(String[] args){
-            System.out.println(getAllUser());
+//        System.out.println(getAllUser());
+        System.out.println(registerCheck("admin"));
     }
 }
