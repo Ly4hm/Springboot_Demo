@@ -4,7 +4,10 @@ import cn.dev33.satoken.stp.StpUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import top.lyahm.readlist.utils.DbUser;
 import top.lyahm.readlist.vo.User;
+
+import java.util.ArrayList;
 
 @Controller
 public class Index {
@@ -23,7 +26,13 @@ public class Index {
         // 填充渲染数据
         User vo_user = new User();
         vo_user.setName(StpUtil.getLoginIdAsString());
-        model.addAttribute("user",vo_user);
+
+        // 返回的用户列表
+        ArrayList<User> vo_user_list = DbUser.getAllUser();
+
+        // 填入 model 对象
+        model.addAttribute("user", vo_user);
+        model.addAttribute("user_list", vo_user_list);
 
         return "index";
     }

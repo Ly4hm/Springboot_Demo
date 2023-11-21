@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ch" xmlns:th="http://www.thymeleaf.org">
+
+<!-- users 页面 -->
+<div th:fragment="users" class="page-content" id="users-content">
+    <h2>用户管理面板</h2>
+    <!-- 表头 -->
+    <div class="table-header">
+        <span class="list-item">Name</span>
+        <span class="list-item">Email</span>
+        <span class="list-item">Admin</span>
+        <span class="list-item">Actions</span>
+    </div>
+
+    <!-- 数据填充 -->
+    <div>
+        <div class="user-item" th:each="singleUser, Stat:${user_list}">
+            <span class="list-item" th:text="${singleUser.name}">lyh</span>
+            <span class="list-item" th:text="${singleUser.email}">johndoe@example.com</span>
+            <span class="list-item">No</span>.
+            <span class="list-item">
+                    <button class="set-btn">注册为管理员</button>
+                    <button class="rm-btn">删除用户</button>
+                </span>
+        </div>
+    </div>
+</div>
+
+</html>

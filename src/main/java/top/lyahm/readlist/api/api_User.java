@@ -9,16 +9,15 @@ import top.lyahm.readlist.utils.AccessUser;
 import top.lyahm.readlist.vo.LoginForm;
 import top.lyahm.readlist.vo.Result;
 
-import java.util.Objects;
+import static top.lyahm.readlist.utils.DbUser.*;
 
 @RestController
 @RequestMapping("/api")
 public class api_User {
     @PostMapping("/checkLogin")
     public Result login(@RequestBody LoginForm form) {
-//        if (DbUser.loginVerify(form.getUsername(), form.getPassword() )) {
-        if (Objects.equals(form.getUsername(), "test") && Objects.equals(form.getPassword(), "e10adc3949ba59abbe56e057f20f883e")) {
-            StpUtil.login(10001);
+        if (loginVerify(form.getUsername(), form.getPassword() )) {
+            StpUtil.login(form.getUsername());
             return new Result(1, "登录成功, 即将跳转到管理面板");
         }
         return new Result(0, "用户名或密码错误");
@@ -26,8 +25,18 @@ public class api_User {
 
     @PostMapping("/checkRegister")
     public Result register(@RequestBody LoginForm form) {
-        // 测试注册
-        return new Result(1, "注册成功，即将跳转到登录界面");
+        // TODO：根据重构后的 doRegister 进行重构
+        if (registerCheck(form.getUsername()))  // 该用户已存在
+        {
+            return new Result(0, "注册失败，该用户已注册");
+        } else {
+            // 执行注册
+            if (doRegiser(form.getUsername(), form.getPassword())) {
+                return new Result(1, "注册成功，即将跳转到登录界面");
+            } else {
+                return new Result(0, "用户名或密码格式不符合要求");
+            }
+        }
     }
 
     /*
@@ -38,7 +47,7 @@ public class api_User {
     public Result setAdmin(@RequestBody LoginForm form) {
         // 这里直接重用了 LoginForm 的代码
         // 权限校验
-        if(!AccessUser.haveAccess()) {
+        if (!AccessUser.haveAccess()) {
             return new Result(0, "无权限");
         }
 
@@ -50,7 +59,7 @@ public class api_User {
     @PostMapping("/rmUser")
     public Result rmUser(@RequestBody LoginForm form) {
         // 权限校验
-        if(!AccessUser.haveAccess()) {
+        if (!AccessUser.haveAccess()) {
             return new Result(0, "无权限");
         }
 
