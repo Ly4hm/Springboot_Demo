@@ -1,5 +1,6 @@
 package top.lyahm.readlist.utils;
 
+import top.lyahm.readlist.vo.Result;
 import top.lyahm.readlist.vo.User;
 
 import java.sql.*;
@@ -10,22 +11,22 @@ import java.util.logging.Logger;
 public class DbUser{
     private static final Logger LOGGER = Logger.getLogger(DbUser.class.getName());
 //    执行插入操作，用jbcrypt加密密码（60位）
-    public static boolean doRegiser(String username,String password){
+    public static Result doRegiser(String username, String password){
+        int code=0;
         Connection conn=null;
         PreparedStatement pstmt=null;
 
 //        对用户名和密码格式长度进行限制
         String usernamePattern="\\w{1,20}";
-        String passwordPattern=".{1,10}";
 
-        if(!username.matches(usernamePattern)||!password.matches(passwordPattern)){
-            System.out.println("用户名或密码格式不符合要求");
-            return false;
+        if(!username.matches(usernamePattern)){
+            String message="用户名格式不符合要求";
+            return new Result(code,message);
         }
 
         if(registerCheck(username)){
-            System.out.println("用户名已存在");
-            return false;
+            String message="用户名已存在";
+            return new Result(code,message);
         }
 
         String encodedpassword;
@@ -47,18 +48,19 @@ public class DbUser{
 
             int affectedRows=pstmt.executeUpdate();
             if (affectedRows > 0) {
-                System.out.println("插入成功");
-                return true;
+                code=1;
+                String message="插入成功";
+                return new Result(code,message);
             } else {
-                System.out.println("插入失败：受影响行数为零");
+                return new Result(code,"插入失败，受影响行数为0");
             }
         }catch (SQLException e) {
             // 记录数据库异常信息
             LOGGER.log(Level.SEVERE,"数据库异常： "+ e.getMessage(),e);
-        }finally{
-            DbUtil.release(conn,pstmt,null);
+        }finally {
+            DbUtil.release(conn, pstmt, null);
         }
-        return false;
+        return new Result(code,"没有成功");
     }
 
 //    根据用户名验证用户是否存在
@@ -108,6 +110,18 @@ public class DbUser{
                 user.setName(rs.getString(1));
                 user.setEmail(rs.getString(2));
                 user.setAccess(rs.getInt(3));
+//                如果access码为0，则设置isAdmin为true
+                if(rs.getInt(3)==0){
+                    user.setAdmin(true);
+                }else{
+                    user.setAdmin(false);
+                }
+//                如果 email 的值不为null，则设置haveEmail为true
+                if(rs.getString(2)!=null){
+                    user.setHaveEmail(true);
+                }else{
+                    user.setHaveEmail(false);
+                }
                 userList.add(user);
             }
         } catch (SQLException e) {
