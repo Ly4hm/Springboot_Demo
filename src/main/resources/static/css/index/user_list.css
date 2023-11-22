@@ -17,8 +17,20 @@
     text-align: center;
 }
 
+.actions {
+    display: flex;
+    width: 500px;
+    justify-content: center;
+
+}
+
+.actions button {
+    margin-left: 8px;
+}
+
 .user-item {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
     padding: 10px;
@@ -37,7 +49,7 @@
 
 
 /* 按钮样式 */
-.set-btn, .rm-btn {
+.set-btn, .rm-btn, .unset-btn {
     padding: 6px 20px;
     border: none;
     color: white;
@@ -45,6 +57,7 @@
     cursor: pointer;
     outline: none;
     transition: all 0.3s ease; /* 平滑过渡效果 */
+    font-size: 16px;
 }
 
 /* 注册为管理员按钮的特定样式 */
@@ -56,6 +69,17 @@
 
 .set-btn:hover {
     background-color: #ffa726; /* 悬停时的浅绿色 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* 悬停时阴影变大 */
+}
+
+.unset-btn {
+    background-color: #458bd9; /* 深绿色背景 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 添加阴影 */
+    transition: all 0.3s ease; /* 平滑过渡效果 */
+}
+
+.unset-btn:hover {
+    background-color: #74b9ec; /* 悬停时的浅绿色 */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* 悬停时阴影变大 */
 }
 
