@@ -162,27 +162,43 @@ public class DbUser{
     }
 
     // 删除用户
-    public static void deleteUser(String username) {
+    public static Result rmUser(String username) {
         Connection conn = null;
         PreparedStatement pstmt = null;
+        int code=0;//状态码，默认为失败
+        ResultSet rs=null;
 
         try {
             conn = DbUtil.getConnection();
-            String sql = "DELETE FROM User WHERE name=?";
-            pstmt = conn.prepareStatement(sql);
+            String sql1 = "SELECT Access FROM User WHERE name=?";
+            pstmt = conn.prepareStatement(sql1);
             pstmt.setString(1, username);
 
-            int affectedRows = pstmt.executeUpdate();
-            if (affectedRows > 0) {
-                System.out.println("删除成功");
-            } else {
-                System.out.println("未找到要删除的用户");
+            rs=pstmt.executeQuery();
+            if (rs.next()) {
+                if (rs.getInt("access") == 0) {
+                    return new Result(code, "权限不够，无法删除该用户");
+                }else {
+                    String sql2 = "DELETE FROM User WHERE name=?";
+                    pstmt = conn.prepareStatement(sql2);
+                    pstmt.setString(1, username);
+
+                    int affectedRows = pstmt.executeUpdate();
+                    if (affectedRows > 0) {
+                        code=1;
+                        return new Result(code,String.format("删除成功,用户%s被删除",username));
+                    } else {
+//                System.out.println("未找到要删除的用户");
+                        return new Result(code,"未找到要删除的用户");
+                    }
+                }
             }
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE,"数据库异常： "+ e.getMessage(),e);
         } finally {
-            DbUtil.release(conn, pstmt, null);
+            DbUtil.release(conn, pstmt, rs);
         }
+        return new Result(code,"异常");
     }
 
     // 将用户更改为管理员
@@ -213,8 +229,64 @@ public class DbUser{
         return false;
     }
 
+//    撤销管理员
+    public static boolean unsetAdmin(String username) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        int newAccess=2;
+        boolean code=false;//状态码，默认失败
+
+        try {
+            conn = DbUtil.getConnection();
+            String sql = "UPDATE User SET  access=? WHERE name=?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, newAccess);
+            pstmt.setString(2, username);
+
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows > 0) {
+                code=true;
+                return code;
+            } else {
+                return code;
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE,"数据库异常： "+ e.getMessage(),e);
+        } finally {
+            DbUtil.release(conn, pstmt, null);
+        }
+        return code;
+    }
+
+//    检测用户access
+    public static int verifyAdmin(String Username){
+        Connection conn=null;
+        PreparedStatement pstmt=null;
+        int access=0;
+        ResultSet rs=null;
+
+        try{
+            conn=DbUtil.getConnection();
+            String sql="SELECT ACCESS FROM User where name=?";
+            pstmt=conn.prepareStatement(sql);
+            pstmt.setString(1,Username);
+
+            rs=pstmt.executeQuery();
+            if(rs.next()){
+                access=rs.getInt("access");
+                return access;
+            }
+
+        }catch (SQLException e) {
+            LOGGER.log(Level.SEVERE,"数据库异常： "+ e.getMessage(),e);
+        } finally {
+            DbUtil.release(conn, pstmt, null);
+        }
+        return access;
+    }
+
     public static void main(String[] args){
 //        System.out.println(getAllUser());
-        System.out.println(registerCheck("admin"));
+        System.out.println(rmUser("admin"));
     }
 }

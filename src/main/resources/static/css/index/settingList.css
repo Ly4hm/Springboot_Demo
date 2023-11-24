@@ -1,0 +1,21 @@
+.vertical-container {
+    display: block;
+    flex-direction: column; /* 垂直方向展示 */
+    border: 1px solid #100;
+    padding: 10px;
+    margin-left: 50px;
+    width: 20%; /* 计算容器宽度，占据页面剩余部分 */
+    max-width: 20%; /* 设置最大宽度，避免内容过宽 */
+}
+
+.user2-item {
+    display: flex;
+    flex-direction: row;
+    /*justify-content: space-between;*/
+    align-items: center;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #f5f4f4;
+    margin-bottom: 20%;
+}
+
