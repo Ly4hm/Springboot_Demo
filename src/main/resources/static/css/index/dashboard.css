@@ -1,0 +1,26 @@
+#main-chart {
+    background-color: #f8f3f3;
+    padding: 1em 1em 1.1em;
+    border-radius: 15px;
+    /*width: 1000px;*/
+    /*height:400px;*/
+    width: 125vh;
+    height: 52vh;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    position: absolute;
+    margin: 20px 1em 1em;
+}
+
+#warnning-cards {
+    background-color: #f8f3f3;
+    padding: 1em 1em 1.1em;
+    border-radius: 15px;
+    /*width: 1000px;*/
+    /*height:400px;*/
+    width: 125vh;
+    height: 23vh;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    position: absolute;
+    bottom: 20px;
+    margin: 20px 1em 1em;
+}

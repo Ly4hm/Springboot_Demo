@@ -79,3 +79,31 @@ export function requestByRoute(route, value, redirect, delay) {
             showWrongMessage("出现了一些小问题");
         });
 }
+
+export function validatePassword(password) {
+    // 正则表达式模式，用于匹配数字、小写字母、大写字母和特殊符号
+    var digitPattern = /\d/;
+    var lowercasePattern = /[a-z]/;
+    var uppercasePattern = /[A-Z]/;
+    var specialCharPattern = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/;
+
+    // 验证长度是否大于8位
+    if (password.length <= 8) {
+        return false;
+    }
+    // 验证口令是否包含至少三种不同的字符类型
+    var characterTypes = 0;
+    if (digitPattern.test(password)) {
+        characterTypes++;
+    }
+    if (lowercasePattern.test(password)) {
+        characterTypes++;
+    }
+    if (uppercasePattern.test(password)) {
+        characterTypes++;
+    }
+    if (specialCharPattern.test(password)) {
+        characterTypes++;
+    }
+    return characterTypes >= 3;
+}

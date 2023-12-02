@@ -27,7 +27,6 @@ public class api_User {
 
     @PostMapping("/checkRegister")
     public Result register(@RequestBody LoginForm form) {
-        // TODO：根据重构后的 doRegister 进行重构
         if (registerCheck(form.getUsername()))  // 该用户已存在
         {
             return new Result(0, "注册失败，该用户已注册");
@@ -60,8 +59,21 @@ public class api_User {
         } else {
             return new Result(0, "发生了些小意外");
         }
+    }
 
+    @SaCheckLogin
+    @PostMapping("/unsetAdmin")
+    public Result unsetAdmin(@RequestBody LoginForm form) {
+        // 权限校验
+        if (!AccessUser.haveAccess()) {
+            return new Result(0, "无权限");
+        }
 
+//        if (DbUser.unsetAdmin(form.getUsername())) {
+//            // TODO: 完善相关逻辑
+//        }
+
+        return new Result(1, "开发中");
     }
 
     @PostMapping("/rmUser")

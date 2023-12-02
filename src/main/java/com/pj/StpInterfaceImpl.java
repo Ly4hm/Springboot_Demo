@@ -11,12 +11,14 @@ import java.util.List;
  */
 @Component
 public class StpInterfaceImpl implements StpInterface {
+    // TODO: 重构该接口
+
     /**
      * 返回一个账号所拥有的权限码集合
      */
     @Override
     public List<String> getPermissionList(Object loginId, String loginType) {
-        // 本 list 仅做模拟，实际项目中要根据具体业务逻辑来查询权限
+        // 本 list 仅做模拟，实际项目中根据具体业务逻辑来查询权限
         List<String> list = new ArrayList<>();
         list.add("0");  // 超级管理员
         list.add("1");  // 普通管理员
@@ -29,11 +31,12 @@ public class StpInterfaceImpl implements StpInterface {
      */
     @Override
     public List<String> getRoleList(Object loginId, String loginType) {
-        // 本 list 仅做模拟，实际项目中要根据具体业务逻辑来查询角色
+        // 本 list 仅做模拟，实际项目中根据具体业务逻辑来查询角色
         List<String> list = new ArrayList<>();
         list.add("super-admin");
         list.add("admin");
         list.add("common-user");
+        System.out.println("权限角色添加");
         return list;
     }
 }
