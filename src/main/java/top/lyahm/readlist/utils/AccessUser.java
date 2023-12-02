@@ -15,11 +15,12 @@ public class AccessUser {
             return false;
         }
         // 超级管理员验证
-        try {
-            StpUtil.checkRole("super-admin");
-        } catch (NotRoleException e) {
+        if (StpUtil.hasRole("super-admin")) {
+            System.out.println("有管理员权限");
+            return true;
+        } else {
+            System.out.println("有管理员权限");
             return false;
         }
-        return true;
     }
 }

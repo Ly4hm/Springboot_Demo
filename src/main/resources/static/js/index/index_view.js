@@ -12,7 +12,7 @@ const section = document.querySelector("section");
 section.classList.remove("active");
 
 
-// 关闭弹窗
+// 关闭弹窗相关逻辑
 const close_btn = document.querySelector(".close-btn")
 close_btn.addEventListener("click", function () {
     section.classList.remove("active")
@@ -65,13 +65,14 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-// 弹窗逻辑
+// 按钮弹窗并发送请求逻辑
 // 获取所有包含用户信息的容器
 var userItems = document.querySelectorAll('.user-item');
 // 遍历每个容器
 userItems.forEach(function(userItem) {
     // 获取当前容器下的 set-btn 按钮
     var setBtn = userItem.querySelector('.set-btn');
+    var unsetBtn = userItem.querySelector('.unset-btn');
     var rmBtn = userItem.querySelector('.rm-btn');
 
     // 添加 set-btn 点击事件监听器
@@ -79,10 +80,20 @@ userItems.forEach(function(userItem) {
         // 查询当前容器下的第一个 list-item 的内容
         var firstListItemContent = userItem.querySelector('.list-item').textContent;
 
-        // Todo: 发送请求的代码
         // 向服务器提交请求
         const data = {"username" : firstListItemContent}
         requestByRoute("/api/setAdmin", data);
+
+    });
+
+    // 添加 unset-btn 点击事件监听器
+    unsetBtn.addEventListener('click', function() {
+        // 查询当前容器下的第一个 list-item 的内容
+        var firstListItemContent = userItem.querySelector('.list-item').textContent;
+
+        // 向服务器提交请求
+        const data = {"username" : firstListItemContent}
+        requestByRoute("/api/unsetAdmin", data);
 
     });
 
