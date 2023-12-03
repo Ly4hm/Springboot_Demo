@@ -2,6 +2,7 @@ package com.pj;
 
 import cn.dev33.satoken.stp.StpInterface;
 import org.springframework.stereotype.Component;
+import top.lyahm.readlist.utils.DbUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,12 +19,8 @@ public class StpInterfaceImpl implements StpInterface {
      */
     @Override
     public List<String> getPermissionList(Object loginId, String loginType) {
-        // 本 list 仅做模拟，实际项目中根据具体业务逻辑来查询权限
-        List<String> list = new ArrayList<>();
-        list.add("0");  // 超级管理员
-        list.add("1");  // 普通管理员
-        list.add("2");  // 普通用户
-        return list;
+        // 未使用该机制，故不添加任何权限
+        return new ArrayList<>();
     }
 
     /**
@@ -31,12 +28,11 @@ public class StpInterfaceImpl implements StpInterface {
      */
     @Override
     public List<String> getRoleList(Object loginId, String loginType) {
-        // 本 list 仅做模拟，实际项目中根据具体业务逻辑来查询角色
         List<String> list = new ArrayList<>();
-        list.add("super-admin");
-        list.add("admin");
-        list.add("common-user");
-        System.out.println("权限角色添加");
+        if (DbUser.verifyAdmin((String) loginId) == 0) {
+            list.add("super-admin");
+            System.out.println("admin 权限角色添加");
+        }
         return list;
     }
 }
