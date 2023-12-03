@@ -19,9 +19,11 @@ body {
 }
 
 .logo {
-    font-size: 1.5em;
+    font-size: 2em;
     font-weight: bold;
-    margin-bottom: 20px;
+    margin: 0 auto;
+    display: block;
+    max-width: min-content;
 }
 
 .sidebar-menu {

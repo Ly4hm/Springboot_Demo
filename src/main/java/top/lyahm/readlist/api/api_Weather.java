@@ -15,7 +15,7 @@ import java.util.Objects;
 @SuppressWarnings("rawtypes")
 @RestController
 @RequestMapping("/api")
-public class Other {
+public class api_Weather {
     // 获取天气信息的api
     // 进行了一次封装，避免 key的泄露
 
