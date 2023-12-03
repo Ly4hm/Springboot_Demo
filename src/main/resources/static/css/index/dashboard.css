@@ -1,26 +1,22 @@
 #main-chart {
-    background-color: #f8f3f3;
-    padding: 1em 1em 1.1em;
-    border-radius: 15px;
-    /*width: 1000px;*/
-    /*height:400px;*/
     width: 125vh;
     height: 52vh;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    padding: 3.3em 5em 1em;
     position: absolute;
     margin: 20px 1em 1em;
+    border-radius: 30px;
+    background: #fafafa;
+    box-shadow: 2px 2px 5px #bebebe,
+    -2px -2px 5px #ffffff;
+
 }
 
 #warnning-cards {
-    background-color: #f8f3f3;
-    padding: 1em 1em 1.1em;
-    border-radius: 15px;
-    /*width: 1000px;*/
-    /*height:400px;*/
     width: 125vh;
     height: 23vh;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
     position: absolute;
-    bottom: 20px;
+    bottom: 25px;
     margin: 20px 1em 1em;
+    display: flex;
+    flex-direction: row; /* 将元素水平排列 */
 }

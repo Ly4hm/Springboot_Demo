@@ -1,15 +1,25 @@
 package com.pj;
 
+import cn.dev33.satoken.exception.NotRoleException;
+import cn.dev33.satoken.util.SaResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import top.lyahm.readlist.vo.Result;
 
-@RestController
+@RestControllerAdvice
 public class GlobalExceptionHandler {
-    // 全局异常拦截
-    @ExceptionHandler
-    public String handlerException(Exception e) {
+    // 权限缺失
+    @ExceptionHandler(NotRoleException.class)
+    public Result handlerException(NotRoleException e) {
         e.printStackTrace();
-        System.out.println("出错，全局过滤器抛出以上错误");
-        return "redirect:/error";
+        return new Result(0, "无权限");
+    }
+
+    // 其他异常拦截
+    @ExceptionHandler(Exception.class)
+    public SaResult handlerException(Exception e) {
+        e.printStackTrace();
+        return SaResult.error(e.getMessage());
     }
 }

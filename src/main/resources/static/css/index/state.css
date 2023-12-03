@@ -1,0 +1,125 @@
+.card {
+    padding: 1rem;
+    background-color: #fafafa;
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.21);
+    max-width: 320px;
+    border-radius: 20px;
+    height: 23vh;
+    margin-right: 20px;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+}
+
+.title span {
+    position: relative;
+    padding: 0.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 9999px;
+}
+
+.normal_span, .normal_fill{
+    background-color: #10B981;
+}
+
+.closed_span, .closed_fill{
+    background-color: #757575;
+}
+
+.error_span, .error_fill{
+    background-color: rgba(234, 98, 98, 0.84);
+}
+
+.title span svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ffffff;
+    height: 1.7rem;
+}
+
+.title-text {
+    margin-left: 0.5rem;
+    color: #374151;
+    font-size: 18px;
+}
+
+.percent {
+    margin-left: 0.5rem;
+    color: #02972f;
+    font-weight: 600;
+    display: flex;
+}
+
+.data {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.data p::first-letter {
+    font-size: 3.5rem;
+}
+
+.data p {
+    font-size: 2.5rem; /* 根据需要调整缩小的比例 */
+}
+
+.data p {
+    margin-top: 35px;
+    margin-bottom: 35px;
+    color: #1F2937;
+    line-height: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.data .range {
+    position: relative;
+    background-color: #E5E7EB;
+    width: 100%;
+    height: 0.5rem;
+    border-radius: 0.25rem;
+}
+
+.data .range .normal_fill,
+.data .range .closed_fill,
+.data .range .error_fill
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 79%;
+    height: 100%;
+    border-radius: 0.25rem;
+}
+
+/* 智能分析卡片 */
+.gpt_card {
+    padding: 1rem;
+    background-color: #fafafa;
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.2);
+    width: 428px;
+    border-radius: 20px;
+    height: 23vh;
+}
+
+#gpt_span {
+    position: relative;
+    padding: 0.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 9999px;
+    background-color: #fafafa;
+}
+
+.gpt_text {
+    margin-top: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 10px;
+}

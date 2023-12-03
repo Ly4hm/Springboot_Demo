@@ -3,6 +3,47 @@
 
 <!-- settings 页面 -->
 <div th:fragment="settings" class="page-content" id="settings-content">
+    <h2>个人信息设置</h2>
+
+    <!-- 局部样式引入 -->
+    <link rel="stylesheet" href="../static/css/index/setting.css" th:href="@{css/index/setting.css}">
+    <div id="content-div">
+        <!-- setting 界面选项卡 -->
+        <div class="setting-bar">
+            <div class="loader" id="self_info_btn">
+                <div class="song">
+                    <p class="name">个人信息</p>
+                </div>
+                <div class="albumcover">
+                    <img src="../static/css/asset/userinfo_icon.png" th:src="@{css/asset/userinfo_icon.png}"
+                         alt="albumcover"></div>
+            </div>
+            <div class="loader" id="safe_setting_btn">
+                <div class="song">
+                    <p class="name">账户设置</p>
+                </div>
+                <div class="albumcover">
+                    <img src="../static/css/asset/safe_icon.png" th:src="@{css/asset/safe_icon.png}"
+                         alt="albumcover"></div>
+            </div>
+        </div>
+
+        <!-- setting 界面设置窗口 -->
+        <div class="setting-card">
+            <div class="self_info_setting">
+                <p>个人信息设置</p>
+                <!--分割线-->
+                <div class="separator"></div>
+            </div>
+
+            <div class="safe_setting">
+                <p>账户设置</p>
+                <!--分割线-->
+                <div class="separator"></div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 

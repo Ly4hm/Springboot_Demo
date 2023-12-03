@@ -29,6 +29,7 @@ public class Index {
 
         // 返回的用户列表
         ArrayList<User> vo_user_list = DbUser.getAllUser();
+//        ArrayList<User> vo_user_list = new ArrayList<>();
 
         // 填入 model 对象
         model.addAttribute("user", vo_user);

@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ch" xmlns:th="http://www.thymeleaf.org">
+
+<!--dashboard 界面的折线图-->
+<div id="main-chart" th:fragment="main_chart">
+    <script type="text/javascript">
+        // 数据获取
+        fetch("/api/chart", {
+            method: 'GET'
+        })
+            .then(response => {
+                response.json().then(data => {
+                    var date_lst = []
+                    var temp_lst = []
+                    var humi_lst = []
+                    var light_lst = []
+                    for (var AtoData in data) {
+                        date_lst.push(AtoData["date"])
+                        temp_lst.push(AtoData["temp"])
+                        humi_lst.push(AtoData["humi"])
+                        light_lst.push(AtoData["light"])
+                    }
+                })
+            })
+            .catch(error => {
+                // 处理请求错误
+                console.log('请求错误:', error);
+            });
+
+
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main-chart'));
+        // 显示标题，图例和空的坐标轴
+        myChart.setOption({
+            title: {
+                text: '一小时内温湿度情况'
+            },
+            tooltip: {},
+            legend: {
+                data: ['温度', '湿度']
+            },
+            xAxis: {
+                data: [1, 2, 3, 4, 5]
+            },
+            yAxis: {},
+            series: [
+                {
+                    name: '温度',
+                    type: 'line',
+                    data: []
+                },
+                {
+                    name: '湿度',
+                    type: 'line',
+                    data: []
+                }]
+        });
+
+        // 异步加载数据
+        myChart.setOption({
+            title: {
+                text: '一小时内温湿度情况'
+            },
+            tooltip: {},
+            legend: {
+                data: ['温度', '湿度']
+            },
+            xAxis: {
+                data: ["11.10", "11.10", "11.10", "11.10", "11.10"]
+            },
+            yAxis: [
+                {
+                    name: '温度 (℃)', // 温度单位
+                },
+                {
+                    name: '湿度 (%)', // 湿度单位
+                }
+            ],
+            series: [
+                {
+                    name: '温度',
+                    type: 'line',
+                    yAxisIndex: 0, // 使用第一个y轴
+                    data: [8, 10, 16, 20, 5]
+                },
+                {
+                    name: '湿度',
+                    type: 'line',
+                    yAxisIndex: 1, // 使用第二个y轴
+                    data: [5, 20, 36, 10, 10, 20]
+                }
+            ]
+        });
+
+    </script>
+</div>
+
+</html>

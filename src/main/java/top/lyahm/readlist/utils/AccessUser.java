@@ -19,7 +19,7 @@ public class AccessUser {
             System.out.println("有管理员权限");
             return true;
         } else {
-            System.out.println("有管理员权限");
+            System.out.println("无管理员权限");
             return false;
         }
     }

@@ -54,7 +54,6 @@ document.addEventListener('DOMContentLoaded', function () {
             try {
                 let a_lable = item.querySelector("a");
                 let element_id = a_lable.textContent.toLowerCase() + "-content";
-                console.log(element_id);
                 let content = document.getElementById(element_id);
                 content.classList.remove("hidden");
             } catch (e) {

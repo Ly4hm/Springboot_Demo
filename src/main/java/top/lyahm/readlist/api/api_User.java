@@ -1,6 +1,7 @@
 package top.lyahm.readlist.api;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.stp.StpUtil;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,15 +46,10 @@ public class api_User {
      * 将一个普通用户注册为管理员
      * 需要超级管理员权限
      */
-    @SaCheckLogin
+    @SaCheckRole("super-admin")
     @PostMapping("/setAdmin")
     public Result setAdmin(@RequestBody LoginForm form) {
         // 这里直接重用了 LoginForm 的数据框架
-        // 权限校验
-        if (!AccessUser.haveAccess()) {
-            return new Result(0, "无权限");
-        }
-
         if (DbUser.setAdmin(form.getUsername())) {
             return new Result(1, "设置成功");
         } else {
@@ -61,31 +57,27 @@ public class api_User {
         }
     }
 
-    @SaCheckLogin
+    @SaCheckRole("super-admin")
     @PostMapping("/unsetAdmin")
     public Result unsetAdmin(@RequestBody LoginForm form) {
-        // 权限校验
-        if (!AccessUser.haveAccess()) {
-            return new Result(0, "无权限");
+        // 解除管理员
+        if (DbUser.unsetAdmin(form.getUsername())) {
+            return new Result(1, "解除成功");
+        } else {
+            return new Result(0, "发生了点小意外");
         }
-
-//        if (DbUser.unsetAdmin(form.getUsername())) {
-//            // TODO: 完善相关逻辑
-//        }
-
-        return new Result(1, "开发中");
     }
 
+    @SaCheckRole("super-admin")
     @PostMapping("/rmUser")
     public Result rmUser(@RequestBody LoginForm form) {
-        // 权限校验
-        if (!AccessUser.haveAccess()) {
-            return new Result(0, "无权限");
+        // 删除用户
+        Result result = DbUser.rmUser(form.getUsername());
+        // 返回消息处理
+        if (result.getCode() == 1) {
+            return new Result(1, "删除成功");
+        } else {
+            return result;
         }
-
-        //TODO: 删除用户的代码
-
-        return new Result(1, "删除成功");
-
     }
 }

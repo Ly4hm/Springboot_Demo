@@ -1,0 +1,45 @@
+#content-div {
+    display: flex;
+}
+
+.setting-bar, .setting-card {
+    height: 78vh;
+    padding: 2.3em 2em 2em;
+    position: relative;
+    margin: 20px 1em 1em;
+    border-radius: 30px;
+    background: #fafafa;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2),
+    0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.setting-bar {
+    width: 32vh;
+}
+
+.setting-card {
+    width: 136vh;
+}
+
+.setting-bar p {
+    margin: 0;
+    padding: 5px;
+}
+
+#setting_bar_loader {
+    margin-top: 10px;
+}
+
+.setting-card div p {
+    font-size: 20px;
+}
+
+.separator {
+    border-top: 3px solid #e0e0e0; /* 设置分割线的样式和颜色 */
+    margin: 20px 0; /* 设置分割线的上下外边距 */
+    padding: 0 20px; /* 添加左右边距 */
+}
+
+.hidden {
+    display: none;
+}
