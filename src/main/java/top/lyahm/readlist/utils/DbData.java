@@ -2,18 +2,24 @@ package top.lyahm.readlist.utils;
 
 import top.lyahm.readlist.vo.AtoiData;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class DbData {
     private static final Logger LOGGER = Logger.getLogger(DbUser.class.getName());
+
+//    返回传感器的最新五条数据
     public static ArrayList<AtoiData> getSensorData() {
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -54,11 +60,29 @@ public class DbData {
         return SensorList; // 如果发生异常，默认返回 false
     }
 
-    public static void main(String[] args){
-        ArrayList<AtoiData> sensorData = DbData.getSensorData();
-
-        for (AtoiData data : sensorData) {
-            System.out.println("Reading: " + data.getAData() + " Date: " + data.getDate());
+    public static void storageData(){
+        Pattern pattern=Pattern.compile("\\d+\\.\\d+");
+        ArrayList<AtoiData> sensorData=getSensorData();
+        float[] datalist=new float[20];
+        Matcher matcher;
+        int count=0;
+        for(AtoiData data:sensorData){
+            matcher= pattern.matcher(data.toString());
+            while(matcher.find()){
+                String match=matcher.group();
+                float v=Float.parseFloat(match);
+                datalist[count]=v;
+                count++;
+            }
         }
+        float Temp=datalist[0];
+        float Humi=datalist[1];
+        float Light=datalist[2];
+
+        String storagedData=new GPTUtil().getAnalyse(Temp,Humi,Light);
+        DbFurniture.updateGMSG(storagedData);
     }
+//    public static void main(String[] args){
+//        storageData();
+//    }
 }

@@ -111,17 +111,9 @@ public class DbUser{
                 user.setEmail(rs.getString(2));
                 user.setAccess(rs.getInt(3));
 //                如果access码为0，则设置isAdmin为true
-                if(rs.getInt(3)==1){
-                    user.setAdmin(true);
-                }else{
-                    user.setAdmin(false);
-                }
+                user.setAdmin(rs.getInt(3) == 1);
 //                如果 email 的值不为null，则设置haveEmail为true
-                if(rs.getString(2)!=null){
-                    user.setHaveEmail(true);
-                }else{
-                    user.setHaveEmail(false);
-                }
+                user.setHaveEmail(rs.getString(2) != null);
                 userList.add(user);
             }
         } catch (SQLException e) {
@@ -246,10 +238,8 @@ public class DbUser{
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows > 0) {
                 code=true;
-                return code;
-            } else {
-                return code;
             }
+            return code;
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE,"数据库异常： "+ e.getMessage(),e);
         } finally {
