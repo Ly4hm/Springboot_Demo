@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -29,27 +30,67 @@ public class DbData {
         ArrayList<AtoiData> SensorList = new ArrayList<>();
         String tmpTime=null;
 
+        float[] TempData=new float[20];
+        float[] HumiData=new float[20];
+        float[] LightData=new float[20];
+
+//        HashMap<Integer,Float> preData=new HashMap<>();
+        HashMap<Integer,LocalDateTime> preDate=new HashMap<>();
+
         try {
             conn = DbUtil.getConnection();
             String sql = "SELECT Reading,Date FROM SensorDataAnalysis WHERE Sid=?";
-            for(int i=0;i<3;i++){
+            for(int i=0;i<3;i++) {
+                int indexTime = 0;
+                int indexH = 0;
+                int indexL = 0;
+                int indexT = 0;
+//                i=0读取温度传感器，i=1读取湿度传感器，i=2读取光照传感器
                 pstmt = conn.prepareStatement(sql);
-                pstmt.setInt(1,choice[i]);
+                pstmt.setInt(1, choice[i]);
+
 
                 rs = pstmt.executeQuery();
 
-                while(rs.next()) {
-                    AtoiData AData=new AtoiData();
-                    AData.setAData(rs.getFloat(1));
 
-                    tmpTime= rs.getString(2);
-                    DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                    AData.setDate(LocalDateTime.parse(tmpTime,df));
+                while (rs.next()) {
+//                    AData.setAData(rs.getFloat(1));
+                    if(i==0){
+                        tmpTime = rs.getString(2);
+                        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                        preDate.put(indexTime, LocalDateTime.parse(tmpTime, df));
+                        indexTime++;
+                    }
+//                    AData.setDate(LocalDateTime.parse(tmpTime,df));
 //                如果access码为0，则设置isAdmin为true
 //                如果 email 的值不为null，则设置haveEmail为true
-                    SensorList.add(AData);
+//                    SensorList.add(AData);
+                    if (i == 0) {
+//                        AData.setTemp(rs.getFloat(1));
+//                        preData.put(i+1, rs.getFloat(1));
+                        TempData[indexT] = rs.getFloat(1);
+                        indexT++;
+                    } else if (i == 1) {
+//                        preData.put(i+1, rs.getFloat(1));
+                        HumiData[indexH] = rs.getFloat(1);
+                        indexH++;
+                    } else {
+//                        preData.put(i+1, rs.getFloat(1));
+                        LightData[indexL] = rs.getFloat(1);
+                        indexL++;
+                    }
                 }
+
             }
+            for(int j=0;j<5;j++){
+                AtoiData AData=new AtoiData();
+                AData.setDate(preDate.get(j));
+                AData.setTemp(TempData[j]);
+                AData.setHumi(HumiData[j]);
+                AData.setLight(LightData[j]);
+                SensorList.add(AData);
+            }
+
             SensorList.sort(Comparator.comparing(AtoiData::getDate).reversed());
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE,"数据库异常： "+ e.getMessage(),e);
@@ -61,28 +102,17 @@ public class DbData {
     }
 
     public static void storageData(){
-        Pattern pattern=Pattern.compile("\\d+\\.\\d+");
         ArrayList<AtoiData> sensorData=getSensorData();
-        float[] datalist=new float[20];
-        Matcher matcher;
-        int count=0;
-        for(AtoiData data:sensorData){
-            matcher= pattern.matcher(data.toString());
-            while(matcher.find()){
-                String match=matcher.group();
-                float v=Float.parseFloat(match);
-                datalist[count]=v;
-                count++;
-            }
-        }
-        float Temp=datalist[0];
-        float Humi=datalist[1];
-        float Light=datalist[2];
+        float Temp=sensorData.get(0).getTemp();
+        float Humi=sensorData.get(0).getHumi();
+        float Light=sensorData.get(0).getLight();
 
         String storagedData=new GPTUtil().getAnalyse(Temp,Humi,Light);
+        System.out.println(storagedData);
         DbFurniture.updateGMSG(storagedData);
     }
 //    public static void main(String[] args){
+////        System.out.println(storageData());
 //        storageData();
 //    }
 }
