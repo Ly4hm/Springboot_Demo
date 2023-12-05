@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 public class DbFurniture {
     private static final Logger LOGGER = Logger.getLogger(DbUser.class.getName());
 //    更新gptMSG数据
-    public static Result updateGMSG(String MSG){
+    public static void updateGMSG(String MSG){
         int code=0;
         Connection conn=null;
         PreparedStatement pstmt=null;
@@ -27,9 +27,11 @@ public class DbFurniture {
             if (affectedRows > 0) {
                 code=1;
                 String message="插入成功";
-                return new Result(code,message);
+                new Result(code, message);
+                return;
             } else {
-                return new Result(code,"插入失败，受影响行数为0");
+                new Result(code, "插入失败，受影响行数为0");
+                return;
             }
         }catch (SQLException e) {
             // 记录数据库异常信息
@@ -37,11 +39,12 @@ public class DbFurniture {
         }finally {
             DbUtil.release(conn, pstmt, null);
         }
-        return new Result(code,"没有成功");
+        new Result(code, "没有成功");
     }
 
 //取出gptMSG信息
     public static Result getGMSG(){
+        DbData.storageData();
         int code=0;
         Connection conn=null;
         PreparedStatement pstmt=null;
