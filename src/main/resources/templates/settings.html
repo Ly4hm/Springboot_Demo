@@ -5,12 +5,13 @@
 <div th:fragment="settings" class="page-content" id="settings-content">
     <h2>个人信息设置</h2>
 
-    <!-- 局部样式引入 -->
+    <!-- 局部资源引入 -->
     <link rel="stylesheet" href="../static/css/index/setting.css" th:href="@{css/index/setting.css}">
+
     <div id="content-div">
         <!-- setting 界面选项卡 -->
         <div class="setting-bar">
-            <div class="loader" id="self_info_btn">
+            <div class="loader" id="self_info_setting_btn">
                 <div class="song">
                     <p class="name">个人信息</p>
                 </div>
@@ -31,13 +32,18 @@
         <!-- setting 界面设置窗口 -->
         <div class="setting-card">
             <div class="self_info_setting">
-                <p>个人信息设置</p>
+                <p class="setting-title">个人信息设置</p>
                 <!--分割线-->
                 <div class="separator"></div>
+                <div class="self_info">
+                    <p class="self_info_item" th:text="'用户名：' + ${user.name}">用户名：</p>
+                    <p class="self_info_item">用户权限：</p>
+                    <p class="self_info_item">邮箱：</p>
+                </div>
             </div>
 
             <div class="safe_setting">
-                <p>账户设置</p>
+                <p class="setting-title">账户设置</p>
                 <!--分割线-->
                 <div class="separator"></div>
             </div>

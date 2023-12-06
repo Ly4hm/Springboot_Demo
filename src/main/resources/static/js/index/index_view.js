@@ -39,7 +39,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 // 反求出相关的 content
                 let a_lable = i.querySelector("a");
                 let element_id = a_lable.textContent.toLowerCase() + "-content";
-                console.log(element_id);
                 let content = document.getElementById(element_id);
                 try {
                     content.classList.add("hidden");

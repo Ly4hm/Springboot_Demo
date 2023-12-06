@@ -30,8 +30,12 @@
     margin-top: 10px;
 }
 
-.setting-card div p {
-    font-size: 20px;
+.setting-title {
+    font-size: 28px;
+}
+
+div#safe_setting_btn {
+    margin-top: 10px;
 }
 
 .separator {
@@ -42,4 +46,16 @@
 
 .hidden {
     display: none;
+}
+
+/* 信息设置页面整体div */
+.self_info {
+    margin-top: 22px;
+    margin-left: 15px;
+}
+
+/* 信息展示面板字体设置 */
+.self_info_item {
+    font-size: 20px;
+    margin-top: 15px;
 }
