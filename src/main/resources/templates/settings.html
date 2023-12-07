@@ -2,11 +2,11 @@
 <html lang="ch" xmlns:th="http://www.thymeleaf.org">
 
 <!-- settings 页面 -->
-<div th:fragment="settings" class="page-content" id="settings-content">
+<div class="page-content" id="settings-content" th:fragment="settings">
     <h2>个人信息设置</h2>
 
     <!-- 局部资源引入 -->
-    <link rel="stylesheet" href="../static/css/index/setting.css" th:href="@{css/index/setting.css}">
+    <link href="../static/css/index/setting.css" rel="stylesheet" th:href="@{css/index/setting.css}">
 
     <div id="content-div">
         <!-- setting 界面选项卡 -->
@@ -16,16 +16,16 @@
                     <p class="name">个人信息</p>
                 </div>
                 <div class="albumcover">
-                    <img src="../static/css/asset/userinfo_icon.png" th:src="@{css/asset/userinfo_icon.png}"
-                         alt="albumcover"></div>
+                    <img alt="albumcover" src="../static/css/asset/userinfo_icon.png"
+                         th:src="@{css/asset/userinfo_icon.png}"></div>
             </div>
             <div class="loader" id="safe_setting_btn">
                 <div class="song">
                     <p class="name">账户设置</p>
                 </div>
                 <div class="albumcover">
-                    <img src="../static/css/asset/safe_icon.png" th:src="@{css/asset/safe_icon.png}"
-                         alt="albumcover"></div>
+                    <img alt="albumcover" src="../static/css/asset/safe_icon.png"
+                         th:src="@{css/asset/safe_icon.png}"></div>
             </div>
         </div>
 
@@ -37,8 +37,8 @@
                 <div class="separator"></div>
                 <div class="self_info">
                     <p class="self_info_item" th:text="'用户名：' + ${user.name}">用户名：</p>
-                    <p class="self_info_item">用户权限：</p>
-                    <p class="self_info_item">邮箱：</p>
+                    <p class="self_info_item">用户权限：管理员</p>
+                    <p class="self_info_item">邮箱：test@qq.com</p>
                 </div>
             </div>
 
@@ -46,6 +46,14 @@
                 <p class="setting-title">账户设置</p>
                 <!--分割线-->
                 <div class="separator"></div>
+                <div id="reset-email-content">
+                    <p class="property-title">重置邮箱：</p>
+                    <input class="input-style" placeholder="输入你的新邮箱~" type="text">
+                    <!-- 重设邮箱按钮 -->
+                    <button id="reset-email">
+                        重置邮箱
+                    </button>
+                </div>
             </div>
         </div>
     </div>

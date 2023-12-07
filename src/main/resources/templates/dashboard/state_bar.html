@@ -58,7 +58,8 @@
             <p class="title-text">智能分析</p>
         </div>
         <div class="gpt_text">
-            <p th:text="${gptmsg}">GPT 生成的智能分析</p>
+            <p id="gpt_msg">请稍等，智能分析中………</p>
+            <script type="module" src="../../static/js/index/gptMsg.js" th:src="@{js/index/gptMsg.js}"></script>
         </div>
     </div>
 

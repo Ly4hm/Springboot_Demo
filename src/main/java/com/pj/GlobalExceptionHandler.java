@@ -1,5 +1,6 @@
 package com.pj;
 
+import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.exception.NotRoleException;
 import cn.dev33.satoken.util.SaResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,6 +15,13 @@ public class GlobalExceptionHandler {
     public Result handlerException(NotRoleException e) {
         e.printStackTrace();
         return new Result(0, "无权限");
+    }
+
+    // 未登录访问
+    @ExceptionHandler(NotLoginException.class)
+    public SaResult handlerException(NotLoginException e) {
+        e.printStackTrace();
+        return SaResult.error(e.getMessage());
     }
 
     // 其他异常拦截

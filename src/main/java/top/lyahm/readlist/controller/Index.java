@@ -28,7 +28,6 @@ public class Index {
         User vo_user = new User();
         vo_user.setName(StpUtil.getLoginIdAsString());
 //        String gptmsg = DbFurniture.getGMSG().getMessage();
-        String gptmsg = "test_msg";
 
         // 返回的用户列表
         ArrayList<User> vo_user_list = DbUser.getAllUser();
@@ -37,7 +36,6 @@ public class Index {
         // 填入 model 对象
         model.addAttribute("user", vo_user);
         model.addAttribute("user_list", vo_user_list);
-        model.addAttribute("gptmsg", gptmsg);
 
         return "index";
     }

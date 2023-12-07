@@ -71,13 +71,21 @@
                         yAxis: [
                             {
                                 name: '温度 (℃)', // 温度单位
+                                min: 10,
+                                max: 30
                             },
                             {
                                 name: '湿度 (%)', // 湿度单位
+                                splitLine: {
+                                    show: false // 不显示横向参考线
+                                }
                             },
                             {
                                 name: '光照 (流明)',
-                                offset: 60
+                                offset: 60,
+                                splitLine: {
+                                    show: false // 不显示横向参考线
+                                }
                             }
                         ],
                         series: [
@@ -107,9 +115,6 @@
                 // 处理请求错误
                 console.log('请求错误:', error);
             });
-
-
-
 
     </script>
 </div>

@@ -59,3 +59,62 @@ div#safe_setting_btn {
     font-size: 20px;
     margin-top: 15px;
 }
+
+#reset-email-content {
+    display: flex;
+    align-items: center; /* 在垂直方向上居中对齐 */
+    margin-left: 10px;
+}
+
+.property-title {
+    font-size: 20px;
+}
+
+
+/* 邮箱输入框*/
+.input-style {
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 18px;
+    font-size: 16px;
+    color: #555;
+    outline: none;
+    margin-left: 20px;
+    height: 44px;
+    width: 30vh;
+}
+
+.input-style:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* 重设邮箱按钮*/
+#reset-email {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    cursor: pointer;
+    width: 150px;
+    height: 44px;
+    background-image: linear-gradient(to top, #D8D9DB 0%, #fff 80%, #FDFDFD 100%);
+    border-radius: 30px;
+    border: 1px solid #8F9092;
+    transition: all 0.2s ease;
+    font-family: "Source Sans Pro", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #606060;
+    text-shadow: 0 1px #fff;
+    margin-left: 20px;
+}
+
+#reset-email:hover {
+    box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 3px 3px #CECFD1;
+}
+
+#reset-email:active {
+    box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 5px 3px #999, inset 0 0 30px #aaa;
+}
+

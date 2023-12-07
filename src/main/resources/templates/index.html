@@ -2,7 +2,7 @@
 <html lang="ch" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${user.name}+的管理面板">管理面板</title>
+    <title th:text="${user.name}+ 的管理面板">管理面板</title>
     <link rel="icon" type="image/x-icon" href="../static/css/asset/favicon.ico" th:href="@{css/asset/favicon.ico}"/>
     <link rel="stylesheet" href="../static/css/index/basic.css" th:href="@{css/index/basic.css}">
     <link rel="stylesheet" href="../static/css/index/user_list.css" th:href="@{css/index/user_list.css}">
@@ -29,10 +29,10 @@
             <img src="../static/css/asset/logo.png" th:src="@{css/asset/logo.png}" alt="logo" width="200px">
         </div>
         <ul class="sidebar-menu">
-            <li><a href="#" id="dashboard">Dashboard</a></li>
-            <li><a href="#" id="list">List</a></li>
-            <li><a href="#" id="users">Users</a></li>
-            <li><a href="#" id="settings">Settings</a></li>
+            <li><a href="#" id="dashboard">总览面板</a></li>
+            <li><a href="#" id="list">家具管理</a></li>
+            <li><a href="#" id="users">用户管理</a></li>
+            <li><a href="#" id="settings">设置</a></li>
             <!-- Add more menu items as needed -->
         </ul>
     </aside>
@@ -42,7 +42,7 @@
         <!-- Top Navigation -->
         <header class="top-nav">
             <div class="menu-toggle">&#9776; Menu</div>
-            <div class="user-profile" th:text="${user.name}">Username</div>
+            <div class="user-profile" th:text="'当前用户：'+${user.name}">Username</div>
         </header>
 
         <!-- dashboard 界面 -->
