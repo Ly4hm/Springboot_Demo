@@ -31,8 +31,8 @@ public class DbData {
         String tmpTime=null;
 
         float[] TempData=new float[20];
-        float[] HumiData=new float[20];
         float[] LightData=new float[20];
+        float[] HumiData=new float[20];
 
 //        HashMap<Integer,Float> preData=new HashMap<>();
         HashMap<Integer,LocalDateTime> preDate=new HashMap<>();
@@ -45,7 +45,7 @@ public class DbData {
                 int indexH = 0;
                 int indexL = 0;
                 int indexT = 0;
-//                i=0读取温度传感器，i=1读取湿度传感器，i=2读取光照传感器
+//                i=0读取温度传感器，i=1读取光照传感器，i=2读取湿度传感器
                 pstmt = conn.prepareStatement(sql);
                 pstmt.setInt(1, choice[i]);
 
@@ -55,6 +55,7 @@ public class DbData {
 
                 while (rs.next()) {
 //                    AData.setAData(rs.getFloat(1));
+//                    日期只读一遍
                     if(i==0){
                         tmpTime = rs.getString(2);
                         DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -72,12 +73,15 @@ public class DbData {
                         indexT++;
                     } else if (i == 1) {
 //                        preData.put(i+1, rs.getFloat(1));
-                        HumiData[indexH] = rs.getFloat(1);
-                        indexH++;
-                    } else {
-//                        preData.put(i+1, rs.getFloat(1));
+
                         LightData[indexL] = rs.getFloat(1);
                         indexL++;
+                    } else {
+//                        preData.put(i+1, rs.getFloat(1));
+//                        LightData[indexL] = rs.getFloat(1);
+//                        indexL++;
+                        HumiData[indexH] = rs.getFloat(1);
+                        indexH++;
                     }
                 }
 
@@ -108,11 +112,10 @@ public class DbData {
         float Light=sensorData.get(0).getLight();
 
         String storagedData=new GPTUtil().getAnalyse(Temp,Humi,Light);
-        System.out.println(storagedData);
         DbFurniture.updateGMSG(storagedData);
     }
-//    public static void main(String[] args){
-////        System.out.println(storageData());
-//        storageData();
-//    }
+    public static void main(String[] args){
+//        System.out.println(storageData());
+        System.out.println(getSensorData());
+    }
 }

@@ -275,8 +275,8 @@ public class DbUser{
         return access;
     }
 
-    public static void main(String[] args){
-//        System.out.println(getAllUser());
-        System.out.println(rmUser("admin"));
-    }
+//    public static void main(String[] args){
+////        System.out.println(getAllUser());
+//        System.out.println(rmUser("admin"));
+//    }
 }
