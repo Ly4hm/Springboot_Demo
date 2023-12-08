@@ -9,7 +9,7 @@
     <div id="furnitures-lst">
         <!-- 单个家居的卡片 -->
         <div class="furniture-item">
-            <p class="furniture-title">家居名称</p>
+            <p class="furniture-title">家居1</p>
             <!-- 操作按钮 -->
             <svg class="handle-btn" height="200" p-id="1507" version="1.1"
                  viewBox="0 0 1024 1024" width="200" x="1701763328709" xmlns="http://www.w3.org/2000/svg">
@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="furniture-item">
-            <p class="furniture-title">家居名称</p>
+            <p class="furniture-title">家居2</p>
             <!-- 操作按钮 -->
             <svg class="handle-btn" height="200" p-id="1507" version="1.1"
                  viewBox="0 0 1024 1024" width="200" x="1701763328709" xmlns="http://www.w3.org/2000/svg">
@@ -43,7 +43,7 @@
             </div>
         </div>
         <div class="furniture-item">
-            <p class="furniture-title">家居名称</p>
+            <p class="furniture-title">家居3</p>
             <!-- 操作按钮 -->
             <svg class="handle-btn" height="200" p-id="1507" version="1.1"
                  viewBox="0 0 1024 1024" width="200" x="1701763328709" xmlns="http://www.w3.org/2000/svg">
@@ -52,7 +52,7 @@
             </svg>
         </div>
         <div class="furniture-item">
-            <p class="furniture-title">家居名称</p>
+            <p class="furniture-title">家居4</p>
             <!-- 操作按钮 -->
             <svg class="handle-btn" height="200" p-id="1507" version="1.1"
                  viewBox="0 0 1024 1024" width="200" x="1701763328709" xmlns="http://www.w3.org/2000/svg">
@@ -61,7 +61,7 @@
             </svg>
         </div>
         <div class="furniture-item">
-            <p class="furniture-title">家居名称</p>
+            <p class="furniture-title">家居5</p>
             <!-- 操作按钮 -->
             <svg class="handle-btn" height="200" p-id="1507" version="1.1"
                  viewBox="0 0 1024 1024" width="200" x="1701763328709" xmlns="http://www.w3.org/2000/svg">
@@ -70,7 +70,7 @@
             </svg>
         </div>
         <div class="furniture-item">
-            <p class="furniture-title">家居名称</p>
+            <p class="furniture-title">家居6</p>
             <!-- 操作按钮 -->
             <svg class="handle-btn" height="200" p-id="1507" version="1.1"
                  viewBox="0 0 1024 1024" width="200" x="1701763328709" xmlns="http://www.w3.org/2000/svg">
@@ -79,9 +79,9 @@
             </svg>
         </div>
         <div class="furniture-item">
-            <p class="furniture-title">家居名称</p>
+            <p class="furniture-title">家居7</p>
             <!-- 操作按钮 -->
-            <svg class="·" height="200" p-id="1507" version="1.1"
+            <svg class="handle-btn" height="200" p-id="1507" version="1.1"
                  viewBox="0 0 1024 1024" width="200" x="1701763328709" xmlns="http://www.w3.org/2000/svg">
                 <path d="M147.01175 430.890704c-44.791136 0-81.108273 36.303834-81.108273 81.109296 0 44.778856 36.316114 81.108273 81.108273 81.108273 44.792159 0 81.109296-36.329417 81.109296-81.108273C228.121046 467.194538 191.804932 430.890704 147.01175 430.890704zM511.999488 430.890704c-44.791136 0-81.108273 36.303834-81.108273 81.109296 0 44.778856 36.316114 81.108273 81.108273 81.108273 44.792159 0 81.109296-36.329417 81.109296-81.108273C593.108784 467.194538 556.791647 430.890704 511.999488 430.890704zM876.987227 430.890704c-44.791136 0-81.108273 36.303834-81.108273 81.109296 0 44.778856 36.316114 81.108273 81.108273 81.108273s81.108273-36.329417 81.108273-81.108273C958.094476 467.194538 921.778362 430.890704 876.987227 430.890704z"
                       p-id="1508"></path>
@@ -93,14 +93,15 @@
     <div class="contextmenu-mask" style="display: none;"></div>
     <div class="contextmenu-content">
         <div class="contextmenu-list">
-            <div>修改名称</div>
-            <div>切换状态</div>
-            <div>规则修改</div>
-            <div>删除设备</div>
+            <div id="edit-name">修改名称</div>
+            <div id="switch">切换状态</div>
+            <div id="edit-rule">规则修改</div>
+            <div id="remove-furniture">删除设备</div>
+            <div id="move-furniture">移动设备</div>
         </div>
     </div>
 
-    <script type="module" src="../static/js/index/contextmenu.js" th:src="@{js/index/contextmenu.js}"></script>
+    <script src="../static/js/index/contextmenu.js" th:src="@{js/index/contextmenu.js}" type="module"></script>
 
 </div>
 

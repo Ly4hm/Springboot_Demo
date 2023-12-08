@@ -6,8 +6,8 @@ fetch("/api/gpt", {
 })
     .then(response => {
         response.json().then(data => {
+            const gptMsg = document.querySelector("#gpt_msg");
             if (data["code"]) {
-                const gptMsg = document.querySelector("#gpt_msg");
                 gptMsg.textContent = data["message"];
             } else {
                 // 密码错误

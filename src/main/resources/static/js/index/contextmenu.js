@@ -1,3 +1,5 @@
+// noinspection JSDuplicatedDeclaration,EqualityComparisonWithCoercionJS
+
 const areaEl = document.querySelectorAll('.handle-btn')
 const mask = document.querySelector('.contextmenu-mask')
 const contentEl = document.querySelector('.contextmenu-content')
@@ -32,8 +34,10 @@ const hideContextMenu = () => {
     contentEl.style.left = '99999px'
 }
 
+var clicked_btn = null;
 
 const onContextMenu = e => {
+    clicked_btn = e.target;  // 保存按下的按钮元素
     e.preventDefault()
     const rect = contentEl.getBoundingClientRect()
     // console.log(rect)
@@ -47,7 +51,6 @@ areaEl.forEach(handleBtn => {
 })
 
 
-
 // 点击蒙版，隐藏
 mask.addEventListener('mousedown', () => {
     hideContextMenu()
@@ -55,7 +58,22 @@ mask.addEventListener('mousedown', () => {
 
 // 点击菜单，隐藏
 contentEl.addEventListener('click', (e) => {
-    console.log('点击：', e.target.textContent)
-    // 执行菜单项对应命令
-    hideContextMenu()
+    // 排除点击边框的情况
+    if (e.target.getAttribute("class") != "contextmenu-list" &&
+        e.target.getAttribute("class") != "contextmenu-content") {
+        // console.log('点击：', e.target.id)
+        // console.log(e.target)
+        // console.log(e.target.getAttribute("class"))
+
+        // 针对点击 svg 还是 path 标签进行差异化处理保证能求得 title
+        if (clicked_btn.parentElement.tagName == "SVG") {
+            var title = clicked_btn.parentElement.parentElement.querySelector(".furniture-title").textContent
+        } else {
+            var title = clicked_btn.parentElement.querySelector(".furniture-title").textContent
+        }
+
+        console.log(title)
+        // 执行菜单项对应命令
+        hideContextMenu()
+    }
 }, false)

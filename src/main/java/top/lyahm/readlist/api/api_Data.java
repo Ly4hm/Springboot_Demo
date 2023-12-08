@@ -26,7 +26,8 @@ public class api_Data {
             String msg = DbFurniture.getGMSG().getMessage();
             return new Result(1, msg);
         } catch (Exception e) {
-            return new Result(0, "出了点小问题，稍后再试吧");
+            System.out.println(e.getMessage());
+            return new Result(0, "出了点小问题，请稍后再试");
         }
     }
 }
