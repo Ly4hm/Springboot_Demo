@@ -81,6 +81,7 @@ userItems.forEach(function(userItem) {
         // 向服务器提交请求
         const data = {"username" : firstListItemContent}
         requestByRoute("/api/setAdmin", data);
+        // TODO: 为按钮添加改变前端显示的逻辑
 
     });
 

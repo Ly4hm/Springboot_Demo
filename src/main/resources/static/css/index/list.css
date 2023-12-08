@@ -24,6 +24,10 @@
     display: block; /* 强制独占一行*/
 }
 
+.furniture-id {
+    display: none;
+}
+
 .handle-btn {
     position: absolute;
     top: 9px;

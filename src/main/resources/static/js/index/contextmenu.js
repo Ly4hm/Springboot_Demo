@@ -1,5 +1,3 @@
-// noinspection JSDuplicatedDeclaration,EqualityComparisonWithCoercionJS
-
 const areaEl = document.querySelectorAll('.handle-btn')
 const mask = document.querySelector('.contextmenu-mask')
 const contentEl = document.querySelector('.contextmenu-content')
@@ -50,30 +48,55 @@ areaEl.forEach(handleBtn => {
     handleBtn.addEventListener('click', onContextMenu);
 })
 
-
 // 点击蒙版，隐藏
 mask.addEventListener('mousedown', () => {
     hideContextMenu()
 }, false)
 
-// 点击菜单，隐藏
+
+// 菜单栏绑定相关函数
+function editName() {
+    console.log("执行修改名称逻辑");
+}
+
+function switchState() {
+    console.log("执行切换状态逻辑");
+}
+
+function editRule() {
+    console.log("执行规则修改逻辑");
+}
+
+function removeFurniture() {
+    console.log("执行删除设备逻辑");
+}
+
+function moveFurniture() {
+    console.log("执行移动设备逻辑");
+}
+
+
+// 点击菜单选项
 contentEl.addEventListener('click', (e) => {
     // 排除点击边框的情况
     if (e.target.getAttribute("class") != "contextmenu-list" &&
         e.target.getAttribute("class") != "contextmenu-content") {
-        // console.log('点击：', e.target.id)
-        // console.log(e.target)
-        // console.log(e.target.getAttribute("class"))
-
-        // 针对点击 svg 还是 path 标签进行差异化处理保证能求得 title
-        if (clicked_btn.parentElement.tagName == "SVG") {
-            var title = clicked_btn.parentElement.parentElement.querySelector(".furniture-title").textContent
+        // 获取 id，针对点击 svg 还是 path 标签进行差异化处理保证能求得 id
+        if (clicked_btn.parentElement.tagName == "PATH") {
+            var id = clicked_btn.parentElement.parentElement.querySelector(".furniture-id").textContent
         } else {
-            var title = clicked_btn.parentElement.querySelector(".furniture-title").textContent
+            // console.log(clicked_btn.parentElement.querySelector(".furniture-id"))
+            var id = clicked_btn.parentElement.querySelector(".furniture-id").textContent
+            // TODO: 修复bug
         }
 
-        console.log(title)
+        console.log(id)
+
         // 执行菜单项对应命令
+        // console.log(e.target.id)
+        eval(e.target.id + "()");
+
+        // 隐藏菜单栏
         hideContextMenu()
     }
 }, false)
