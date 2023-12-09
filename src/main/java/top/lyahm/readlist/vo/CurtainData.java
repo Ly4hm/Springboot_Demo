@@ -4,6 +4,9 @@ import lombok.Data;
 
 //窗帘数据类
 @Data
-public class CurtainData extends FurnitureData{
+public class CurtainData {
+    private int Fid;  //家具id
+    private int Power; //功率
+    private int Statue;//状态
     private int Threshold; //状态阈值
 }

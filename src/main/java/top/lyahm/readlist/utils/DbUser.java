@@ -5,6 +5,7 @@ import top.lyahm.readlist.vo.User;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -275,8 +276,38 @@ public class DbUser{
         return access;
     }
 
-//    public static void main(String[] args){
-////        System.out.println(getAllUser());
-//        System.out.println(rmUser("admin"));
-//    }
+    public static User getUserInfo(String Username){
+        Connection conn=null;
+        PreparedStatement pstmt=null;
+        ResultSet rs=null;
+
+        User user=new User();
+        String email=null;
+        int access=0;
+        try{
+            conn=DbUtil.getConnection();
+            String sql="SELECT email,access FROM User where name=?";
+            pstmt=conn.prepareStatement(sql);
+            pstmt.setString(1,Username);
+
+            rs=pstmt.executeQuery();
+            if(rs.next()){
+                access=rs.getInt(2);
+                email=rs.getString(1);
+                if(Objects.equals(email, ""))email= String.valueOf(0);
+            }
+
+            user.setAccess(access);
+            user.setEmail(email);
+        }catch (SQLException e) {
+            LOGGER.log(Level.SEVERE,"数据库异常： "+ e.getMessage(),e);
+        } finally {
+            DbUtil.release(conn, pstmt, null);
+        }
+        return user;
+    }
+    public static void main(String[] args){
+//        System.out.println(getAllUser());
+        System.out.println(getUserInfo("admin"));
+    }
 }

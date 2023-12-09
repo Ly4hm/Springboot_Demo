@@ -1,6 +1,7 @@
 package top.lyahm.readlist.utils;
 
 import top.lyahm.readlist.vo.AtoiData;
+import top.lyahm.readlist.vo.Result;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -105,17 +106,27 @@ public class DbData {
         return SensorList; // 如果发生异常，默认返回 false
     }
 
-    public static void storageData(){
-        ArrayList<AtoiData> sensorData=getSensorData();
-        float Temp=sensorData.get(0).getTemp();
-        float Humi=sensorData.get(0).getHumi();
-        float Light=sensorData.get(0).getLight();
+    public static Result getGPTData(){
 
-        String storagedData=new GPTUtil().getAnalyse(Temp,Humi,Light);
-        DbFurniture.updateGMSG(storagedData);
+        int code=1;
+
+        String message=null;
+        try{
+            ArrayList<AtoiData> sensorData=getSensorData();
+            float Temp=sensorData.get(0).getTemp();
+            float Humi=sensorData.get(0).getHumi();
+            float Light=sensorData.get(0).getLight();
+
+            message=new GPTUtil().getAnalyse(Temp,Humi,Light);
+        }catch (Exception e){
+            code=0;
+            LOGGER.log(Level.SEVERE,"Something Error: "+ e.getMessage(),e);
+        }
+        return new Result(code,message);
+//        DbFurniture.updateGMSG(storagedData);
     }
     public static void main(String[] args){
 //        System.out.println(storageData());
-        System.out.println(getSensorData());
+        System.out.println(getGPTData());
     }
 }
