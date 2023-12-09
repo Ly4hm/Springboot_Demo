@@ -10,4 +10,5 @@ public class RefrigeratorData {
     private int Statue;//状态
     private int RefrigerationThreshold;
     private int FrozenThreshold;
+    private String RoomName;
 }

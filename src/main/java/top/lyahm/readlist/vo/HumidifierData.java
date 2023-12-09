@@ -10,4 +10,5 @@ public class HumidifierData {
     private int Statue;//状态
     private int Threshold;
     private int Humi;
+    private String RoomName;
 }

@@ -9,4 +9,5 @@ public class CurtainData {
     private int Power; //功率
     private int Statue;//状态
     private int Threshold; //状态阈值
+    private String RoomName;
 }
