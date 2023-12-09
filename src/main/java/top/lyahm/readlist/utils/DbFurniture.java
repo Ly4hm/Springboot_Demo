@@ -1,6 +1,5 @@
 package top.lyahm.readlist.utils;
 
-import lombok.Data;
 import top.lyahm.readlist.vo.*;
 
 import java.sql.Connection;
@@ -30,11 +29,10 @@ public class DbFurniture {
                 code=1;
                 String message="插入成功";
                 new Result(code, message);
-                return;
             } else {
                 new Result(code, "插入失败，受影响行数为0");
-                return;
             }
+            return;
         }catch (SQLException e) {
             // 记录数据库异常信息
             LOGGER.log(Level.SEVERE,"数据库异常： "+ e.getMessage(),e);
@@ -45,45 +43,76 @@ public class DbFurniture {
     }
 
 //取出gptMSG信息
-    public static Result getGMSG(){
-//        更新GPT数据库信息
-        DbData.storageData();
-        int code=0;
+//    public static Result getGMSG(){
+////        更新GPT数据库信息
+//        DbData.storageData();
+//        int code=0;
+//        Connection conn=null;
+//        PreparedStatement pstmt=null;
+//        ResultSet rs=null;
+//
+//        String message=null;
+////        预编译sql语句
+//        try{
+//            conn = DbUtil.getConnection();
+//            String sql="SELECT MSG FROM gptMSG ORDER BY MID DESC LIMIT 1";
+//            pstmt=conn.prepareStatement(sql);
+//
+//            rs= pstmt.executeQuery();
+//
+//            if(rs.next()){
+//                message=rs.getString(1);
+//                return new Result(code,message);
+//            }
+//        }catch (SQLException e) {
+//            // 记录数据库异常信息
+//            LOGGER.log(Level.SEVERE,"数据库异常： "+ e.getMessage(),e);
+//        }finally {
+//            DbUtil.release(conn, pstmt, null);
+//        }
+//        return new Result(code,message);
+//    }
+
+    public static ArrayList<FurnitureData> getFurnitureStatue(int Fid){
         Connection conn=null;
         PreparedStatement pstmt=null;
-        ResultSet rs=null;
+        ResultSet rs;
+        ArrayList<FurnitureData> ACD=new ArrayList<>();
 
-        String message=null;
+        int Statue=0;
 //        预编译sql语句
         try{
             conn = DbUtil.getConnection();
-            String sql="SELECT MSG FROM gptMSG ORDER BY MID DESC LIMIT 1";
+            String sql="SELECT Statue from Furniture where Fid=?";
+
             pstmt=conn.prepareStatement(sql);
-
+            pstmt.setInt(1,Fid);
             rs= pstmt.executeQuery();
-
             if(rs.next()){
-                message=rs.getString(1);
-                return new Result(code,message);
+                Statue=rs.getInt(1);
             }
+            FurnitureData Data=new FurnitureData();
+            Data.setStatue(Statue);
+            ACD.add(Data);
+
         }catch (SQLException e) {
             // 记录数据库异常信息
             LOGGER.log(Level.SEVERE,"数据库异常： "+ e.getMessage(),e);
         }finally {
             DbUtil.release(conn, pstmt, null);
         }
-        return new Result(code,message);
+        return ACD;
     }
 
     public static ArrayList<airConditionerData> getAirData(int FId){
         Connection conn=null;
         PreparedStatement pstmt=null;
-        ResultSet rs=null;
+        ResultSet rs;
         ArrayList<airConditionerData> ACD=new ArrayList<>();
 
         int MaxTemp=0;
         int MinTemp=0;
-        String Statue=null;
+        int Statue=0;
         int WSpeed=0;
         int Power=0;
 //        预编译sql语句
@@ -97,7 +126,7 @@ public class DbFurniture {
             if(rs.next()){
                 MaxTemp=rs.getInt(1);
                 MinTemp=rs.getInt(2);
-                Statue=rs.getString(3);
+                Statue=rs.getInt(3);
                 WSpeed=rs.getInt(4);
                 Power=rs.getInt(5);
             }
@@ -121,13 +150,13 @@ public class DbFurniture {
     public static ArrayList<HumidifierData> getHumiDifierData(int FId){
         Connection conn=null;
         PreparedStatement pstmt=null;
-        ResultSet rs=null;
+        ResultSet rs;
         ArrayList<HumidifierData> ACD=new ArrayList<>();
 
         int Humi=0;
         int Threshold=0;
         int Power=0;
-        String Statue=null;
+        int Statue=0;
 //        预编译sql语句
         try{
             conn = DbUtil.getConnection();
@@ -140,7 +169,7 @@ public class DbFurniture {
                 Humi=rs.getInt(1);
                 Threshold=rs.getInt(2);
                 Power=rs.getInt(3);
-                Statue=rs.getString(4);
+                Statue=rs.getInt(4);
             }
             HumidifierData Data=new HumidifierData();
             Data.setHumi(Humi);
@@ -161,11 +190,11 @@ public class DbFurniture {
     public static ArrayList<CurtainData> getCurtainData(int FId){
         Connection conn=null;
         PreparedStatement pstmt=null;
-        ResultSet rs=null;
+        ResultSet rs;
         ArrayList<CurtainData> ACD=new ArrayList<>();
 
         int Threshold=0;
-        String Statue=null;
+        int Statue=0;
 //        预编译sql语句
         try{
             conn = DbUtil.getConnection();
@@ -176,7 +205,7 @@ public class DbFurniture {
             rs= pstmt.executeQuery();
             if(rs.next()){
                 Threshold=rs.getInt(1);
-                Statue=rs.getString(2);
+                Statue=rs.getInt(2);
             }
             CurtainData Data=new CurtainData();
             Data.setThreshold(Threshold);
@@ -195,13 +224,13 @@ public class DbFurniture {
     public static ArrayList<RefrigeratorData> getRefrigeratorData(int FId){
         Connection conn=null;
         PreparedStatement pstmt=null;
-        ResultSet rs=null;
+        ResultSet rs;
         ArrayList<RefrigeratorData> ACD=new ArrayList<>();
 
         int RefrigeratorThreshold=0;
         int FrozenThreshold=0;
         int Power=0;
-        String Statue=null;
+        int Statue=0;
 //        预编译sql语句
         try{
             conn = DbUtil.getConnection();
@@ -214,7 +243,7 @@ public class DbFurniture {
                 RefrigeratorThreshold=rs.getInt(1);
                 FrozenThreshold=rs.getInt(2);
                 Power=rs.getInt(3);
-                Statue=rs.getString(4);
+                Statue=rs.getInt(4);
             }
             RefrigeratorData Data=new RefrigeratorData();
             Data.setRefrigerationThreshold(RefrigeratorThreshold);
@@ -233,36 +262,48 @@ public class DbFurniture {
     }
 
 //    获取家具状态
-//    public static int[] getFurnitureStatus(){
-//        int [] Results=new int[3];
-//
-//        Connection conn=null;
-//        PreparedStatement pstmt=null;
-//        ResultSet rs=null;
-//
-//        String Statue=null;
-////        预编译sql语句
-//        try{
-//            conn = DbUtil.getConnection();
-//            String sql="SELECT RefrigerationThreshold,FrozenThreshold,Power,Statue from Refrigerator where Fid=?";
-//
-//            pstmt=conn.prepareStatement(sql);
-//            pstmt.setInt(1,FId);
-//            rs= pstmt.executeQuery();
-//            if(rs.next()){
-//                Statue=rs.getString(4);
-//            }
-//
-//        }catch (SQLException e) {
-//            // 记录数据库异常信息
-//            LOGGER.log(Level.SEVERE,"数据库异常： "+ e.getMessage(),e);
-//        }finally {
-//            DbUtil.release(conn, pstmt, null);
-//        }
-//        return Results;
-//    }
+    public static int[] getFurnitureStatus(){
+        int [] Results=new int[3];
+
+        Connection conn=null;
+        PreparedStatement pstmt=null;
+        ResultSet rs;
+
+        int Statue;
+//        预编译sql语句
+        try{
+            conn = DbUtil.getConnection();
+            String sql="SELECT Statue from Furniture where Fid=?";
+
+            for(int i=0;i<12;i++){
+                if(i==4){
+                    continue;
+                }
+                pstmt=conn.prepareStatement(sql);
+                pstmt.setInt(1, i);
+                rs= pstmt.executeQuery();
+                if(rs.next()){
+                    Statue=rs.getInt(1);
+                    if(Statue==0){
+                        Results[0]++;
+                    } else if (Statue==1) {
+                        Results[1]++;
+                    }else {
+                        Results[2]++;
+                    }
+                }
+            }
+
+        }catch (SQLException e) {
+            // 记录数据库异常信息
+            LOGGER.log(Level.SEVERE,"数据库异常： "+ e.getMessage(),e);
+        }finally {
+            DbUtil.release(conn, pstmt, null);
+        }
+        return Results;
+    }
 
     public static void main(String[] args){
-        System.out.println(getCurtainData(9));
+        System.out.println(getAirData(1));
     }
 }
