@@ -11,4 +11,5 @@ public class airConditionerData {
     private int MaxTemp; //上限阈值
     private int MinTemp;//下限阈值
     private int WSpeed;
+    private String RoomName;
 }

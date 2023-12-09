@@ -249,12 +249,38 @@ public class DbUser{
         return code;
     }
 
+    public static Result resetUserEmail(String username,String newemail) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        int code=0;//状态码，默认失败
+        String result="修改失败";
+
+        try {
+            conn = DbUtil.getConnection();
+            String sql = "UPDATE User SET  email=? WHERE name=?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, newemail);
+            pstmt.setString(2, username);
+
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows > 0) {
+                code=1;
+                result="修改成功";
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE,"数据库异常： "+ e.getMessage(),e);
+        } finally {
+            DbUtil.release(conn, pstmt, null);
+        }
+        return new Result(code,result);
+    }
+
 //    检测用户access
     public static int verifyAdmin(String Username){
         Connection conn=null;
         PreparedStatement pstmt=null;
         int access=0;
-        ResultSet rs=null;
+        ResultSet rs;
 
         try{
             conn=DbUtil.getConnection();
@@ -279,7 +305,7 @@ public class DbUser{
     public static User getUserInfo(String Username){
         Connection conn=null;
         PreparedStatement pstmt=null;
-        ResultSet rs=null;
+        ResultSet rs;
 
         User user=new User();
         String email=null;
