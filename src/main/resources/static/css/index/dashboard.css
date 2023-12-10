@@ -1,14 +1,13 @@
 #main-chart {
     width: 125vh;
     height: 52vh;
-    padding: 3.3em 5em 1em;
+    padding: 3.3em 3em 1em;
     position: absolute;
     margin: 20px 1em 1em;
     border-radius: 30px;
     background: #fafafa;
     box-shadow: 2px 2px 5px #bebebe,
     -2px -2px 5px #ffffff;
-
 }
 
 #warnning-cards {

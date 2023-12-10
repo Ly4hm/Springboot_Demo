@@ -38,8 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 // 反求出相关的 content
                 let a_lable = i.querySelector("a");
-                let element_id = a_lable.textContent.toLowerCase() + "-content";
-                console.log(element_id);
+                let element_id = a_lable.id + "-content";
                 let content = document.getElementById(element_id);
                 try {
                     content.classList.add("hidden");
@@ -53,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // 反求出对应的内容并显示
             try {
                 let a_lable = item.querySelector("a");
-                let element_id = a_lable.textContent.toLowerCase() + "-content";
+                let element_id = a_lable.id + "-content";
                 let content = document.getElementById(element_id);
                 content.classList.remove("hidden");
             } catch (e) {
@@ -82,6 +81,7 @@ userItems.forEach(function(userItem) {
         // 向服务器提交请求
         const data = {"username" : firstListItemContent}
         requestByRoute("/api/setAdmin", data);
+        // TODO: 为按钮添加改变前端显示的逻辑
 
     });
 

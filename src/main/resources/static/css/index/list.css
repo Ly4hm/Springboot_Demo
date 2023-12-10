@@ -1,0 +1,121 @@
+#furnitures-lst {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 5px;
+    overflow-y: auto; /* 添加垂直滚动属性 */
+    max-height: 82vh; /* 设置最大高度，超过该高度时显示垂直滚动条 */
+}
+
+.furniture-item {
+    width: calc(33.33% - 2em); /* 计算宽度为父div的三分之一减去外边距 */
+    height: 250px; /* 计算高度为父div的三分之一减去外边距 */
+    padding: 1.2em 1.8em 1em;
+    position: relative; /* 修改为相对定位 */
+    margin: 14px 1em 1em;
+    border-radius: 30px;
+    background: #fafafa;
+    box-shadow: 2px 2px 5px #bebebe, -2px -2px 5px #ffffff;
+}
+
+/* 卡片内的元素 */
+.furniture-title {
+    font-size: 20px;
+    display: block; /* 强制独占一行*/
+}
+
+.furniture-id {
+    display: none;
+}
+
+.handle-btn {
+    position: absolute;
+    top: 9px;
+    right: 28px;
+    width: 31px;
+    height: 46px;
+}
+
+.detail-content {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    bottom: 45px;
+    justify-content: flex-end;
+}
+
+.furniture-pic {
+    width: 40%;
+    height: auto;
+}
+
+.detail {
+    margin-left: 40px;
+}
+
+.detail-property {
+    margin-top: 10px;
+}
+
+
+/* 滚动槽 */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 3px;
+    background: rgba(0, 0, 0, 0.06);
+    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.08);
+}
+
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background: rgba(0, 0, 0, 0.12);
+    -webkit-box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+
+/* 菜单栏样式 */
+
+/* 遮罩层 */
+.contextmenu-mask {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    /* background-color: #000; */
+    /* opacity: .2; */
+    z-index: 45;
+}
+/* 菜单内容的容器 */
+.contextmenu-content {
+    position: fixed;
+    left: 999999px;
+    top: 999999px;
+    z-index: 50;
+    user-select: none;
+}
+/* 例子使用内容 */
+.contextmenu-list {
+    border: 1px solid #555;
+    border-radius: 4px;
+    min-width: 180px;
+    overflow: hidden; /* 处理圆角 */
+}
+.contextmenu-list div {
+    box-sizing: border-box;
+    padding: 0 5px;
+    height: 30px;
+    line-height: 30px;
+    word-break: keep-all; /* 很重要，否则会换行 */
+    background-color: #fff;
+    cursor: default;
+}
+.contextmenu-list div:hover {
+    background-color: dodgerblue;
+    color: #fff;
+}
