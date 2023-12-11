@@ -22,7 +22,7 @@ public class api_Data {
     @RequestMapping("/gpt")
     public Result getGPTMsg() {
         try {
-            String msg = DbFurniture.getGMSG().getMessage();
+            String msg = DbData.getGPTData().getMessage();
             return new Result(1, msg);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -35,7 +35,7 @@ public class api_Data {
      * @return 包含三个整数的数组
      */
     @RequestMapping("/getState")
-    public Integer[] getState() {
-        return new Integer[]{1,2,3};
+    public int[] getState() {
+        return DbFurniture.getFurnitureStatus();
     }
 }
