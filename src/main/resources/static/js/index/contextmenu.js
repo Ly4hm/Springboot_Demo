@@ -75,7 +75,7 @@ function editName() {
     modalBox.innerHTML = newParagraph;
     section.classList.add("active"); // 显示窗口
 
-    // TODO: 增加取消按钮
+    // TODO: 增加取消按钮 (砍)
     // 还原内容
     document.querySelector(".modal-box button").addEventListener("click", (e) => {
         document.querySelector("section").classList.remove("active");

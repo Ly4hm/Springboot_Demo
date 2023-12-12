@@ -47,7 +47,7 @@ export function xorDecrypt(encryptedText, key) {
 * 将数据对象自动解构为 JSON 的形式进行传输
 * 操作结果只弹窗，不重定向
  */
-export function requestByRoute(route, value, redirect, delay) {
+export function requestByRoute(route, value, RightFunc, redirect, delay) {
     fetch(route, {
         method: 'POST', headers: {
             'Content-Type': 'application/json'
@@ -57,6 +57,7 @@ export function requestByRoute(route, value, redirect, delay) {
             response.json().then(data => {
                 if (data["code"]) {
                     showRightMessage(data["message"]);
+                    RightFunc();
                     // 如果设置了 redirect , 则直接跳转
                     if (redirect && delay) {
                         setTimeout(() => {
