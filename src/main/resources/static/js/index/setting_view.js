@@ -9,15 +9,82 @@ const safeSettingContent = document.querySelector('.safe_setting');
 // 初始状态，将内容元素隐藏
 safeSettingContent.classList.add('hidden');
 
-// 添加按钮点击事件监听器
-selfInfoButton.addEventListener('click', function() {
+// 子 sidebar 的显示逻辑
+selfInfoButton.addEventListener('click', function () {
     // 切换内容元素的隐藏状态
     safeSettingContent.classList.add('hidden');
     selfInfoContent.classList.remove('hidden');
 });
 
-safeSettingButton.addEventListener('click', function() {
+safeSettingButton.addEventListener('click', function () {
     // 切换内容元素的隐藏状态
     selfInfoContent.classList.add('hidden');
     safeSettingContent.classList.remove('hidden');
 });
+
+
+// 异步加载相关信息
+const selfInfo = document.querySelectorAll(".self_info_item");
+fetch("/api/getSelfInfo?username=" + selfInfo[0].textContent.replace("用户名：", ""), {
+    method: 'GET'
+})
+    .then(response => {
+        response.json().then(data => {
+            // 设置是否是管理员
+            if (data["access"] == 0) {
+                selfInfo[1].textContent = "用户权限：超级管理员";
+            } else if (data["access"] == 1) {
+                selfInfo[1].textContent = "用户权限：管理员";
+            } else {
+                selfInfo[1].textContent = "用户权限：普通用户";
+            }
+
+            // 设置邮箱
+            if (data["email"] == null) {
+                data["email"] = "还没有设置捏，前往账户设置去设置邮箱";
+            }
+            selfInfo[2].textContent = "邮箱：" + data["email"];
+        })
+    })
+    .catch(error => {
+        // 处理请求错误
+        console.log('SelfInfo 请求错误:', error);
+    });
+
+// 设置邮箱
+const resetEmailBtn = document.querySelector("#reset-email");
+const resetEmailInput = document.querySelector(".input-style");
+
+resetEmailBtn.addEventListener("click", () => {
+    var postData = {
+        username: document.querySelectorAll(".self_info_item")[0]
+            .textContent.replace("用户名：", ""),
+        email: resetEmailInput.value
+    }
+    console.log(postData)
+
+    fetch("/api/resetEmail", {
+        method: 'POST', headers: {
+            'Content-Type': 'application/json'
+        }, body: JSON.stringify(postData)
+    })
+        .then(response => {
+            response.json().then(data => {
+                if (data["code"]) {
+                    showRightMessage("重置成功");
+                    // 处理前端显示
+                    selfInfo[2].textContent = "邮箱：" + postData.email;
+
+                } else {
+                    showWrongMessage(data["message"]);
+                }
+            })
+        })
+        .catch(error => {
+            // 处理请求错误
+            console.log('请求错误:', error);
+            showWrongMessage("出现了一些小问题");
+        });
+
+
+})

@@ -3,16 +3,15 @@ package top.lyahm.readlist.api;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.stp.StpUtil;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import top.lyahm.readlist.utils.AccessUser;
+import org.springframework.web.bind.annotation.*;
 import top.lyahm.readlist.utils.DbUser;
 import top.lyahm.readlist.vo.LoginForm;
 import top.lyahm.readlist.vo.Result;
+import top.lyahm.readlist.vo.User;
+import top.lyahm.readlist.vo.resetEmailData;
 
 import static top.lyahm.readlist.utils.DbUser.*;
+
 
 @RestController
 @RequestMapping("/api")
@@ -78,6 +77,32 @@ public class api_User {
             return new Result(1, "删除成功");
         } else {
             return result;
+        }
+    }
+
+    @SaCheckLogin
+    @GetMapping("/getSelfInfo")
+    public User getSelfInfo(@RequestParam String username) {
+        // 这个地方多此一举的做了一个过滤，让用户只能访问自己的信息，是考虑到以后可能拓展，防止未来的信息泄露
+        if (StpUtil.getLoginId().equals(username)) {
+            return DbUser.getUserInfo(username);
+        } else {
+            return new User();
+        }
+    }
+
+    @SaCheckLogin
+    @PostMapping("/resetEmail")
+    public Result resetEmail(@RequestBody resetEmailData formData) {
+        String username = formData.getUsername();
+        String email = formData.getEmail();
+
+        // 进行一次鉴权
+        if (StpUtil.getLoginId().equals(username)) {
+            return DbUser.resetUserEmail(username, email);
+        } else {
+            System.out.println(StpUtil.getLoginId().equals(username));
+            return new Result(0, "呦呵，还想改别人的邮箱？");
         }
     }
 }
