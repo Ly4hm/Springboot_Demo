@@ -1,3 +1,5 @@
+import {showRightMessage} from "../module.js";
+
 const areaEl = document.querySelectorAll('.handle-btn')
 const mask = document.querySelector('.contextmenu-mask')
 const contentEl = document.querySelector('.contextmenu-content')
@@ -54,9 +56,39 @@ mask.addEventListener('mousedown', () => {
 }, false)
 
 
+// 将弹窗替换为指定值
+
+
+
 // 菜单栏绑定相关函数
 function editName() {
     console.log("执行修改名称逻辑");
+    const section = document.querySelector("section");
+
+    // 将窗口内容替换为编辑界面
+    var modalBox = document.querySelector('.modal-box');
+    // 存储原始内容
+    var originalContent = modalBox.innerHTML;
+    // 替换内容
+    var newParagraph = document.querySelector('#editNameWindow').innerHTML;
+    modalBox.innerHTML = '';
+    modalBox.innerHTML = newParagraph;
+    section.classList.add("active"); // 显示窗口
+
+    // TODO: 增加取消按钮
+    // 还原内容
+    document.querySelector(".modal-box button").addEventListener("click", (e) => {
+        document.querySelector("section").classList.remove("active");
+        setTimeout(() => {
+            modalBox.innerHTML = originalContent;
+            // 重新监听关闭按钮
+            const close_btn = modalBox.querySelector(".close-btn")
+            close_btn.addEventListener("click", function () {
+                section.classList.remove("active");
+            })
+        },250);
+    })
+
 }
 
 function switchState() {
@@ -82,7 +114,7 @@ contentEl.addEventListener('click', (e) => {
     if (e.target.getAttribute("class") != "contextmenu-list" &&
         e.target.getAttribute("class") != "contextmenu-content") {
         // 获取 id，针对点击 svg 还是 path 标签进行差异化处理保证能求得 id
-        if (clicked_btn.parentElement.tagName == "PATH") {
+        if (clicked_btn.parentElement.tagName == "svg") {
             var id = clicked_btn.parentElement.parentElement.querySelector(".furniture-id").textContent
         } else {
             // console.log(clicked_btn.parentElement.querySelector(".furniture-id"))

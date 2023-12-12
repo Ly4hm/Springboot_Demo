@@ -108,6 +108,28 @@
         </div>
     </div>
 
+    <!-- 弹出编辑窗口 -->
+    <link rel="stylesheet" href="../static/css/index/editNameWindow.css" th:href="@{css/index/editNameWindow.css}">
+    <div id="editNameWindow">
+        <p>将 1 的名称修改为：</p>
+        <label for="editNameInput">
+            <input id="editNameInput" type="text" value="新的家居名称">
+            <script>
+                var editNameInput = document.querySelector('#editNameInput');
+                console.log(editNameInput);
+                editNameInput.addEventListener('click', (e) => {
+                    console.log(e.value);
+                    if (e.value == '新的家居名称') {
+                        e.value = '';
+                    }
+                });
+            </script>
+        </label>
+        <div class="buttons">
+            <button class="close-btn" id="editNameBtn">提交</button>
+        </div>
+    </div>
+
     <script src="../static/js/index/contextmenu.js" th:src="@{js/index/contextmenu.js}" type="module"></script>
 
 </div>

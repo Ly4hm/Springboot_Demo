@@ -1,0 +1,16 @@
+.modal-box label {
+    margin-top: 10px;
+}
+
+.modal-box label input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #333;
+    /* 添加其他样式属性 */
+}
+
+.modal-box label input::placeholder {
+    color: rgb(128, 128, 128);
+}
