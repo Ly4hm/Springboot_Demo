@@ -56,6 +56,10 @@ mask.addEventListener('mousedown', () => {
 }, false)
 
 
+// 将弹窗替换为指定值
+
+
+
 // 菜单栏绑定相关函数
 function editName() {
     console.log("执行修改名称逻辑");
@@ -71,6 +75,7 @@ function editName() {
     modalBox.innerHTML = newParagraph;
     section.classList.add("active"); // 显示窗口
 
+    // TODO: 增加取消按钮
     // 还原内容
     document.querySelector(".modal-box button").addEventListener("click", (e) => {
         document.querySelector("section").classList.remove("active");
@@ -78,12 +83,10 @@ function editName() {
             modalBox.innerHTML = originalContent;
             // 重新监听关闭按钮
             const close_btn = modalBox.querySelector(".close-btn")
-            console.log(close_btn);
             close_btn.addEventListener("click", function () {
                 section.classList.remove("active");
             })
-        },120);
-        // modalBox.innerHTML = originalContent;
+        },250);
     })
 
 }

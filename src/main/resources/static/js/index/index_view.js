@@ -76,13 +76,12 @@ userItems.forEach(function(userItem) {
     // 添加 set-btn 点击事件监听器
     setBtn.addEventListener('click', function() {
         // 查询当前容器下的第一个 list-item 的内容
-        var firstListItemContent = userItem.querySelector('.list-item').textContent;
+        var firstListItemContent = userItem.querySelectorAll('.list-item')[0].textContent;
 
         // 向服务器提交请求
         const data = {"username" : firstListItemContent}
         requestByRoute("/api/setAdmin", data);
-        // TODO: 为按钮添加改变前端显示的逻辑
-
+        // TODO: 实现更改前端显示
     });
 
     // 添加 unset-btn 点击事件监听器
