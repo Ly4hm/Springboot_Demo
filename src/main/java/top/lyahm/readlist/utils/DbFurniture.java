@@ -117,7 +117,7 @@ public class DbFurniture {
         }
         return RoomName;
     }
-    public static ArrayList<airConditionerData> getAirData(int Fid) {
+    public static ArrayList<airConditionerData> getAirData() {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -125,38 +125,41 @@ public class DbFurniture {
 
         try {
             conn = DbUtil.getConnection();
-            String sql = "SELECT MaxTemp, MinTemp, Statue, WSpeed, Power, RoomId FROM airConditioner WHERE Fid=?";
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, Fid);
-            rs = pstmt.executeQuery();
+            for (int Fid = 1; Fid <= 3; Fid++) {
+                String sql = "SELECT MaxTemp, MinTemp, Statue, WSpeed, Power, RoomId FROM airConditioner WHERE Fid=?";
+                pstmt = conn.prepareStatement(sql);
+                pstmt.setInt(1, Fid);
+                rs = pstmt.executeQuery();
 
-            while (rs.next()) {
-                int MaxTemp = rs.getInt("MaxTemp");
-                int MinTemp = rs.getInt("MinTemp");
-                int Statue = rs.getInt("Statue");
-                int WSpeed = rs.getInt("WSpeed");
-                int Power = rs.getInt("Power");
-                int RoomId = rs.getInt("RoomId");
-                String RoomName = getRoomNameByRoomId(conn, RoomId); // Extracted method to get RoomName
+                while (rs.next()) {
+                    int MaxTemp = rs.getInt("MaxTemp");
+                    int MinTemp = rs.getInt("MinTemp");
+                    int Statue = rs.getInt("Statue");
+                    int WSpeed = rs.getInt("WSpeed");
+                    int Power = rs.getInt("Power");
+                    int RoomId = rs.getInt("RoomId");
+                    String RoomName = getRoomNameByRoomId(conn, RoomId);
 
-                airConditionerData Data = new airConditionerData();
-                Data.setMaxTemp(MaxTemp);
-                Data.setMinTemp(MinTemp);
-                Data.setStatue(Statue);
-                Data.setWSpeed(WSpeed);
-                Data.setPower(Power);
-                Data.setRoomName(RoomName);
-                ACD.add(Data);
+                    airConditionerData Data = new airConditionerData();
+                    Data.setMaxTemp(MaxTemp);
+                    Data.setMinTemp(MinTemp);
+                    Data.setStatue(Statue);
+                    Data.setWSpeed(WSpeed);
+                    Data.setPower(Power);
+                    Data.setRoomName(RoomName);
+                    ACD.add(Data);
+                }
             }
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "数据库异常： " + e.getMessage(), e);
         } finally {
-            DbUtil.release(conn, pstmt, rs); // Closing all resources
+            DbUtil.release(conn, pstmt, rs);
         }
         return ACD;
     }
 
-//    删除家具，只删除Furniture表
+
+    //    删除家具，只删除Furniture表
     public static Result rmFurniture(int Fid){
         Connection conn=null;
         PreparedStatement pstmt=null;
@@ -185,136 +188,127 @@ public class DbFurniture {
         return new Result(code,result);
     }
 
-    public static ArrayList<HumidifierData> getHumiDifierData(int FId){
-        Connection conn=null;
-        PreparedStatement pstmt=null;
-        ResultSet rs;
-        ArrayList<HumidifierData> ACD=new ArrayList<>();
+    public static ArrayList<HumidifierData> getHumiDifierData() {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        ArrayList<HumidifierData> ACD = new ArrayList<>();
 
-        int Humi=0;
-        int Threshold=0;
-        int Power=0;
-        int Statue=0;
-        int RoomId=0;
-        String RoomName;
-//        预编译sql语句
-        try{
+        try {
             conn = DbUtil.getConnection();
-            String sql="SELECT Humi,Threshold,Power,Statue,RoomId from Humidifier where Fid=?";
+            for (int Fid = 10; Fid <= 11; Fid++) {
+                String sql = "SELECT Humi, Threshold, Power, Statue, RoomId FROM Humidifier WHERE Fid=?";
+                pstmt = conn.prepareStatement(sql);
+                pstmt.setInt(1, Fid);
+                rs = pstmt.executeQuery();
 
-            pstmt=conn.prepareStatement(sql);
-            pstmt.setInt(1,FId);
-            rs= pstmt.executeQuery();
-            if(rs.next()){
-                Humi=rs.getInt(1);
-                Threshold=rs.getInt(2);
-                Power=rs.getInt(3);
-                Statue=rs.getInt(4);
-                RoomId= rs.getInt(5);
+                if (rs.next()) {
+                    int Humi = rs.getInt("Humi");
+                    int Threshold = rs.getInt("Threshold");
+                    int Power = rs.getInt("Power");
+                    int Statue = rs.getInt("Statue");
+                    int RoomId = rs.getInt("RoomId");
+
+                    HumidifierData Data = new HumidifierData();
+                    Data.setHumi(Humi);
+                    Data.setThreshold(Threshold);
+                    Data.setPower(Power);
+                    Data.setStatue(Statue);
+
+                    String RoomName = getRoomNameByRoomId(conn, RoomId);
+                    Data.setRoomName(RoomName);
+
+                    ACD.add(Data);
+                }
             }
-            HumidifierData Data=new HumidifierData();
-            Data.setHumi(Humi);
-            Data.setThreshold(Threshold);
-            Data.setPower(Power);
-            Data.setStatue(Statue);
-            RoomName=getRoomNameByRoomId(conn,RoomId);
-            Data.setRoomName(RoomName);
-            ACD.add(Data);
-
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             // 记录数据库异常信息
-            LOGGER.log(Level.SEVERE,"数据库异常： "+ e.getMessage(),e);
-        }finally {
-            DbUtil.release(conn, pstmt, null);
+            LOGGER.log(Level.SEVERE, "数据库异常： " + e.getMessage(), e);
+        } finally {
+            DbUtil.release(conn, pstmt, rs);
         }
         return ACD;
     }
 
-    public static ArrayList<CurtainData> getCurtainData(int Fid){
-        Connection conn=null;
-        PreparedStatement pstmt=null;
-        ResultSet rs;
-        ArrayList<CurtainData> ACD=new ArrayList<>();
 
-        int Threshold=0;
-        int Statue=0;
-        int RoomId=0;
-        String RoomName;
-//        预编译sql语句
-        try{
+    public static ArrayList<CurtainData> getCurtainData() {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        ArrayList<CurtainData> ACD = new ArrayList<>();
+
+        try {
             conn = DbUtil.getConnection();
-            String sql="SELECT Threshold,Statue,RoomId from Curtain where Fid=?";
+            for (int Fid = 6; Fid <= 9; Fid++) {
+                String sql = "SELECT Threshold, Statue, RoomId FROM Curtain WHERE Fid=?";
+                pstmt = conn.prepareStatement(sql);
+                pstmt.setInt(1, Fid);
+                rs = pstmt.executeQuery();
 
-            pstmt=conn.prepareStatement(sql);
-            pstmt.setInt(1,Fid);
-            rs= pstmt.executeQuery();
-            if(rs.next()){
-                Threshold=rs.getInt(1);
-                Statue=rs.getInt(2);
-                RoomId=rs.getInt(3);
+                if (rs.next()) {
+                    int Threshold = rs.getInt("Threshold");
+                    int Statue = rs.getInt("Statue");
+                    int RoomId = rs.getInt("RoomId");
+
+                    CurtainData Data = new CurtainData();
+                    String RoomName = getRoomNameByRoomId(conn, RoomId);
+                    Data.setThreshold(Threshold);
+                    Data.setStatue(Statue);
+                    Data.setRoomName(RoomName);
+                    ACD.add(Data);
+                }
             }
-            CurtainData Data=new CurtainData();
-            RoomName=getRoomNameByRoomId(conn,RoomId);
-            Data.setThreshold(Threshold);
-            Data.setStatue(Statue);
-            Data.setRoomName(RoomName);
-            ACD.add(Data);
-
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             // 记录数据库异常信息
-            LOGGER.log(Level.SEVERE,"数据库异常： "+ e.getMessage(),e);
-        }finally {
-            DbUtil.release(conn, pstmt, null);
+            LOGGER.log(Level.SEVERE, "数据库异常： " + e.getMessage(), e);
+        } finally {
+            DbUtil.release(conn, pstmt, rs);
         }
         return ACD;
     }
 
-    public static ArrayList<RefrigeratorData> getRefrigeratorData(int FId){
-        Connection conn=null;
-        PreparedStatement pstmt=null;
-        ResultSet rs;
-        ArrayList<RefrigeratorData> ACD=new ArrayList<>();
 
-        int RefrigeratorThreshold=0;
-        int FrozenThreshold=0;
-        int Power=0;
-        int Statue=0;
-        int RoomId=0;
-        String RoomName;
-//        预编译sql语句
-        try{
+    public static ArrayList<RefrigeratorData> getRefrigeratorData() {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        ArrayList<RefrigeratorData> ACD = new ArrayList<>();
+
+        try {
             conn = DbUtil.getConnection();
-            String sql="SELECT RefrigerationThreshold,FrozenThreshold,Power,Statue,RoomId from Refrigerator where Fid=?";
+            int FId = 5; // Set FId to 5
+            String sql = "SELECT RefrigerationThreshold, FrozenThreshold, Power, Statue, RoomId FROM Refrigerator WHERE Fid=?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, FId);
+            rs = pstmt.executeQuery();
 
-            pstmt=conn.prepareStatement(sql);
-            pstmt.setInt(1,FId);
-            rs= pstmt.executeQuery();
-            if(rs.next()){
-                RefrigeratorThreshold=rs.getInt(1);
-                FrozenThreshold=rs.getInt(2);
-                Power=rs.getInt(3);
-                Statue=rs.getInt(4);
-                RoomId=rs.getInt(5);
+            if (rs.next()) {
+                int RefrigeratorThreshold = rs.getInt("RefrigerationThreshold");
+                int FrozenThreshold = rs.getInt("FrozenThreshold");
+                int Power = rs.getInt("Power");
+                int Statue = rs.getInt("Statue");
+                int RoomId = rs.getInt("RoomId");
+
+                RefrigeratorData Data = new RefrigeratorData();
+                String RoomName = getRoomNameByRoomId(conn, RoomId);
+                Data.setRefrigerationThreshold(RefrigeratorThreshold);
+                Data.setRoomName(RoomName);
+                Data.setFrozenThreshold(FrozenThreshold);
+                Data.setPower(Power);
+                Data.setStatue(Statue);
+                ACD.add(Data);
             }
-            RefrigeratorData Data=new RefrigeratorData();
-            RoomName=getRoomNameByRoomId(conn,RoomId);
-            Data.setRefrigerationThreshold(RefrigeratorThreshold);
-            Data.setRoomName(RoomName);
-            Data.setFrozenThreshold(FrozenThreshold);
-            Data.setPower(Power);
-            Data.setStatue(Statue);
-            ACD.add(Data);
-
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             // 记录数据库异常信息
-            LOGGER.log(Level.SEVERE,"数据库异常： "+ e.getMessage(),e);
-        }finally {
-            DbUtil.release(conn, pstmt, null);
+            LOGGER.log(Level.SEVERE, "数据库异常： " + e.getMessage(), e);
+        } finally {
+            DbUtil.release(conn, pstmt, rs);
         }
         return ACD;
     }
 
-//    获取家具状态
+
+    //    获取家具状态
     public static int[] getFurnitureStatus(){
         int [] Results=new int[3];
 
@@ -385,6 +379,6 @@ public class DbFurniture {
 
     public static void main(String[] args){
 //        moveFurniture(5,5);
-        System.out.println(getRefrigeratorData(5));
+        System.out.println(getAirData());
     }
 }
