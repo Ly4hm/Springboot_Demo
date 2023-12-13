@@ -117,6 +117,20 @@ public class DbFurniture {
         }
         return RoomName;
     }
+
+    private static String getFname(Connection conn, int Fid) throws SQLException {
+        String Fname = null;
+        String sql = "SELECT Fname FROM Furniture WHERE Fid=?";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, Fid);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    Fname = rs.getString("Fname");
+                }
+            }
+        }
+        return Fname;
+    }
     public static ArrayList<airConditionerData> getAirData() {
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -138,6 +152,7 @@ public class DbFurniture {
                     int WSpeed = rs.getInt("WSpeed");
                     int Power = rs.getInt("Power");
                     int RoomId = rs.getInt("RoomId");
+                    String Fname=getFname(conn,Fid);
                     String RoomName = getRoomNameByRoomId(conn, RoomId);
 
                     airConditionerData Data = new airConditionerData();
@@ -147,6 +162,7 @@ public class DbFurniture {
                     Data.setWSpeed(WSpeed);
                     Data.setPower(Power);
                     Data.setRoomName(RoomName);
+                    Data.setFname(Fname);
                     ACD.add(Data);
                 }
             }
@@ -208,12 +224,14 @@ public class DbFurniture {
                     int Power = rs.getInt("Power");
                     int Statue = rs.getInt("Statue");
                     int RoomId = rs.getInt("RoomId");
+                    String Fname=getFname(conn,Fid);
 
                     HumidifierData Data = new HumidifierData();
                     Data.setHumi(Humi);
                     Data.setThreshold(Threshold);
                     Data.setPower(Power);
                     Data.setStatue(Statue);
+                    Data.setFname(Fname);
 
                     String RoomName = getRoomNameByRoomId(conn, RoomId);
                     Data.setRoomName(RoomName);
@@ -249,12 +267,14 @@ public class DbFurniture {
                     int Threshold = rs.getInt("Threshold");
                     int Statue = rs.getInt("Statue");
                     int RoomId = rs.getInt("RoomId");
+                    String Fname=getFname(conn,Fid);
 
                     CurtainData Data = new CurtainData();
                     String RoomName = getRoomNameByRoomId(conn, RoomId);
                     Data.setThreshold(Threshold);
                     Data.setStatue(Statue);
                     Data.setRoomName(RoomName);
+                    Data.setFname(Fname);
                     ACD.add(Data);
                 }
             }
@@ -276,10 +296,10 @@ public class DbFurniture {
 
         try {
             conn = DbUtil.getConnection();
-            int FId = 5; // Set FId to 5
+            int Fid = 5; // Set FId to 5
             String sql = "SELECT RefrigerationThreshold, FrozenThreshold, Power, Statue, RoomId FROM Refrigerator WHERE Fid=?";
             pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, FId);
+            pstmt.setInt(1, Fid);
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
@@ -288,6 +308,7 @@ public class DbFurniture {
                 int Power = rs.getInt("Power");
                 int Statue = rs.getInt("Statue");
                 int RoomId = rs.getInt("RoomId");
+                String Fname=getFname(conn,Fid);
 
                 RefrigeratorData Data = new RefrigeratorData();
                 String RoomName = getRoomNameByRoomId(conn, RoomId);
@@ -296,6 +317,7 @@ public class DbFurniture {
                 Data.setFrozenThreshold(FrozenThreshold);
                 Data.setPower(Power);
                 Data.setStatue(Statue);
+                Data.setFname(Fname);
                 ACD.add(Data);
             }
         } catch (SQLException e) {
@@ -350,6 +372,7 @@ public class DbFurniture {
         return Results;
     }
 
+
     public static Result moveFurniture(int FId, int newRoomId) {
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -379,6 +402,6 @@ public class DbFurniture {
 
     public static void main(String[] args){
 //        moveFurniture(5,5);
-        System.out.println(getAirData());
+        System.out.println(getHumiDifierData());
     }
 }

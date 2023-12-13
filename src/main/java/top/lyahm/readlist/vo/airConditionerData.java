@@ -5,6 +5,7 @@ import lombok.Data;
 //空调数据类
 @Data
 public class airConditionerData {
+    private String Fname;
     private int Fid;  //家具id
     private int Power; //功率
     private int Statue;//状态,0关闭，1开启，2异常
