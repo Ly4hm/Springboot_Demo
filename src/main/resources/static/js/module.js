@@ -57,7 +57,10 @@ export function requestByRoute(route, value, RightFunc, redirect, delay) {
             response.json().then(data => {
                 if (data["code"]) {
                     showRightMessage(data["message"]);
-                    RightFunc();
+                    if (RightFunc != null) {
+                        RightFunc();
+                    }
+
                     // 如果设置了 redirect , 则直接跳转
                     if (redirect && delay) {
                         setTimeout(() => {
