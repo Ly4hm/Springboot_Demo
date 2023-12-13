@@ -5,6 +5,7 @@ import lombok.Data;
 //冰箱数据类
 @Data
 public class RefrigeratorData {
+    private String Fname;
     private int Fid;  //家具id
     private int Power; //功率
     private int Statue;//状态
