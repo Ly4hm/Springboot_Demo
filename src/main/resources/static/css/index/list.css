@@ -39,9 +39,9 @@
 .detail-content {
     display: flex;
     align-items: center;
-    position: absolute;
-    bottom: 45px;
     justify-content: flex-end;
+    position: absolute;
+    bottom: 20px;
 }
 
 .furniture-pic {

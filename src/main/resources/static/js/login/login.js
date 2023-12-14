@@ -45,7 +45,7 @@ login_form.addEventListener('click', function (event) {
     // 表单验证
     if (username !== "" || password !== "") {
         // 发送POST请求到login路由
-        requestByRoute("/api/checkLogin", data, "index", 1000)
+        requestByRoute("/api/checkLogin", data, ()=>{},"index", 1000)
     } else {
         showWrongMessage("怎么什么都不填呢？")
     }

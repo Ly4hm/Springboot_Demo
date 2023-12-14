@@ -8,8 +8,8 @@
     <h2>智能家居列表</h2>
     <div id="furnitures-lst">
         <!-- 单个家居的卡片 -->
-        <div class="furniture-item">
-            <p class="furniture-title">家居1</p>
+        <div class="furniture-item" th:each="airConditioner : ${airConditioners}">
+            <p class="furniture-title" th:text="${airConditioner.Fid}">空调</p>
             <p class="furniture-id">1</p>
             <!-- 操作按钮 -->
             <svg class="handle-btn" height="200" p-id="1507" version="1.1"
@@ -20,9 +20,18 @@
             <div class="detail-content">
                 <img alt="家具图片" class="furniture-pic" src="../static/css/asset/frniture/AirConditioner.png"
                      th:src="@{css/asset/frniture/AirConditioner.png}">
+                <!-- 详细数据展示 -->
                 <div class="detail">
-                    <p class="detail-property">状态：</p>
-                    <p class="detail-property">所在房间：</p>
+                    <th th:switch="${airConditioner.Statue}">
+                        <p th:case="0">当前状态：<span style="color: #43a047;">运行中</span></p>
+                        <p th:case="1">当前状态：<span style="color: #000000;">待机</span></p>
+                        <p th:case="2">当前状态：<span style="color: #fc8073;">异常</span></p>
+                    </th>
+                    <p class="detail-property" th:text="'所在房间：' + ${airConditioner.RoomName}">所在房间：</p>
+                    <p class="detail-property" th:text="'当前功率：' + ${airConditioner.Power}">当前功率：</p>
+                    <p class="detail-property" th:text="'当前风速：' + ${airConditioner.WSpeed}">当前风速：</p>
+                    <p class="detail-property" th:text="'自动降温阈值：' + ${airConditioner.MaxTemp}">自动降温阈值</p>
+                    <p class="detail-property" th:text="'自动升温阈值：' + ${airConditioner.MinTemp}">自动升温阈值</p>
                 </div>
             </div>
         </div>
@@ -54,46 +63,7 @@
                       p-id="1508"></path>
             </svg>
         </div>
-        <div class="furniture-item">
-            <p class="furniture-title">家居4</p>
-            <p class="furniture-id">4</p>
-            <!-- 操作按钮 -->
-            <svg class="handle-btn" height="200" p-id="1507" version="1.1"
-                 viewBox="0 0 1024 1024" width="200" x="1701763328709" xmlns="http://www.w3.org/2000/svg">
-                <path d="M147.01175 430.890704c-44.791136 0-81.108273 36.303834-81.108273 81.109296 0 44.778856 36.316114 81.108273 81.108273 81.108273 44.792159 0 81.109296-36.329417 81.109296-81.108273C228.121046 467.194538 191.804932 430.890704 147.01175 430.890704zM511.999488 430.890704c-44.791136 0-81.108273 36.303834-81.108273 81.109296 0 44.778856 36.316114 81.108273 81.108273 81.108273 44.792159 0 81.109296-36.329417 81.109296-81.108273C593.108784 467.194538 556.791647 430.890704 511.999488 430.890704zM876.987227 430.890704c-44.791136 0-81.108273 36.303834-81.108273 81.109296 0 44.778856 36.316114 81.108273 81.108273 81.108273s81.108273-36.329417 81.108273-81.108273C958.094476 467.194538 921.778362 430.890704 876.987227 430.890704z"
-                      p-id="1508"></path>
-            </svg>
-        </div>
-        <div class="furniture-item">
-            <p class="furniture-title">家居5</p>
-            <p class="furniture-id">5</p>
-            <!-- 操作按钮 -->
-            <svg class="handle-btn" height="200" p-id="1507" version="1.1"
-                 viewBox="0 0 1024 1024" width="200" x="1701763328709" xmlns="http://www.w3.org/2000/svg">
-                <path d="M147.01175 430.890704c-44.791136 0-81.108273 36.303834-81.108273 81.109296 0 44.778856 36.316114 81.108273 81.108273 81.108273 44.792159 0 81.109296-36.329417 81.109296-81.108273C228.121046 467.194538 191.804932 430.890704 147.01175 430.890704zM511.999488 430.890704c-44.791136 0-81.108273 36.303834-81.108273 81.109296 0 44.778856 36.316114 81.108273 81.108273 81.108273 44.792159 0 81.109296-36.329417 81.109296-81.108273C593.108784 467.194538 556.791647 430.890704 511.999488 430.890704zM876.987227 430.890704c-44.791136 0-81.108273 36.303834-81.108273 81.109296 0 44.778856 36.316114 81.108273 81.108273 81.108273s81.108273-36.329417 81.108273-81.108273C958.094476 467.194538 921.778362 430.890704 876.987227 430.890704z"
-                      p-id="1508"></path>
-            </svg>
-        </div>
-        <div class="furniture-item">
-            <p class="furniture-title">家居6</p>
-            <p class="furniture-id">6</p>
-            <!-- 操作按钮 -->
-            <svg class="handle-btn" height="200" p-id="1507" version="1.1"
-                 viewBox="0 0 1024 1024" width="200" x="1701763328709" xmlns="http://www.w3.org/2000/svg">
-                <path d="M147.01175 430.890704c-44.791136 0-81.108273 36.303834-81.108273 81.109296 0 44.778856 36.316114 81.108273 81.108273 81.108273 44.792159 0 81.109296-36.329417 81.109296-81.108273C228.121046 467.194538 191.804932 430.890704 147.01175 430.890704zM511.999488 430.890704c-44.791136 0-81.108273 36.303834-81.108273 81.109296 0 44.778856 36.316114 81.108273 81.108273 81.108273 44.792159 0 81.109296-36.329417 81.109296-81.108273C593.108784 467.194538 556.791647 430.890704 511.999488 430.890704zM876.987227 430.890704c-44.791136 0-81.108273 36.303834-81.108273 81.109296 0 44.778856 36.316114 81.108273 81.108273 81.108273s81.108273-36.329417 81.108273-81.108273C958.094476 467.194538 921.778362 430.890704 876.987227 430.890704z"
-                      p-id="1508"></path>
-            </svg>
-        </div>
-        <div class="furniture-item">
-            <p class="furniture-title">家居7</p>
-            <p class="furniture-id">7</p>
-            <!-- 操作按钮 -->
-            <svg class="handle-btn" height="200" p-id="1507" version="1.1"
-                 viewBox="0 0 1024 1024" width="200" x="1701763328709" xmlns="http://www.w3.org/2000/svg">
-                <path d="M147.01175 430.890704c-44.791136 0-81.108273 36.303834-81.108273 81.109296 0 44.778856 36.316114 81.108273 81.108273 81.108273 44.792159 0 81.109296-36.329417 81.109296-81.108273C228.121046 467.194538 191.804932 430.890704 147.01175 430.890704zM511.999488 430.890704c-44.791136 0-81.108273 36.303834-81.108273 81.109296 0 44.778856 36.316114 81.108273 81.108273 81.108273 44.792159 0 81.109296-36.329417 81.109296-81.108273C593.108784 467.194538 556.791647 430.890704 511.999488 430.890704zM876.987227 430.890704c-44.791136 0-81.108273 36.303834-81.108273 81.109296 0 44.778856 36.316114 81.108273 81.108273 81.108273s81.108273-36.329417 81.108273-81.108273C958.094476 467.194538 921.778362 430.890704 876.987227 430.890704z"
-                      p-id="1508"></path>
-            </svg>
-        </div>
+
     </div>
 
     <!-- 弹出菜单栏 -->
@@ -108,12 +78,12 @@
         </div>
     </div>
 
-    <!-- 弹出编辑窗口 -->
-    <link rel="stylesheet" href="../static/css/index/editNameWindow.css" th:href="@{css/index/editNameWindow.css}">
+    <!-- 弹出编辑家居名称窗口 -->
+    <link href="../static/css/index/editNameWindow.css" rel="stylesheet" th:href="@{css/index/editNameWindow.css}">
     <div id="editNameWindow">
         <p>将 1 的名称修改为：</p>
         <label for="editNameInput">
-            <input id="editNameInput" type="text" placeholder="请输入新的家居名称~">
+            <input id="editNameInput" placeholder="请输入新的家居名称~" type="text">
         </label>
         <div class="buttons">
             <button class="close-btn" id="editNameBtn">提交</button>

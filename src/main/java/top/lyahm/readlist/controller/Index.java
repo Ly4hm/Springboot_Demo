@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import top.lyahm.readlist.utils.DbFurniture;
 import top.lyahm.readlist.utils.DbUser;
 import top.lyahm.readlist.vo.User;
+import top.lyahm.readlist.vo.airConditionerData;
 
 import java.util.ArrayList;
 
@@ -27,15 +28,17 @@ public class Index {
         // 填充渲染数据
         User vo_user = new User();
         vo_user.setName(StpUtil.getLoginIdAsString());
-//        String gptmsg = DbFurniture.getGMSG().getMessage();
 
         // 返回的用户列表
         ArrayList<User> vo_user_list = DbUser.getAllUser();
 
+        // 返回家具列表
+        ArrayList<airConditionerData> airConditioners = DbFurniture.getAirData();
 
         // 填入 model 对象
         model.addAttribute("user", vo_user);
         model.addAttribute("user_list", vo_user_list);
+        model.addAttribute("airConditioners", airConditioners);
 
         return "index";
     }
