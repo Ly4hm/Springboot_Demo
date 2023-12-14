@@ -26,7 +26,7 @@ register_btn.addEventListener("click", function (event) {
 
             if (uname !== "" && passwd !== "") {
                 // 向服务端验证注册
-                requestByRoute("/api/checkRegister", data, 'login');
+                requestByRoute("/api/checkRegister", data, ()=>{},'login');
             } else {
                 showWrongMessage("什么都不输入可没办法注册哦")
             }

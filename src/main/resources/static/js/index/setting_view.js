@@ -51,40 +51,54 @@ fetch("/api/getSelfInfo?username=" + selfInfo[0].textContent.replace("用户名�
         console.log('SelfInfo 请求错误:', error);
     });
 
+
+// 验证邮箱格式是否正确
+function validateEmail(email) {
+    // 定义邮箱的正则表达式模式
+    var pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // 使用正则表达式进行匹配
+    return pattern.test(email);
+}
+
 // 设置邮箱
 const resetEmailBtn = document.querySelector("#reset-email");
 const resetEmailInput = document.querySelector(".input-style");
 
 resetEmailBtn.addEventListener("click", () => {
-    var postData = {
-        username: document.querySelectorAll(".self_info_item")[0]
-            .textContent.replace("用户名：", ""),
-        email: resetEmailInput.value
-    }
-    console.log(postData)
+    // 验证格式
+    if (!validateEmail(resetEmailInput.value)) {
+        showWrongMessage("邮箱格式不正确");
+    } else {
+        // 构造请求包
+        var postData = {
+            username: document.querySelectorAll(".self_info_item")[0]
+                .textContent.replace("用户名：", ""),
+            email: resetEmailInput.value
+        }
+        console.log(postData)
 
-    fetch("/api/resetEmail", {
-        method: 'POST', headers: {
-            'Content-Type': 'application/json'
-        }, body: JSON.stringify(postData)
-    })
-        .then(response => {
-            response.json().then(data => {
-                if (data["code"]) {
-                    showRightMessage("重置成功");
-                    // 处理前端显示
-                    selfInfo[2].textContent = "邮箱：" + postData.email;
-
-                } else {
-                    showWrongMessage(data["message"]);
-                }
-            })
+        fetch("/api/resetEmail", {
+            method: 'POST', headers: {
+                'Content-Type': 'application/json'
+            }, body: JSON.stringify(postData)
         })
-        .catch(error => {
-            // 处理请求错误
-            console.log('请求错误:', error);
-            showWrongMessage("出现了一些小问题");
-        });
+            .then(response => {
+                response.json().then(data => {
+                    if (data["code"]) {
+                        showRightMessage("重置成功");
+                        // 处理前端显示
+                        selfInfo[2].textContent = "邮箱：" + postData.email;
 
+                    } else {
+                        showWrongMessage(data["message"]);
+                    }
+                })
+            })
+            .catch(error => {
+                // 处理请求错误
+                console.log('请求错误:', error);
+                showWrongMessage("出现了一些小问题");
+            });
 
+    }
 })
