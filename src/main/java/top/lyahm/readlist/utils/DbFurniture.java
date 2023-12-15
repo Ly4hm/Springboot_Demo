@@ -163,6 +163,7 @@ public class DbFurniture {
                     Data.setPower(Power);
                     Data.setRoomName(RoomName);
                     Data.setFname(Fname);
+                    Data.setFid(Fid);
                     ACD.add(Data);
                 }
             }
@@ -232,6 +233,7 @@ public class DbFurniture {
                     Data.setPower(Power);
                     Data.setStatue(Statue);
                     Data.setFname(Fname);
+                    Data.setFid(Fid);
 
                     String RoomName = getRoomNameByRoomId(conn, RoomId);
                     Data.setRoomName(RoomName);
@@ -275,6 +277,7 @@ public class DbFurniture {
                     Data.setStatue(Statue);
                     Data.setRoomName(RoomName);
                     Data.setFname(Fname);
+                    Data.setFid(Fid);
                     ACD.add(Data);
                 }
             }
@@ -318,6 +321,7 @@ public class DbFurniture {
                 Data.setPower(Power);
                 Data.setStatue(Statue);
                 Data.setFname(Fname);
+                Data.setFid(Fid);
                 ACD.add(Data);
             }
         } catch (SQLException e) {
