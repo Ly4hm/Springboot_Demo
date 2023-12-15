@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -136,10 +138,10 @@ public class DbFurniture {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         ArrayList<airConditionerData> ACD = new ArrayList<>();
-
+        int[] Fids=getFurnitureType(1);
         try {
             conn = DbUtil.getConnection();
-            for (int Fid = 1; Fid <= 3; Fid++) {
+            for (int Fid:Fids) {
                 String sql = "SELECT MaxTemp, MinTemp, Statue, WSpeed, Power, RoomId FROM airConditioner WHERE Fid=?";
                 pstmt = conn.prepareStatement(sql);
                 pstmt.setInt(1, Fid);
@@ -210,10 +212,10 @@ public class DbFurniture {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         ArrayList<HumidifierData> ACD = new ArrayList<>();
-
+        int[] Fids=getFurnitureType(4);
         try {
             conn = DbUtil.getConnection();
-            for (int Fid = 10; Fid <= 11; Fid++) {
+            for (int Fid:Fids) {
                 String sql = "SELECT Humi, Threshold, Power, Statue, RoomId FROM Humidifier WHERE Fid=?";
                 pstmt = conn.prepareStatement(sql);
                 pstmt.setInt(1, Fid);
@@ -256,10 +258,10 @@ public class DbFurniture {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         ArrayList<CurtainData> ACD = new ArrayList<>();
-
+        int[] Fids=getFurnitureType(3);
         try {
             conn = DbUtil.getConnection();
-            for (int Fid = 6; Fid <= 9; Fid++) {
+            for (int Fid:Fids) {
                 String sql = "SELECT Threshold, Statue, RoomId FROM Curtain WHERE Fid=?";
                 pstmt = conn.prepareStatement(sql);
                 pstmt.setInt(1, Fid);
@@ -296,33 +298,34 @@ public class DbFurniture {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         ArrayList<RefrigeratorData> ACD = new ArrayList<>();
-
+        int[] Fids=getFurnitureType(2);
         try {
             conn = DbUtil.getConnection();
-            int Fid = 5; // Set FId to 5
-            String sql = "SELECT RefrigerationThreshold, FrozenThreshold, Power, Statue, RoomId FROM Refrigerator WHERE Fid=?";
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, Fid);
-            rs = pstmt.executeQuery();
+            for(int Fid:Fids){
+                String sql = "SELECT RefrigerationThreshold, FrozenThreshold, Power, Statue, RoomId FROM Refrigerator WHERE Fid=?";
+                pstmt = conn.prepareStatement(sql);
+                pstmt.setInt(1, Fid);
+                rs = pstmt.executeQuery();
 
-            if (rs.next()) {
-                int RefrigeratorThreshold = rs.getInt("RefrigerationThreshold");
-                int FrozenThreshold = rs.getInt("FrozenThreshold");
-                int Power = rs.getInt("Power");
-                int Statue = rs.getInt("Statue");
-                int RoomId = rs.getInt("RoomId");
-                String Fname=getFname(conn,Fid);
+                if (rs.next()) {
+                    int RefrigeratorThreshold = rs.getInt("RefrigerationThreshold");
+                    int FrozenThreshold = rs.getInt("FrozenThreshold");
+                    int Power = rs.getInt("Power");
+                    int Statue = rs.getInt("Statue");
+                    int RoomId = rs.getInt("RoomId");
+                    String Fname = getFname(conn, Fid);
 
-                RefrigeratorData Data = new RefrigeratorData();
-                String RoomName = getRoomNameByRoomId(conn, RoomId);
-                Data.setRefrigerationThreshold(RefrigeratorThreshold);
-                Data.setRoomName(RoomName);
-                Data.setFrozenThreshold(FrozenThreshold);
-                Data.setPower(Power);
-                Data.setStatue(Statue);
-                Data.setFname(Fname);
-                Data.setFid(Fid);
-                ACD.add(Data);
+                    RefrigeratorData Data = new RefrigeratorData();
+                    String RoomName = getRoomNameByRoomId(conn, RoomId);
+                    Data.setRefrigerationThreshold(RefrigeratorThreshold);
+                    Data.setRoomName(RoomName);
+                    Data.setFrozenThreshold(FrozenThreshold);
+                    Data.setPower(Power);
+                    Data.setStatue(Statue);
+                    Data.setFname(Fname);
+                    Data.setFid(Fid);
+                    ACD.add(Data);
+                }
             }
         } catch (SQLException e) {
             // 记录数据库异常信息
@@ -404,8 +407,67 @@ public class DbFurniture {
         return new Result(code,result);
     }
 
+    public static int[] getFurnitureType(int Type){
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        List<Integer> fidList=new ArrayList<>();
+        ResultSet rs;
+
+        try{
+            conn = DbUtil.getConnection();
+            String sql = "SELECT Fid FROM Furniture WHERE Type = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1,Type);
+            rs=pstmt.executeQuery();
+            while (rs.next()) {
+                int Fid = rs.getInt("Fid");
+                fidList.add(Fid);
+            }
+
+        }catch (SQLException e){
+            LOGGER.log(Level.SEVERE, "数据库异常： " + e.getMessage(), e);
+        }finally {
+            DbUtil.release(conn, pstmt, null);
+        }
+
+        int[] fidArray = new int[fidList.size()];
+        for (int i = 0; i < fidList.size(); i++) {
+            fidArray[i] = fidList.get(i);
+        }
+        return fidArray;
+    }
+
+    public static Result insertFurniture(String Fname,int roomId,int Type){
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        int code=0;
+        int statue=0;
+        int rs;
+        String result="插入失败";
+        try{
+            conn = DbUtil.getConnection();
+            String sql = "INSERT INTO Furniture (Fname, RoomId, statue, Type) VALUES (?, ?, ?, ?)";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1,Fname);
+            pstmt.setInt(2,roomId);
+            pstmt.setInt(3,statue);
+            pstmt.setInt(4,Type);
+            rs=pstmt.executeUpdate();
+            if(rs>0){
+                result="插入成功";
+            }
+
+        }catch (SQLException e){
+            LOGGER.log(Level.SEVERE, "数据库异常： " + e.getMessage(), e);
+        }finally {
+            DbUtil.release(conn, pstmt, null);
+        }
+
+        return new Result(code,result);
+    }
+
     public static void main(String[] args){
 //        moveFurniture(5,5);
-        System.out.println(getHumiDifierData());
+        System.out.println(getCurtainData());
     }
 }
