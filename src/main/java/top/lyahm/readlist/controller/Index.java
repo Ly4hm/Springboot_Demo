@@ -6,8 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import top.lyahm.readlist.utils.DbFurniture;
 import top.lyahm.readlist.utils.DbUser;
-import top.lyahm.readlist.vo.User;
-import top.lyahm.readlist.vo.airConditionerData;
+import top.lyahm.readlist.vo.*;
 
 import java.util.ArrayList;
 
@@ -32,13 +31,21 @@ public class Index {
         // 返回的用户列表
         ArrayList<User> vo_user_list = DbUser.getAllUser();
 
-        // 返回家具列表
+        // 返回家具信息列表
         ArrayList<airConditionerData> airConditioners = DbFurniture.getAirData();
+        ArrayList<RefrigeratorData> Refrigerators = DbFurniture.getRefrigeratorData();
+        ArrayList<HumidifierData> Humidifiers = DbFurniture.getHumiDifierData();
+        ArrayList<CurtainData> Curtains = DbFurniture.getCurtainData();
+
 
         // 填入 model 对象
         model.addAttribute("user", vo_user);
         model.addAttribute("user_list", vo_user_list);
+        // 家居列表信息填入
         model.addAttribute("airConditioners", airConditioners);
+        model.addAttribute("Refrigerators", Refrigerators);
+        model.addAttribute("Humidifiers", Humidifiers);
+        model.addAttribute("Curtains", Curtains);
 
         return "index";
     }

@@ -7,9 +7,9 @@
 
     <h2>智能家居列表</h2>
     <div id="furnitures-lst">
-        <!-- 单个家居的卡片 -->
+        <!-- 空调 -->
         <div class="furniture-item" th:each="airConditioner : ${airConditioners}">
-            <p class="furniture-title" th:text="${airConditioner.Fid}">空调</p>
+            <p class="furniture-title" th:text="${airConditioner.Fname}">空调</p>
             <p class="furniture-id">1</p>
             <!-- 操作按钮 -->
             <svg class="handle-btn" height="200" p-id="1507" version="1.1"
@@ -35,9 +35,11 @@
                 </div>
             </div>
         </div>
-        <div class="furniture-item">
-            <p class="furniture-title">家居2</p>
-            <p class="furniture-id">2</p>
+
+        <!-- 冰箱 -->
+        <div class="furniture-item" th:each="Refrigerator : ${Refrigerators}">
+            <p class="furniture-title" th:text="${Refrigerator.Fname}">冰箱</p>
+            <p class="furniture-id">1</p>
             <!-- 操作按钮 -->
             <svg class="handle-btn" height="200" p-id="1507" version="1.1"
                  viewBox="0 0 1024 1024" width="200" x="1701763328709" xmlns="http://www.w3.org/2000/svg">
@@ -46,22 +48,75 @@
             </svg>
             <div class="detail-content">
                 <img alt="家具图片" class="furniture-pic" src="../static/css/asset/frniture/AirConditioner.png"
-                     th:src="@{css/asset/frniture/sound.png}">
+                     th:src="@{css/asset/frniture/refrigerator.png}">
+                <!-- 详细数据展示 -->
                 <div class="detail">
-                    <p class="detail-property">状态：</p>
-                    <p class="detail-property">所在房间：</p>
+                    <th th:switch="${Refrigerator.Statue}">
+                        <p th:case="0">当前状态：<span style="color: #43a047;">运行中</span></p>
+                        <p th:case="1">当前状态：<span style="color: #000000;">待机</span></p>
+                        <p th:case="2">当前状态：<span style="color: #fc8073;">异常</span></p>
+                    </th>
+                    <p class="detail-property" th:text="'所在房间：' + ${Refrigerator.RoomName}">所在房间：</p>
+                    <p class="detail-property" th:text="'当前功率：' + ${Refrigerator.Power}">当前功率：</p>
+                    <p class="detail-property" th:text="'制冷阈值：' + ${Refrigerator.RefrigerationThreshold}">制冷阈值：</p>
+                    <p class="detail-property" th:text="'冷冻阈值：' + ${Refrigerator.FrozenThreshold}">冷冻阈值</p>
                 </div>
             </div>
         </div>
-        <div class="furniture-item">
-            <p class="furniture-title">家居3</p>
-            <p class="furniture-id">3</p>
+
+        <!-- 加湿器 -->
+        <div class="furniture-item" th:each="Humidifier : ${Humidifiers}">
+            <p class="furniture-title" th:text="${Humidifier.Fname}">加湿器</p>
+            <p class="furniture-id">1</p>
             <!-- 操作按钮 -->
             <svg class="handle-btn" height="200" p-id="1507" version="1.1"
                  viewBox="0 0 1024 1024" width="200" x="1701763328709" xmlns="http://www.w3.org/2000/svg">
                 <path d="M147.01175 430.890704c-44.791136 0-81.108273 36.303834-81.108273 81.109296 0 44.778856 36.316114 81.108273 81.108273 81.108273 44.792159 0 81.109296-36.329417 81.109296-81.108273C228.121046 467.194538 191.804932 430.890704 147.01175 430.890704zM511.999488 430.890704c-44.791136 0-81.108273 36.303834-81.108273 81.109296 0 44.778856 36.316114 81.108273 81.108273 81.108273 44.792159 0 81.109296-36.329417 81.109296-81.108273C593.108784 467.194538 556.791647 430.890704 511.999488 430.890704zM876.987227 430.890704c-44.791136 0-81.108273 36.303834-81.108273 81.109296 0 44.778856 36.316114 81.108273 81.108273 81.108273s81.108273-36.329417 81.108273-81.108273C958.094476 467.194538 921.778362 430.890704 876.987227 430.890704z"
                       p-id="1508"></path>
             </svg>
+            <div class="detail-content">
+                <img alt="家具图片" class="furniture-pic" src="../static/css/asset/frniture/AirConditioner.png"
+                     th:src="@{css/asset/frniture/Humidifier.png}">
+                <!-- 详细数据展示 -->
+                <div class="detail">
+                    <th th:switch="${Humidifier.Statue}">
+                        <p th:case="0">当前状态：<span style="color: #43a047;">运行中</span></p>
+                        <p th:case="1">当前状态：<span style="color: #000000;">待机</span></p>
+                        <p th:case="2">当前状态：<span style="color: #fc8073;">异常</span></p>
+                    </th>
+                    <p class="detail-property" th:text="'所在房间：' + ${Humidifier.RoomName}">所在房间：</p>
+                    <p class="detail-property" th:text="'当前功率：' + ${Humidifier.Power}">当前功率：</p>
+                    <p class="detail-property" th:text="'当前湿度：' + ${Humidifier.Humi}">当前湿度：</p>
+                    <p class="detail-property" th:text="'开启阈值：' + ${Humidifier.Threshold}">开启阈值：</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 窗帘 -->
+        <div class="furniture-item" th:each="Curtain : ${Curtains}">
+            <p class="furniture-title" th:text="${Curtain.Fname}">加湿器</p>
+            <p class="furniture-id">1</p>
+            <!-- 操作按钮 -->
+            <svg class="handle-btn" height="200" p-id="1507" version="1.1"
+                 viewBox="0 0 1024 1024" width="200" x="1701763328709" xmlns="http://www.w3.org/2000/svg">
+                <path d="M147.01175 430.890704c-44.791136 0-81.108273 36.303834-81.108273 81.109296 0 44.778856 36.316114 81.108273 81.108273 81.108273 44.792159 0 81.109296-36.329417 81.109296-81.108273C228.121046 467.194538 191.804932 430.890704 147.01175 430.890704zM511.999488 430.890704c-44.791136 0-81.108273 36.303834-81.108273 81.109296 0 44.778856 36.316114 81.108273 81.108273 81.108273 44.792159 0 81.109296-36.329417 81.109296-81.108273C593.108784 467.194538 556.791647 430.890704 511.999488 430.890704zM876.987227 430.890704c-44.791136 0-81.108273 36.303834-81.108273 81.109296 0 44.778856 36.316114 81.108273 81.108273 81.108273s81.108273-36.329417 81.108273-81.108273C958.094476 467.194538 921.778362 430.890704 876.987227 430.890704z"
+                      p-id="1508"></path>
+            </svg>
+            <div class="detail-content">
+                <img alt="家具图片" class="furniture-pic" src="../static/css/asset/frniture/AirConditioner.png"
+                     th:src="@{css/asset/frniture/curtain.png}">
+                <!-- 详细数据展示 -->
+                <div class="detail">
+                    <th th:switch="${Curtain.Statue}">
+                        <p th:case="0">当前状态：<span style="color: #43a047;">运行中</span></p>
+                        <p th:case="1">当前状态：<span style="color: #000000;">待机</span></p>
+                        <p th:case="2">当前状态：<span style="color: #fc8073;">异常</span></p>
+                    </th>
+                    <p class="detail-property" th:text="'所在房间：' + ${Curtain.RoomName}">所在房间：</p>
+                    <p class="detail-property" th:text="'当前功率：' + ${Curtain.Power}">当前功率：</p>
+                    <p class="detail-property" th:text="'自动开关阈值：' + ${Curtain.Threshold}">自动开关阈值：</p>
+                </div>
+            </div>
         </div>
 
     </div>
