@@ -1,4 +1,4 @@
-import {showRightMessage} from "../module.js";
+import {showRightMessage, showWrongMessage} from "../module.js";
 
 const areaEl = document.querySelectorAll('.handle-btn')
 const mask = document.querySelector('.contextmenu-mask')
@@ -57,12 +57,7 @@ mask.addEventListener('mousedown', () => {
 
 
 // 将弹窗替换为指定值
-
-
-
-// 菜单栏绑定相关函数
-function editName() {
-    console.log("执行修改名称逻辑");
+function showEditWindow(Selector, commitFunc) {
     const section = document.querySelector("section");
 
     // 将窗口内容替换为编辑界面
@@ -70,7 +65,7 @@ function editName() {
     // 存储原始内容
     var originalContent = modalBox.innerHTML;
     // 替换内容
-    var newParagraph = document.querySelector('#editNameWindow').innerHTML;
+    var newParagraph = document.querySelector(Selector).innerHTML;
     modalBox.innerHTML = '';
     modalBox.innerHTML = newParagraph;
     section.classList.add("active"); // 显示窗口
@@ -78,6 +73,10 @@ function editName() {
     // TODO: 增加取消按钮 (砍)
     // 还原内容
     document.querySelector(".modal-box button").addEventListener("click", (e) => {
+        // 在这里提交请求操作
+        var flag = commitFunc();
+
+        // 关闭弹出的窗口并重新监听弹窗提示的关闭按钮
         document.querySelector("section").classList.remove("active");
         setTimeout(() => {
             modalBox.innerHTML = originalContent;
@@ -86,9 +85,25 @@ function editName() {
             close_btn.addEventListener("click", function () {
                 section.classList.remove("active");
             })
-        },250);
-    })
 
+            // 根据函数返回值来弹窗提示信息
+            if (flag) {
+                showRightMessage("操作成功");
+            } else {
+                showWrongMessage("操作失败");
+            }
+        },250); // 在提交后0.25s 后再关闭弹窗
+
+    })
+}
+
+
+// 菜单栏绑定相关函数
+function editName() {
+    console.log("执行修改名称逻辑");
+    showEditWindow("#editNameWindow", ()=>{
+        return true;
+    });
 }
 
 function switchState() {
