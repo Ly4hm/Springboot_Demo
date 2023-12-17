@@ -10,7 +10,7 @@
         <!-- 空调 -->
         <div class="furniture-item" th:each="airConditioner : ${airConditioners}">
             <p class="furniture-title" th:text="${airConditioner.Fname}">空调</p>
-            <p class="furniture-id">1</p>
+            <p class="furniture-id" th:text="${airConditioner.Fid}">1</p>
             <!-- 操作按钮 -->
             <svg class="handle-btn" height="200" p-id="1507" version="1.1"
                  viewBox="0 0 1024 1024" width="200" x="1701763328709" xmlns="http://www.w3.org/2000/svg">
@@ -39,7 +39,7 @@
         <!-- 冰箱 -->
         <div class="furniture-item" th:each="Refrigerator : ${Refrigerators}">
             <p class="furniture-title" th:text="${Refrigerator.Fname}">冰箱</p>
-            <p class="furniture-id">1</p>
+            <p class="furniture-id" th:text="${Refrigerator.Fid}">1</p>
             <!-- 操作按钮 -->
             <svg class="handle-btn" height="200" p-id="1507" version="1.1"
                  viewBox="0 0 1024 1024" width="200" x="1701763328709" xmlns="http://www.w3.org/2000/svg">
@@ -67,7 +67,7 @@
         <!-- 加湿器 -->
         <div class="furniture-item" th:each="Humidifier : ${Humidifiers}">
             <p class="furniture-title" th:text="${Humidifier.Fname}">加湿器</p>
-            <p class="furniture-id">1</p>
+            <p class="furniture-id" th:text="${Humidifier.Fid}">Fid</p>
             <!-- 操作按钮 -->
             <svg class="handle-btn" height="200" p-id="1507" version="1.1"
                  viewBox="0 0 1024 1024" width="200" x="1701763328709" xmlns="http://www.w3.org/2000/svg">
@@ -95,7 +95,7 @@
         <!-- 窗帘 -->
         <div class="furniture-item" th:each="Curtain : ${Curtains}">
             <p class="furniture-title" th:text="${Curtain.Fname}">加湿器</p>
-            <p class="furniture-id">1</p>
+            <p class="furniture-id" th:text="${Curtain.Fid}">1</p>
             <!-- 操作按钮 -->
             <svg class="handle-btn" height="200" p-id="1507" version="1.1"
                  viewBox="0 0 1024 1024" width="200" x="1701763328709" xmlns="http://www.w3.org/2000/svg">

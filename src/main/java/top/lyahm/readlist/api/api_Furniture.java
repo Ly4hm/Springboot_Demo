@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.lyahm.readlist.utils.DbFurniture;
 import top.lyahm.readlist.utils.DbUpdateFurniture;
+import top.lyahm.readlist.vo.HandleParam;
 import top.lyahm.readlist.vo.Result;
 
 /**
@@ -16,7 +17,13 @@ import top.lyahm.readlist.vo.Result;
 @RequestMapping("/api")
 public class api_Furniture {
     @RequestMapping("/editName")
-    public Result editName(@RequestBody int Fid, @RequestBody String newName) {
+    public Result editName(@RequestBody HandleParam data) {
+        System.out.println(data);
+        // TODO: 这个地方的破id为啥读不到啊啊啊啊
+        int Fid = Integer.parseInt(data.Fid);
+        String newName = data.getNewName();
+        System.out.println(Fid + " " +newName);
+
         return DbUpdateFurniture.updateFurnitureName(Fid, newName);
     }
 

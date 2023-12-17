@@ -99,26 +99,47 @@ function showEditWindow(Selector, commitFunc) {
 
 
 // 菜单栏绑定相关函数
-function editName() {
-    console.log("执行修改名称逻辑");
+function editName(id) {
+    id = id.toString();
     showEditWindow("#editNameWindow", ()=>{
-        return true;
+        // 构造数据
+        var flag;
+        var postData = {
+            Fid: id,
+            newName: document.querySelector(".modal-box label input").value
+        }
+
+        fetch("/api/editName", {
+            method: 'POST', headers: {
+                'Content-Type': 'application/json'
+            }, body: JSON.stringify(postData)
+        })
+            .then(response => {
+                response.json().then(data => {
+                    return !!data["code"];  // 返回boolen类型的简写版本
+                })
+            })
+            .catch(error => {
+                // 处理请求错误
+                console.log('请求错误:', error);
+                showWrongMessage("出现了一些小问题");
+            });
     });
 }
 
-function switchState() {
+function switchState(id) {
     console.log("执行切换状态逻辑");
 }
 
-function editRule() {
+function editRule(id) {
     console.log("执行规则修改逻辑");
 }
 
-function removeFurniture() {
+function removeFurniture(id) {
     console.log("执行删除设备逻辑");
 }
 
-function moveFurniture() {
+function moveFurniture(id) {
     console.log("执行移动设备逻辑");
 }
 
@@ -134,14 +155,13 @@ contentEl.addEventListener('click', (e) => {
         } else {
             // console.log(clicked_btn.parentElement.querySelector(".furniture-id"))
             var id = clicked_btn.parentElement.querySelector(".furniture-id").textContent
-            // TODO: 修复bug
         }
 
         console.log(id)
 
         // 执行菜单项对应命令
         // console.log(e.target.id)
-        eval(e.target.id + "()");
+        eval(e.target.id + "(" + id + ")");
 
         // 隐藏菜单栏
         hideContextMenu()
