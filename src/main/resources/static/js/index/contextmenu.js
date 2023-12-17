@@ -74,7 +74,7 @@ function showEditWindow(Selector, commitFunc) {
     // 还原内容
     document.querySelector(".modal-box button").addEventListener("click", (e) => {
         // 在这里提交请求操作
-        var flag = commitFunc();
+        var promise = commitFunc();
 
         // 关闭弹出的窗口并重新监听弹窗提示的关闭按钮
         document.querySelector("section").classList.remove("active");
@@ -86,13 +86,20 @@ function showEditWindow(Selector, commitFunc) {
                 section.classList.remove("active");
             })
 
-            // 根据函数返回值来弹窗提示信息
-            if (flag) {
-                showRightMessage("操作成功");
-            } else {
-                showWrongMessage("操作失败");
-            }
-        },250); // 在提交后0.25s 后再关闭弹窗
+            // 根据Promise的结果来弹窗提示信息
+            promise
+                .then(flag => {
+                    if (flag) {
+                        showRightMessage("操作成功");
+                    } else {
+                        showWrongMessage("操作失败");
+                    }
+                })
+                .catch(error => {
+                    console.log("发生错误:", error);
+                    showWrongMessage("出现了一些小问题");
+                });
+        }, 250); // 在提交后0.25s 后再关闭弹窗
 
     })
 }
@@ -101,7 +108,7 @@ function showEditWindow(Selector, commitFunc) {
 // 菜单栏绑定相关函数
 function editName(id) {
     id = id.toString();
-    showEditWindow("#editNameWindow", ()=>{
+    showEditWindow("#editNameWindow", () => {
         // 构造数据
         var flag;
         var postData = {
@@ -109,21 +116,26 @@ function editName(id) {
             newName: document.querySelector(".modal-box label input").value
         }
 
-        fetch("/api/editName", {
-            method: 'POST', headers: {
-                'Content-Type': 'application/json'
-            }, body: JSON.stringify(postData)
-        })
-            .then(response => {
-                response.json().then(data => {
-                    return !!data["code"];  // 返回boolen类型的简写版本
-                })
+        return new Promise((resolve, reject) => {
+            fetch("/api/editName", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(postData)
             })
-            .catch(error => {
-                // 处理请求错误
-                console.log('请求错误:', error);
-                showWrongMessage("出现了一些小问题");
-            });
+                .then(response => {
+                    response.json().then(data => {
+                        resolve(!!data["code"]); // 使用 resolve 将布尔值传递出去
+                    })
+                })
+                .catch(error => {
+                    // 处理请求错误
+                    console.log('请求错误:', error);
+                    showWrongMessage("出现了一些小问题");
+                    reject(error); // 使用 reject 将错误信息传递出去
+                });
+        });
     });
 }
 
