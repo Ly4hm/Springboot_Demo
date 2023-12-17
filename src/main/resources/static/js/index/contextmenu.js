@@ -126,7 +126,17 @@ function editName(id) {
             })
                 .then(response => {
                     response.json().then(data => {
-                        resolve(!!data["code"]); // 使用 resolve 将布尔值传递出去
+                        // 更改前端显示
+                        if (clicked_btn.parentElement.tagName == "svg") {
+                            clicked_btn.parentElement.parentElement
+                                .querySelector(".furniture-title").textContent = postData.newName;
+                        } else {
+                            clicked_btn.parentElement
+                                .querySelector(".furniture-title").textContent = postData.newName;
+                        }
+
+                        // 使用 resolve 将布尔值传递出去
+                        resolve(!!data["code"]);
                     })
                 })
                 .catch(error => {
