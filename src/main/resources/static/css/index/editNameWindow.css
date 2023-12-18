@@ -18,3 +18,42 @@
 #editNameWindow {
     display: none;
 }
+
+#editRuleWindow {
+    display: none;
+}
+
+/* 使块内元素一行显示*/
+.line-item > * {
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+/* 编辑规则弹窗样式*/
+.modal-box .line-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.modal-box p {
+    margin-right: 10px;
+}
+
+.modal-box select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #333;
+    /* 添加其他样式属性 */
+}
+
+.modal-box input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #333;
+    /* 添加其他样式属性 */
+}

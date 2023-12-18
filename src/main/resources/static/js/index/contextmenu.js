@@ -179,11 +179,11 @@ function switchState(id) {
                     if (postData.currState == 0) {
                         stateEle.textContent = "待机";
                         stateEle.setAttribute("style", 'color: #000000;');
-                        stateEle.setAttribute("data-state", '0');
+                        stateEle.setAttribute("data-state", '1');
                     } else {
                         stateEle.textContent = "运行中";
                         stateEle.setAttribute("style", 'color: #43a047;');
-                        stateEle.setAttribute("data-state", '1');
+                        stateEle.setAttribute("data-state", '0');
                     }
 
                     showRightMessage("操作成功");
@@ -201,7 +201,10 @@ function switchState(id) {
 }
 
 function editRule(id) {
-    console.log("执行规则修改逻辑");
+    showEditWindow("#editRuleWindow", () => {
+        console.log("ed");
+    })
+
 }
 
 function removeFurniture(id) {

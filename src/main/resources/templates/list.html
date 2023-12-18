@@ -1,4 +1,5 @@
 <!doctype html>
+<!--suppress HtmlFormInputWithoutLabel -->
 <html lang="ch" xmlns:th="http://www.thymeleaf.org">
 
 <div class="page-content" id="list-content" th:fragment="list">
@@ -58,7 +59,8 @@
                     </th>
                     <p class="detail-property" th:text="'所在房间：' + ${Refrigerator.RoomName}">所在房间：</p>
                     <p class="detail-property" th:text="'当前功率：' + ${Refrigerator.Power}">当前功率：</p>
-                    <p class="detail-property" th:text="'制冷阈值：' + ${Refrigerator.RefrigerationThreshold}">制冷阈值：</p>
+                    <p class="detail-property" th:text="'制冷阈值：' + ${Refrigerator.RefrigerationThreshold}">
+                        制冷阈值：</p>
                     <p class="detail-property" th:text="'冷冻阈值：' + ${Refrigerator.FrozenThreshold}">冷冻阈值</p>
                 </div>
             </div>
@@ -145,7 +147,23 @@
         </div>
     </div>
 
-    <!-- 弹出切换 -->
+    <!-- 弹出修改规则窗口 -->
+    <div id="editRuleWindow">
+        <div class="line-item">
+            <p>要修改的规则：</p>
+            <select id="editRuleSelect">
+                <!-- 在js中动态填入选项 -->
+                <option value="1">选项一</option>
+                <option value="2">选项二</option>
+            </select>
+        </div>
+        <input id="editRuleInput" placeholder="请输入新的值~" type="text">
+
+        <div class="buttons">
+            <button class="close-btn">提交</button>
+            <button class="close-btn">取消</button>
+        </div>
+    </div>
 
     <script src="../static/js/index/contextmenu.js" th:src="@{js/index/contextmenu.js}" type="module"></script>
 

@@ -20,7 +20,6 @@ public class api_Furniture {
     public Result editName(@RequestBody HandleParam data) {
         int Fid = data.Fid;
         String newName = data.getNewName();
-        System.out.println(Fid + " " +newName);
 
         return DbUpdateFurniture.updateFurnitureName(Fid, newName);
     }
