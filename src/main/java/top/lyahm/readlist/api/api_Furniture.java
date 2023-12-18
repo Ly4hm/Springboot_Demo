@@ -18,9 +18,7 @@ import top.lyahm.readlist.vo.Result;
 public class api_Furniture {
     @RequestMapping("/editName")
     public Result editName(@RequestBody HandleParam data) {
-        System.out.println(data);
-        // TODO: 这个地方的破id为啥读不到啊啊啊啊
-        int Fid = Integer.parseInt(data.Fid);
+        int Fid = data.Fid;
         String newName = data.getNewName();
         System.out.println(Fid + " " +newName);
 
@@ -28,7 +26,10 @@ public class api_Furniture {
     }
 
     @RequestMapping("/switchState")
-    public Result switchState(@RequestBody int Fid, @RequestBody int currState) {
+    public Result switchState(@RequestBody HandleParam data) {
+        int currState = data.getCurrState();
+        int Fid = data.Fid;
+
         int changedState; // 改变后的状态
         if (currState == 2) {
             return new Result(0, "设备连接异常，无法操作");

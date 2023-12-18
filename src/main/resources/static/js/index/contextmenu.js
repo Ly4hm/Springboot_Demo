@@ -56,7 +56,11 @@ mask.addEventListener('mousedown', () => {
 }, false)
 
 
-// 将弹窗替换为指定值
+/**
+ * 修改弹窗的内容并显示
+ * @param Selector 要弹出的窗口的 Selector
+ * @param commitFunc
+ */
 function showEditWindow(Selector, commitFunc) {
     const section = document.querySelector("section");
 
@@ -69,6 +73,7 @@ function showEditWindow(Selector, commitFunc) {
     modalBox.innerHTML = '';
     modalBox.innerHTML = newParagraph;
     section.classList.add("active"); // 显示窗口
+
 
     // TODO: 增加取消按钮 (砍)
     // 还原内容
@@ -88,11 +93,11 @@ function showEditWindow(Selector, commitFunc) {
 
             // 根据Promise的结果来弹窗提示信息
             promise
-                .then(flag => {
-                    if (flag) {
+                .then(data => {
+                    if (!!data["code"]) {
                         showRightMessage("操作成功");
                     } else {
-                        showWrongMessage("操作失败");
+                        showWrongMessage(data["message"]);
                     }
                 })
                 .catch(error => {
@@ -104,18 +109,25 @@ function showEditWindow(Selector, commitFunc) {
     })
 }
 
+function baseDiv() {
+    if (clicked_btn.parentElement.tagName == "svg") {
+        return clicked_btn.parentElement.parentElement
+    } else {
+        return clicked_btn.parentElement
+    }
+}
+
 
 // 菜单栏绑定相关函数
 function editName(id) {
-    id = id.toString();
     showEditWindow("#editNameWindow", () => {
         // 构造数据
-        var flag;
         var postData = {
             Fid: id,
             newName: document.querySelector(".modal-box label input").value
         }
 
+        // 向服务端发起更名请求
         return new Promise((resolve, reject) => {
             fetch("/api/editName", {
                 method: 'POST',
@@ -127,16 +139,10 @@ function editName(id) {
                 .then(response => {
                     response.json().then(data => {
                         // 更改前端显示
-                        if (clicked_btn.parentElement.tagName == "svg") {
-                            clicked_btn.parentElement.parentElement
-                                .querySelector(".furniture-title").textContent = postData.newName;
-                        } else {
-                            clicked_btn.parentElement
-                                .querySelector(".furniture-title").textContent = postData.newName;
-                        }
+                        baseDiv().querySelector(".furniture-title").textContent = postData.newName;
 
                         // 使用 resolve 将布尔值传递出去
-                        resolve(!!data["code"]);
+                        resolve(data);
                     })
                 })
                 .catch(error => {
@@ -150,7 +156,48 @@ function editName(id) {
 }
 
 function switchState(id) {
-    console.log("执行切换状态逻辑");
+    // 构造数据
+    var stateEle = baseDiv().querySelectorAll(".detail p")[0].querySelector("span");
+    var postData = {
+        Fid: id,
+        currState: parseInt(stateEle.getAttribute("data-state"))
+    }
+
+    // 向服务端发起更名请求
+    fetch("/api/switchState", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(postData)
+    })
+        .then(response => {
+            response.json().then(data => {
+                // 弹窗显示操作结果
+                if (!!data["code"]) {
+                    // 更改前端显示
+                    if (postData.currState == 0) {
+                        stateEle.textContent = "待机";
+                        stateEle.setAttribute("style", 'color: #000000;');
+                        stateEle.setAttribute("data-state", '0');
+                    } else {
+                        stateEle.textContent = "运行中";
+                        stateEle.setAttribute("style", 'color: #43a047;');
+                        stateEle.setAttribute("data-state", '1');
+                    }
+
+                    showRightMessage("操作成功");
+                } else {
+                    showWrongMessage(data["message"]);
+                }
+            })
+        })
+        .catch(error => {
+            // 处理请求错误
+            console.log('请求错误:', error);
+            showWrongMessage("出现了一些小问题");
+        });
+
 }
 
 function editRule(id) {

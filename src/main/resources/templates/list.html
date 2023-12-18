@@ -23,9 +23,9 @@
                 <!-- 详细数据展示 -->
                 <div class="detail">
                     <th th:switch="${airConditioner.Statue}">
-                        <p th:case="0">当前状态：<span style="color: #43a047;">运行中</span></p>
-                        <p th:case="1">当前状态：<span style="color: #000000;">待机</span></p>
-                        <p th:case="2">当前状态：<span style="color: #fc8073;">异常</span></p>
+                        <p th:case="0">当前状态：<span style="color: #43a047;" th:data-state="0">运行中</span></p>
+                        <p th:case="1">当前状态：<span style="color: #000000;" th:data-state="1">待机</span></p>
+                        <p th:case="2">当前状态：<span style="color: #fc8073;" th:data-state="2">异常</span></p>
                     </th>
                     <p class="detail-property" th:text="'所在房间：' + ${airConditioner.RoomName}">所在房间：</p>
                     <p class="detail-property" th:text="'当前功率：' + ${airConditioner.Power}">当前功率：</p>
@@ -52,9 +52,9 @@
                 <!-- 详细数据展示 -->
                 <div class="detail">
                     <th th:switch="${Refrigerator.Statue}">
-                        <p th:case="0">当前状态：<span style="color: #43a047;">运行中</span></p>
-                        <p th:case="1">当前状态：<span style="color: #000000;">待机</span></p>
-                        <p th:case="2">当前状态：<span style="color: #fc8073;">异常</span></p>
+                        <p th:case="0">当前状态：<span style="color: #43a047;" th:data-state="0">运行中</span></p>
+                        <p th:case="1">当前状态：<span style="color: #000000;" th:data-state="1">待机</span></p>
+                        <p th:case="2">当前状态：<span style="color: #fc8073;" th:data-state="2">异常</span></p>
                     </th>
                     <p class="detail-property" th:text="'所在房间：' + ${Refrigerator.RoomName}">所在房间：</p>
                     <p class="detail-property" th:text="'当前功率：' + ${Refrigerator.Power}">当前功率：</p>
@@ -80,9 +80,9 @@
                 <!-- 详细数据展示 -->
                 <div class="detail">
                     <th th:switch="${Humidifier.Statue}">
-                        <p th:case="0">当前状态：<span style="color: #43a047;">运行中</span></p>
-                        <p th:case="1">当前状态：<span style="color: #000000;">待机</span></p>
-                        <p th:case="2">当前状态：<span style="color: #fc8073;">异常</span></p>
+                        <p th:case="0">当前状态：<span style="color: #43a047;" th:data-state="0">运行中</span></p>
+                        <p th:case="1">当前状态：<span style="color: #000000;" th:data-state="1">待机</span></p>
+                        <p th:case="2">当前状态：<span style="color: #fc8073;" th:data-state="2">异常</span></p>
                     </th>
                     <p class="detail-property" th:text="'所在房间：' + ${Humidifier.RoomName}">所在房间：</p>
                     <p class="detail-property" th:text="'当前功率：' + ${Humidifier.Power}">当前功率：</p>
@@ -108,9 +108,9 @@
                 <!-- 详细数据展示 -->
                 <div class="detail">
                     <th th:switch="${Curtain.Statue}">
-                        <p th:case="0">当前状态：<span style="color: #43a047;">运行中</span></p>
-                        <p th:case="1">当前状态：<span style="color: #000000;">待机</span></p>
-                        <p th:case="2">当前状态：<span style="color: #fc8073;">异常</span></p>
+                        <p th:case="0">当前状态：<span style="color: #43a047;" th:data-state="0">运行中</span></p>
+                        <p th:case="1">当前状态：<span style="color: #000000;" th:data-state="1">待机</span></p>
+                        <p th:case="2">当前状态：<span style="color: #fc8073;" th:data-state="2">异常</span></p>
                     </th>
                     <p class="detail-property" th:text="'所在房间：' + ${Curtain.RoomName}">所在房间：</p>
                     <p class="detail-property" th:text="'当前功率：' + ${Curtain.Power}">当前功率：</p>
@@ -144,6 +144,8 @@
             <button class="close-btn" id="editNameBtn">提交</button>
         </div>
     </div>
+
+    <!-- 弹出切换 -->
 
     <script src="../static/js/index/contextmenu.js" th:src="@{js/index/contextmenu.js}" type="module"></script>
 

@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class HandleParam {
-    public String Fid;
+    public int Fid;
     private String newName;
     private int currState;
 
