@@ -1,4 +1,5 @@
 <!doctype html>
+<!--suppress HtmlFormInputWithoutLabel -->
 <html lang="ch" xmlns:th="http://www.thymeleaf.org">
 
 <div class="page-content" id="list-content" th:fragment="list">
@@ -10,7 +11,7 @@
         <!-- 空调 -->
         <div class="furniture-item" th:each="airConditioner : ${airConditioners}">
             <p class="furniture-title" th:text="${airConditioner.Fname}">空调</p>
-            <p class="furniture-id">1</p>
+            <p class="furniture-id" th:text="${airConditioner.Fid}">1</p>
             <!-- 操作按钮 -->
             <svg class="handle-btn" height="200" p-id="1507" version="1.1"
                  viewBox="0 0 1024 1024" width="200" x="1701763328709" xmlns="http://www.w3.org/2000/svg">
@@ -23,9 +24,9 @@
                 <!-- 详细数据展示 -->
                 <div class="detail">
                     <th th:switch="${airConditioner.Statue}">
-                        <p th:case="0">当前状态：<span style="color: #43a047;">运行中</span></p>
-                        <p th:case="1">当前状态：<span style="color: #000000;">待机</span></p>
-                        <p th:case="2">当前状态：<span style="color: #fc8073;">异常</span></p>
+                        <p th:case="0">当前状态：<span style="color: #43a047;" th:data-state="0">运行中</span></p>
+                        <p th:case="1">当前状态：<span style="color: #000000;" th:data-state="1">待机</span></p>
+                        <p th:case="2">当前状态：<span style="color: #fc8073;" th:data-state="2">异常</span></p>
                     </th>
                     <p class="detail-property" th:text="'所在房间：' + ${airConditioner.RoomName}">所在房间：</p>
                     <p class="detail-property" th:text="'当前功率：' + ${airConditioner.Power}">当前功率：</p>
@@ -39,7 +40,7 @@
         <!-- 冰箱 -->
         <div class="furniture-item" th:each="Refrigerator : ${Refrigerators}">
             <p class="furniture-title" th:text="${Refrigerator.Fname}">冰箱</p>
-            <p class="furniture-id">1</p>
+            <p class="furniture-id" th:text="${Refrigerator.Fid}">1</p>
             <!-- 操作按钮 -->
             <svg class="handle-btn" height="200" p-id="1507" version="1.1"
                  viewBox="0 0 1024 1024" width="200" x="1701763328709" xmlns="http://www.w3.org/2000/svg">
@@ -52,13 +53,14 @@
                 <!-- 详细数据展示 -->
                 <div class="detail">
                     <th th:switch="${Refrigerator.Statue}">
-                        <p th:case="0">当前状态：<span style="color: #43a047;">运行中</span></p>
-                        <p th:case="1">当前状态：<span style="color: #000000;">待机</span></p>
-                        <p th:case="2">当前状态：<span style="color: #fc8073;">异常</span></p>
+                        <p th:case="0">当前状态：<span style="color: #43a047;" th:data-state="0">运行中</span></p>
+                        <p th:case="1">当前状态：<span style="color: #000000;" th:data-state="1">待机</span></p>
+                        <p th:case="2">当前状态：<span style="color: #fc8073;" th:data-state="2">异常</span></p>
                     </th>
                     <p class="detail-property" th:text="'所在房间：' + ${Refrigerator.RoomName}">所在房间：</p>
                     <p class="detail-property" th:text="'当前功率：' + ${Refrigerator.Power}">当前功率：</p>
-                    <p class="detail-property" th:text="'制冷阈值：' + ${Refrigerator.RefrigerationThreshold}">制冷阈值：</p>
+                    <p class="detail-property" th:text="'制冷阈值：' + ${Refrigerator.RefrigerationThreshold}">
+                        制冷阈值：</p>
                     <p class="detail-property" th:text="'冷冻阈值：' + ${Refrigerator.FrozenThreshold}">冷冻阈值</p>
                 </div>
             </div>
@@ -67,7 +69,7 @@
         <!-- 加湿器 -->
         <div class="furniture-item" th:each="Humidifier : ${Humidifiers}">
             <p class="furniture-title" th:text="${Humidifier.Fname}">加湿器</p>
-            <p class="furniture-id">1</p>
+            <p class="furniture-id" th:text="${Humidifier.Fid}">Fid</p>
             <!-- 操作按钮 -->
             <svg class="handle-btn" height="200" p-id="1507" version="1.1"
                  viewBox="0 0 1024 1024" width="200" x="1701763328709" xmlns="http://www.w3.org/2000/svg">
@@ -80,9 +82,9 @@
                 <!-- 详细数据展示 -->
                 <div class="detail">
                     <th th:switch="${Humidifier.Statue}">
-                        <p th:case="0">当前状态：<span style="color: #43a047;">运行中</span></p>
-                        <p th:case="1">当前状态：<span style="color: #000000;">待机</span></p>
-                        <p th:case="2">当前状态：<span style="color: #fc8073;">异常</span></p>
+                        <p th:case="0">当前状态：<span style="color: #43a047;" th:data-state="0">运行中</span></p>
+                        <p th:case="1">当前状态：<span style="color: #000000;" th:data-state="1">待机</span></p>
+                        <p th:case="2">当前状态：<span style="color: #fc8073;" th:data-state="2">异常</span></p>
                     </th>
                     <p class="detail-property" th:text="'所在房间：' + ${Humidifier.RoomName}">所在房间：</p>
                     <p class="detail-property" th:text="'当前功率：' + ${Humidifier.Power}">当前功率：</p>
@@ -95,7 +97,7 @@
         <!-- 窗帘 -->
         <div class="furniture-item" th:each="Curtain : ${Curtains}">
             <p class="furniture-title" th:text="${Curtain.Fname}">加湿器</p>
-            <p class="furniture-id">1</p>
+            <p class="furniture-id" th:text="${Curtain.Fid}">1</p>
             <!-- 操作按钮 -->
             <svg class="handle-btn" height="200" p-id="1507" version="1.1"
                  viewBox="0 0 1024 1024" width="200" x="1701763328709" xmlns="http://www.w3.org/2000/svg">
@@ -108,9 +110,9 @@
                 <!-- 详细数据展示 -->
                 <div class="detail">
                     <th th:switch="${Curtain.Statue}">
-                        <p th:case="0">当前状态：<span style="color: #43a047;">运行中</span></p>
-                        <p th:case="1">当前状态：<span style="color: #000000;">待机</span></p>
-                        <p th:case="2">当前状态：<span style="color: #fc8073;">异常</span></p>
+                        <p th:case="0">当前状态：<span style="color: #43a047;" th:data-state="0">运行中</span></p>
+                        <p th:case="1">当前状态：<span style="color: #000000;" th:data-state="1">待机</span></p>
+                        <p th:case="2">当前状态：<span style="color: #fc8073;" th:data-state="2">异常</span></p>
                     </th>
                     <p class="detail-property" th:text="'所在房间：' + ${Curtain.RoomName}">所在房间：</p>
                     <p class="detail-property" th:text="'当前功率：' + ${Curtain.Power}">当前功率：</p>
@@ -141,7 +143,26 @@
             <input id="editNameInput" placeholder="请输入新的家居名称~" type="text">
         </label>
         <div class="buttons">
-            <button class="close-btn" id="editNameBtn">提交</button>
+            <button class="blue-btn">提交</button>
+            <button class="close-btn">取消</button>
+        </div>
+    </div>
+
+    <!-- 弹出修改规则窗口 -->
+    <div id="editRuleWindow">
+        <div class="line-item">
+            <p>要修改的规则：</p>
+            <select id="editRuleSelect">
+                <!-- 在js中动态填入选项 -->
+                <option value="1">选项一</option>
+                <option value="2">选项二</option>
+            </select>
+        </div>
+        <input id="editRuleInput" placeholder="请输入新的值~" type="text">
+
+        <div class="buttons">
+            <button class="blue-btn">提交</button>
+            <button class="close-btn">取消</button>
         </div>
     </div>
 

@@ -75,7 +75,6 @@ resetEmailBtn.addEventListener("click", () => {
                 .textContent.replace("用户名：", ""),
             email: resetEmailInput.value
         }
-        console.log(postData)
 
         fetch("/api/resetEmail", {
             method: 'POST', headers: {

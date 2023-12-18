@@ -1,6 +1,6 @@
 const section = document.querySelector("section"),
     overlay = document.querySelector(".overlay"),
-    closeBtn = document.querySelector(".close-btn");
+    closeBtn = document.querySelector(".submit-btn");
 
 // 关闭弹出的窗口的逻辑
 overlay.addEventListener("click", () =>

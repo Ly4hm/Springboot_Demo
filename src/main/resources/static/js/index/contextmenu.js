@@ -1,4 +1,4 @@
-import {showRightMessage} from "../module.js";
+import {showRightMessage, showWrongMessage} from "../module.js";
 
 const areaEl = document.querySelectorAll('.handle-btn')
 const mask = document.querySelector('.contextmenu-mask')
@@ -56,13 +56,12 @@ mask.addEventListener('mousedown', () => {
 }, false)
 
 
-// 将弹窗替换为指定值
-
-
-
-// 菜单栏绑定相关函数
-function editName() {
-    console.log("执行修改名称逻辑");
+/**
+ * 修改弹窗的内容并显示
+ * @param Selector 要弹出的窗口的 Selector
+ * @param commitFunc
+ */
+function showEditWindow(Selector, commitFunc) {
     const section = document.querySelector("section");
 
     // 将窗口内容替换为编辑界面
@@ -70,40 +69,164 @@ function editName() {
     // 存储原始内容
     var originalContent = modalBox.innerHTML;
     // 替换内容
-    var newParagraph = document.querySelector('#editNameWindow').innerHTML;
+    var newParagraph = document.querySelector(Selector).innerHTML;
     modalBox.innerHTML = '';
     modalBox.innerHTML = newParagraph;
     section.classList.add("active"); // 显示窗口
 
-    // TODO: 增加取消按钮 (砍)
-    // 还原内容
-    document.querySelector(".modal-box button").addEventListener("click", (e) => {
+
+    // 弹窗的取消按钮
+    document.querySelector(".modal-box").querySelector(".buttons")
+        .querySelector(".close-btn").addEventListener("click", () => {
+        // 关闭弹出的窗口并重新监听弹窗提示的关闭按钮
+        document.querySelector("section").classList.remove("active");
+        setTimeout(() => {
+            modalBox.innerHTML = originalContent;
+            // 重新监听弹窗关闭按钮
+            const close_btn = modalBox.querySelector(".blue-btn")
+            close_btn.addEventListener("click", function () {
+                section.classList.remove("active");
+            })
+        }, 250); // 在提交后0.25s 后再关闭弹窗
+    })
+
+    // 还原内容并向服务器提起请求
+    document.querySelector(".modal-box").querySelector(".buttons")
+        .querySelector(".blue-btn").addEventListener("click", (e) => {
+        // 在这里提交请求操作
+        var promise = commitFunc();
+
+        // 关闭弹出的窗口并重新监听弹窗提示的关闭按钮
         document.querySelector("section").classList.remove("active");
         setTimeout(() => {
             modalBox.innerHTML = originalContent;
             // 重新监听关闭按钮
-            const close_btn = modalBox.querySelector(".close-btn")
+            const close_btn = modalBox.querySelector(".blue-btn")
             close_btn.addEventListener("click", function () {
                 section.classList.remove("active");
             })
-        },250);
+
+            // 根据Promise的结果来弹窗提示信息
+            promise
+                .then(data => {
+                    if (!!data["code"]) {
+                        showRightMessage("操作成功");
+                    } else {
+                        showWrongMessage(data["message"]);
+                    }
+                })
+                .catch(error => {
+                    console.log("发生错误:", error);
+                    showWrongMessage("出现了一些小问题");
+                });
+        }, 250); // 在提交后0.25s 后再关闭弹窗
+
+    })
+}
+
+function baseDiv() {
+    if (clicked_btn.parentElement.tagName == "svg") {
+        return clicked_btn.parentElement.parentElement
+    } else {
+        return clicked_btn.parentElement
+    }
+}
+
+
+// 菜单栏绑定相关函数
+function editName(id) {
+    showEditWindow("#editNameWindow", () => {
+        // 构造数据
+        var postData = {
+            Fid: id,
+            newName: document.querySelector(".modal-box label input").value
+        }
+
+        // 向服务端发起更名请求
+        return new Promise((resolve, reject) => {
+            fetch("/api/editName", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(postData)
+            })
+                .then(response => {
+                    response.json().then(data => {
+                        // 更改前端显示
+                        baseDiv().querySelector(".furniture-title").textContent = postData.newName;
+
+                        // 使用 resolve 将布尔值传递出去
+                        resolve(data);
+                    })
+                })
+                .catch(error => {
+                    // 处理请求错误
+                    console.log('请求错误:', error);
+                    showWrongMessage("出现了一些小问题");
+                    reject(error); // 使用 reject 将错误信息传递出去
+                });
+        });
+    });
+}
+
+function switchState(id) {
+    // 构造数据
+    var stateEle = baseDiv().querySelectorAll(".detail p")[0].querySelector("span");
+    var postData = {
+        Fid: id,
+        currState: parseInt(stateEle.getAttribute("data-state"))
+    }
+
+    // 向服务端发起更名请求
+    fetch("/api/switchState", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(postData)
+    })
+        .then(response => {
+            response.json().then(data => {
+                // 弹窗显示操作结果
+                if (!!data["code"]) {
+                    // 更改前端显示
+                    if (postData.currState == 0) {
+                        stateEle.textContent = "待机";
+                        stateEle.setAttribute("style", 'color: #000000;');
+                        stateEle.setAttribute("data-state", '1');
+                    } else {
+                        stateEle.textContent = "运行中";
+                        stateEle.setAttribute("style", 'color: #43a047;');
+                        stateEle.setAttribute("data-state", '0');
+                    }
+
+                    showRightMessage("操作成功");
+                } else {
+                    showWrongMessage(data["message"]);
+                }
+            })
+        })
+        .catch(error => {
+            // 处理请求错误
+            console.log('请求错误:', error);
+            showWrongMessage("出现了一些小问题");
+        });
+
+}
+
+function editRule(id) {
+    showEditWindow("#editRuleWindow", () => {
+        console.log("ed");
     })
 
 }
 
-function switchState() {
-    console.log("执行切换状态逻辑");
-}
-
-function editRule() {
-    console.log("执行规则修改逻辑");
-}
-
-function removeFurniture() {
+function removeFurniture(id) {
     console.log("执行删除设备逻辑");
 }
 
-function moveFurniture() {
+function moveFurniture(id) {
     console.log("执行移动设备逻辑");
 }
 
@@ -119,14 +242,12 @@ contentEl.addEventListener('click', (e) => {
         } else {
             // console.log(clicked_btn.parentElement.querySelector(".furniture-id"))
             var id = clicked_btn.parentElement.querySelector(".furniture-id").textContent
-            // TODO: 修复bug
         }
 
         console.log(id)
 
         // 执行菜单项对应命令
-        // console.log(e.target.id)
-        eval(e.target.id + "()");
+        eval(e.target.id + "(" + id + ")");
 
         // 隐藏菜单栏
         hideContextMenu()
