@@ -8,7 +8,7 @@
     font-family: "Poppins", sans-serif;
 }
 
-.close-btn {
+.blue-btn {
     font-size: 18px;
     font-weight: 400;
     color: #fafafa;
@@ -19,8 +19,23 @@
     cursor: pointer;
 }
 
-.close-btn:hover {
+.close-btn {
+    font-size: 18px;
+    font-weight: 400;
+    color: #fafafa;
+    padding: 14px 22px;
+    border: none;
+    background: #bdbdbd;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.blue-btn:hover {
     background-color: #265df2;
+}
+
+.close-btn:hover {
+    background-color: #9e9e9e;
 }
 
 button.show-modal,

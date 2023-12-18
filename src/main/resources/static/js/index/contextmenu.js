@@ -75,9 +75,24 @@ function showEditWindow(Selector, commitFunc) {
     section.classList.add("active"); // 显示窗口
 
 
-    // TODO: 增加取消按钮 (砍)
-    // 还原内容
-    document.querySelector(".modal-box button").addEventListener("click", (e) => {
+    // 弹窗的取消按钮
+    document.querySelector(".modal-box").querySelector(".buttons")
+        .querySelector(".close-btn").addEventListener("click", () => {
+        // 关闭弹出的窗口并重新监听弹窗提示的关闭按钮
+        document.querySelector("section").classList.remove("active");
+        setTimeout(() => {
+            modalBox.innerHTML = originalContent;
+            // 重新监听弹窗关闭按钮
+            const close_btn = modalBox.querySelector(".blue-btn")
+            close_btn.addEventListener("click", function () {
+                section.classList.remove("active");
+            })
+        }, 250); // 在提交后0.25s 后再关闭弹窗
+    })
+
+    // 还原内容并向服务器提起请求
+    document.querySelector(".modal-box").querySelector(".buttons")
+        .querySelector(".blue-btn").addEventListener("click", (e) => {
         // 在这里提交请求操作
         var promise = commitFunc();
 
@@ -86,7 +101,7 @@ function showEditWindow(Selector, commitFunc) {
         setTimeout(() => {
             modalBox.innerHTML = originalContent;
             // 重新监听关闭按钮
-            const close_btn = modalBox.querySelector(".close-btn")
+            const close_btn = modalBox.querySelector(".blue-btn")
             close_btn.addEventListener("click", function () {
                 section.classList.remove("active");
             })
@@ -232,7 +247,6 @@ contentEl.addEventListener('click', (e) => {
         console.log(id)
 
         // 执行菜单项对应命令
-        // console.log(e.target.id)
         eval(e.target.id + "(" + id + ")");
 
         // 隐藏菜单栏

@@ -13,7 +13,7 @@ section.classList.remove("active");
 
 
 // 关闭弹窗相关逻辑
-const close_btn = document.querySelector('.modal-box').querySelector(".close-btn");
+const close_btn = document.querySelector('.modal-box').querySelector(".blue-btn"); // 这的submit其实是close，为了统一颜色做的
 close_btn.addEventListener("click", function () {
     section.classList.remove("active")
 })
