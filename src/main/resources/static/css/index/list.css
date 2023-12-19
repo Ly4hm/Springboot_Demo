@@ -24,6 +24,7 @@
     display: block; /* 强制独占一行*/
 }
 
+.furniture-variety,
 .furniture-id {
     display: none;
 }
@@ -39,9 +40,11 @@
 .detail-content {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
     position: absolute;
     bottom: 20px;
+    flex-wrap: nowrap;
+    flex-direction: row;
 }
 
 .furniture-pic {

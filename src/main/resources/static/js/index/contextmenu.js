@@ -146,6 +146,8 @@ function editName(id) {
             newName: document.querySelector(".modal-box label input").value
         }
 
+        // TODO: 添加前端数据校验
+
         // 向服务端发起更名请求
         return new Promise((resolve, reject) => {
             fetch("/api/editName", {
@@ -221,8 +223,53 @@ function switchState(id) {
 
 function editRule(id) {
     showEditWindow("#editRuleWindow", () => {
-        const selectedIndex = document.getElementById('#editRuleSelect').selectedIndex;
+        const variety = baseDiv().querySelector(".furniture-variety").textContent;
+        const selectedIndex = document.querySelector('.modal-box select').selectedIndex;
+        const newValue = document.querySelector(".modal-box input").value;
 
+        var postData = {
+            variety: parseInt(variety),
+            changeIndex: selectedIndex,
+            Fid: id,
+            newValue: parseInt(newValue)
+        }
+
+        // 前端数据校验(判断newValue是否是数字)
+        if (/^\d+$/.test(newValue)) {
+            // 向服务端发起更名请求
+            return new Promise((resolve, reject) => {
+                fetch("/api/editRule", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(postData)
+                })
+                    .then(response => {
+                        response.json().then(data => {
+                            if (!!data["code"]) {
+                                // 更改前端显示
+                                const detailProperties = baseDiv()
+                                    .querySelectorAll(".detail-property");
+
+                                const currValueElement = detailProperties[2 + selectedIndex];
+                                const currValueTextContent = currValueElement.textContent.split("：");
+                                currValueTextContent[1] = newValue;
+                                currValueElement.textContent = currValueTextContent.join("：");
+                            }
+
+                            // 使用 resolve 将布尔值传递出去
+                            resolve(data);
+                        })
+                    })
+                    .catch(error => {
+                        // 处理请求错误
+                        console.log('请求错误:', error);
+                        showWrongMessage("出现了一些小问题");
+                        reject(error); // 使用 reject 将错误信息传递出去
+                    });
+            });
+        }
     })
 
 }
@@ -260,10 +307,9 @@ contentEl.addEventListener('click', (e) => {
         for (var i = 2; i < detailProperties.length; i++) {
             // console.log(detailProperties[i].textContent.split("：")[0]);
             const option = document.createElement('option');
-            option.value = '${i - 2}';
+            option.value = '${index1}'.replace("${index1}", (i - 2).toString());
             option.text = detailProperties[i].textContent.split("：")[0];
             // 添加到select中
-            console.log(option)
             select.appendChild(option);
         }
 
