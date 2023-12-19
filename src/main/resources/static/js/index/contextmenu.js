@@ -275,7 +275,52 @@ function editRule(id) {
 }
 
 function removeFurniture(id) {
-    console.log("执行删除设备逻辑");
+    showEditWindow("#removeFurnitureWindow", () => {
+        // 构造数据
+        var postData = {
+            Fid : id
+        }
+
+        // 发送请求
+        const ConfirmCode = document.querySelector(".modal-box input").value;
+        if (ConfirmCode == "ConfirmDelete") {
+            return new Promise((resolve, reject) => {
+                fetch("/api/removeFurniture", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(postData)
+                })
+                    .then(response => {
+                        response.json().then(data => {
+                            if (!!data["code"]) {
+                                // TODO:更改前端显示
+
+                            }
+
+                            // 使用 resolve 将布尔值传递出去
+                            resolve(data);
+                        })
+                    })
+                    .catch(error => {
+                        // 处理请求错误
+                        console.log('请求错误:', error);
+                        showWrongMessage("出现了一些小问题");
+                        reject(error); // 使用 reject 将错误信息传递出去
+                    });
+            });
+        } else {
+            return new Promise((resolve, reject) => {
+                var data = {
+                    code: 0,
+                    message: "校验码错误"
+                }
+
+                resolve(data);
+            });
+        }
+    })
 }
 
 function moveFurniture(id) {

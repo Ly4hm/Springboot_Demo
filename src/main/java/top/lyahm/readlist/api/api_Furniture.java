@@ -1,11 +1,14 @@
 package top.lyahm.readlist.api;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.annotation.SaCheckRole;
+import cn.dev33.satoken.stp.StpUtil;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.lyahm.readlist.utils.DbFurniture;
 import top.lyahm.readlist.utils.DbUpdateFurniture;
+import top.lyahm.readlist.utils.DbUser;
 import top.lyahm.readlist.vo.HandleParam;
 import top.lyahm.readlist.vo.Result;
 
@@ -89,8 +92,14 @@ public class api_Furniture {
     }
 
     @RequestMapping("removeFurniture")
-    public Result removeFurniture(@RequestBody int Fid) {
-        return DbFurniture.rmFurniture(Fid);
+    public Result removeFurniture(@RequestBody HandleParam data) {
+        int Fid = data.Fid;
+
+        if (DbUser.verifyAdmin((String) StpUtil.getLoginId()) == 0) {
+            return DbFurniture.rmFurniture(Fid);
+        } else {
+            return new Result(0, "需要管理员权限");
+        }
     }
 
     @RequestMapping("moveFurniture")
