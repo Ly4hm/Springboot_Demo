@@ -124,6 +124,10 @@ function showEditWindow(Selector, commitFunc) {
     })
 }
 
+/**
+ * 返回所点击按钮所属 Div
+ * @returns {HTMLElement}
+ */
 function baseDiv() {
     if (clicked_btn.parentElement.tagName == "svg") {
         return clicked_btn.parentElement.parentElement
@@ -217,7 +221,8 @@ function switchState(id) {
 
 function editRule(id) {
     showEditWindow("#editRuleWindow", () => {
-        console.log("ed");
+        const selectedIndex = document.getElementById('#editRuleSelect').selectedIndex;
+
     })
 
 }
@@ -244,7 +249,23 @@ contentEl.addEventListener('click', (e) => {
             var id = clicked_btn.parentElement.querySelector(".furniture-id").textContent
         }
 
-        console.log(id)
+        // 给规则添加 select 填入选项
+        const select = document.querySelector("#editRuleSelect");
+        const detailProperties = baseDiv().querySelectorAll(".detail-property");
+        // 移除当前的选项
+        while (select.firstChild) {
+            select.removeChild(select.firstChild);
+        }
+        // 填入新的选项
+        for (var i = 2; i < detailProperties.length; i++) {
+            // console.log(detailProperties[i].textContent.split("：")[0]);
+            const option = document.createElement('option');
+            option.value = '${i - 2}';
+            option.text = detailProperties[i].textContent.split("：")[0];
+            // 添加到select中
+            console.log(option)
+            select.appendChild(option);
+        }
 
         // 执行菜单项对应命令
         eval(e.target.id + "(" + id + ")");
