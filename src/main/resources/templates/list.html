@@ -6,7 +6,35 @@
     <!-- 局部样式引入 -->
     <link href="../static/css/index/list.css" rel="stylesheet" th:href="@{css/index/list.css}">
 
-    <h2>智能家居列表</h2>
+    <div class="line-item">
+        <h2>智能家居列表</h2>
+        <div class="filter-buttons">
+            <input type="checkbox" id="airConditionerFilter" name="filter" value="0" class="FilterCheckBox">
+            <label for="airConditionerFilter">空调</label>
+
+            <input type="checkbox" id="RefrigeratorFilter" name="filter" value="1" class="FilterCheckBox">
+            <label for="RefrigeratorFilter">冰箱</label>
+
+            <input type="checkbox" id="HumiFilter" name="filter" value="2" class="FilterCheckBox">
+            <label for="HumiFilter">加湿器</label>
+
+            <input type="checkbox" id="CurtainFilter" name="filter" value="3" class="FilterCheckBox">
+            <label for="CurtainFilter">窗帘</label>
+
+            <button class="addBtn">
+                <svg class="icon" height="200" p-id="2583" t="1702984575536"
+                     version="1.1" viewBox="0 0 1024 1024" width="200" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M67.661 517.598a447.654 455.375 0 1 0 895.308 0 447.654 455.375 0 1 0-895.308 0Z"
+                          fill="#5E7BF7" p-id="2584"></path>
+                    <path d="M791.948 578.987H237.607c-6.6 0-12-5.4-12-12V460.209c0-6.6 5.4-12 12-12h554.341c6.6 0 12 5.4 12 12v106.779c0 6.599-5.4 11.999-12 11.999zM564.541 434.094h-103c-6.6 0-12-5.4-12-12V267.756c0-6.6 5.4-12 12-12h103c6.6 0 12 5.4 12 12v154.338c0 6.6-5.4 12-12 12zM564.541 776.143h-103c-6.6 0-12-5.4-12-12V609.805c0-6.6 5.4-12 12-12h103c6.6 0 12 5.4 12 12v154.338c0 6.6-5.4 12-12 12z"
+                          fill="#ffffff" p-id="2585"></path>
+                </svg>
+                添加新的家居
+            </button>
+
+        </div>
+    </div>
+
     <div id="furnitures-lst">
         <!-- 空调 -->
         <div class="furniture-item" th:each="airConditioner : ${airConditioners}">
@@ -172,7 +200,7 @@
     <div id="removeFurnitureWindow">
         <p>确认删除家居吗？</p>
         <p>确认校验码：ConfirmDelete</p>
-        <input id="removeFurnitureInput" placeholder="请输入确认校验码" type="text" style="margin-top: 10px">
+        <input id="removeFurnitureInput" placeholder="请输入确认校验码" style="margin-top: 10px" type="text">
 
         <div class="buttons">
             <button class="blue-btn" style="background: #f44336;">确认删除</button>
@@ -200,6 +228,7 @@
     </div>
 
     <script src="../static/js/index/contextmenu.js" th:src="@{js/index/contextmenu.js}" type="module"></script>
+    <script src="../static/js/index/filter.js" th:src="@{js/index/filter.js}" type="module"></script>
 
 </div>
 
