@@ -94,7 +94,10 @@ public class api_Furniture {
     }
 
     @RequestMapping("moveFurniture")
-    public Result moveFurniture(@RequestBody int Fid, @RequestBody int newRoomID) {
-        return DbFurniture.moveFurniture(Fid, newRoomID);
+    public Result moveFurniture(@RequestBody HandleParam data) {
+        int Fid = data.Fid;
+        int newRoomId = data.getNewRoomId();
+
+        return DbFurniture.moveFurniture(Fid, newRoomId);
     }
 }

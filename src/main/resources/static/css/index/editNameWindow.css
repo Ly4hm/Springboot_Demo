@@ -15,11 +15,9 @@
     color: rgb(128, 128, 128);
 }
 
-#editNameWindow {
-    display: none;
-}
-
-#editRuleWindow {
+#editNameWindow,
+#editRuleWindow,
+#moveFurnitureWindow {
     display: none;
 }
 
@@ -38,6 +36,7 @@
 
 .modal-box p {
     margin-right: 10px;
+    font-size: 18px;
 }
 
 .modal-box select {

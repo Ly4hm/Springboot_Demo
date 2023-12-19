@@ -279,7 +279,44 @@ function removeFurniture(id) {
 }
 
 function moveFurniture(id) {
-    console.log("执行移动设备逻辑");
+    showEditWindow("#moveFurnitureWindow", () => {
+        const selectedIndex = document.querySelector('.modal-box select').selectedIndex + 1; // +1即为对应的RoomId
+
+        var postData = {
+            Fid: id,
+            newRoomId: selectedIndex
+        }
+
+        // 向服务端发起更名请求
+        return new Promise((resolve, reject) => {
+            fetch("/api/moveFurniture", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(postData)
+            })
+                .then(response => {
+                    response.json().then(data => {
+                        // 更改前端显示
+                        const select = document.querySelector('.modal-box select');
+                        var selectedOption = select.options[select.selectedIndex];
+                        var currRoom = baseDiv().querySelectorAll(".detail-property")[0].textContent.split("：");
+                        currRoom[1] = selectedOption.textContent;
+                        baseDiv().querySelectorAll(".detail-property")[0].textContent = currRoom.join("：");
+
+                        // 使用 resolve 将布尔值传递出去
+                        resolve(data);
+                    })
+                })
+                .catch(error => {
+                    // 处理请求错误
+                    console.log('请求错误:', error);
+                    showWrongMessage("出现了一些小问题");
+                    reject(error); // 使用 reject 将错误信息传递出去
+                });
+        });
+    })
 }
 
 

@@ -13,7 +13,7 @@ public class HandleParam {
     private int changeIndex;
     private int newValue;
 
-    private int newRoomID;
+    private int newRoomId;
     private int test;
 
 }
