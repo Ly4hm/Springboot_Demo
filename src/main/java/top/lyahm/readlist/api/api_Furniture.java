@@ -1,11 +1,13 @@
 package top.lyahm.readlist.api;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.stp.StpUtil;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.lyahm.readlist.utils.DbFurniture;
 import top.lyahm.readlist.utils.DbUpdateFurniture;
+import top.lyahm.readlist.utils.DbUser;
 import top.lyahm.readlist.vo.HandleParam;
 import top.lyahm.readlist.vo.Result;
 
@@ -41,18 +43,24 @@ public class api_Furniture {
 
 
     /**
-     * @param variety     家居种类(0为空调，1为冰箱，2为加湿器，3为窗帘）
-     * @param Fid         要修改的家居id
-     * @param changeIndex 要改变的阈值下标（要改变第几个阈值）
-     * @param newValue    新的值
+     * 修改家居规则
+     * @param data 相关数据
      * @return 返回操作结果
      */
     @RequestMapping("/editRule")
-    public Result editRule(@RequestBody int variety, @RequestBody int Fid, @RequestBody int changeIndex, @RequestBody int newValue) {
+    public Result editRule(@RequestBody HandleParam data) {
+        int variety = data.getVariety();
+        int changeIndex = data.getChangeIndex();
+        int Fid = data.Fid;
+        int newValue = data.getNewValue();
+
         // 空调
         if (variety == 0) {
             // 修改温度上下限阈值
             if (changeIndex == 0) {
+                return new Result(0, "开发中");
+            }
+            else if (changeIndex == 1) {
                 return DbUpdateFurniture.updateAirconditionerMaxTemp(Fid, newValue);
             } else {
                 return DbUpdateFurniture.updateAirconditionerMinTemp(Fid, newValue);
@@ -83,12 +91,21 @@ public class api_Furniture {
     }
 
     @RequestMapping("removeFurniture")
-    public Result removeFurniture(@RequestBody int Fid) {
-        return DbFurniture.rmFurniture(Fid);
+    public Result removeFurniture(@RequestBody HandleParam data) {
+        int Fid = data.Fid;
+
+        if (DbUser.verifyAdmin((String) StpUtil.getLoginId()) == 0) {
+            return DbFurniture.rmFurniture(Fid);
+        } else {
+            return new Result(0, "需要管理员权限");
+        }
     }
 
     @RequestMapping("moveFurniture")
-    public Result moveFurniture(@RequestBody int Fid, @RequestBody int newRoomID) {
-        return DbFurniture.moveFurniture(Fid, newRoomID);
+    public Result moveFurniture(@RequestBody HandleParam data) {
+        int Fid = data.Fid;
+        int newRoomId = data.getNewRoomId();
+
+        return DbFurniture.moveFurniture(Fid, newRoomId);
     }
 }

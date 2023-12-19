@@ -124,6 +124,10 @@ function showEditWindow(Selector, commitFunc) {
     })
 }
 
+/**
+ * 返回所点击按钮所属 Div
+ * @returns {HTMLElement}
+ */
 function baseDiv() {
     if (clicked_btn.parentElement.tagName == "svg") {
         return clicked_btn.parentElement.parentElement
@@ -141,6 +145,8 @@ function editName(id) {
             Fid: id,
             newName: document.querySelector(".modal-box label input").value
         }
+
+        // TODO: 添加前端数据校验
 
         // 向服务端发起更名请求
         return new Promise((resolve, reject) => {
@@ -217,17 +223,145 @@ function switchState(id) {
 
 function editRule(id) {
     showEditWindow("#editRuleWindow", () => {
-        console.log("ed");
+        const variety = baseDiv().querySelector(".furniture-variety").textContent;
+        const selectedIndex = document.querySelector('.modal-box select').selectedIndex;
+        const newValue = document.querySelector(".modal-box input").value;
+
+        var postData = {
+            variety: parseInt(variety),
+            changeIndex: selectedIndex,
+            Fid: id,
+            newValue: parseInt(newValue)
+        }
+
+        // 前端数据校验(判断newValue是否是数字)
+        if (/^\d+$/.test(newValue)) {
+            // 向服务端发起更名请求
+            return new Promise((resolve, reject) => {
+                fetch("/api/editRule", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(postData)
+                })
+                    .then(response => {
+                        response.json().then(data => {
+                            if (!!data["code"]) {
+                                // 更改前端显示
+                                const detailProperties = baseDiv()
+                                    .querySelectorAll(".detail-property");
+
+                                const currValueElement = detailProperties[2 + selectedIndex];
+                                const currValueTextContent = currValueElement.textContent.split("：");
+                                currValueTextContent[1] = newValue;
+                                currValueElement.textContent = currValueTextContent.join("：");
+                            }
+
+                            // 使用 resolve 将布尔值传递出去
+                            resolve(data);
+                        })
+                    })
+                    .catch(error => {
+                        // 处理请求错误
+                        console.log('请求错误:', error);
+                        showWrongMessage("出现了一些小问题");
+                        reject(error); // 使用 reject 将错误信息传递出去
+                    });
+            });
+        }
     })
 
 }
 
 function removeFurniture(id) {
-    console.log("执行删除设备逻辑");
+    showEditWindow("#removeFurnitureWindow", () => {
+        // 构造数据
+        var postData = {
+            Fid : id
+        }
+
+        // 发送请求
+        const ConfirmCode = document.querySelector(".modal-box input").value;
+        if (ConfirmCode == "ConfirmDelete") {
+            return new Promise((resolve, reject) => {
+                fetch("/api/removeFurniture", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(postData)
+                })
+                    .then(response => {
+                        response.json().then(data => {
+                            if (!!data["code"]) {
+                                // TODO:更改前端显示
+
+                            }
+
+                            // 使用 resolve 将布尔值传递出去
+                            resolve(data);
+                        })
+                    })
+                    .catch(error => {
+                        // 处理请求错误
+                        console.log('请求错误:', error);
+                        showWrongMessage("出现了一些小问题");
+                        reject(error); // 使用 reject 将错误信息传递出去
+                    });
+            });
+        } else {
+            return new Promise((resolve, reject) => {
+                var data = {
+                    code: 0,
+                    message: "校验码错误"
+                }
+
+                resolve(data);
+            });
+        }
+    })
 }
 
 function moveFurniture(id) {
-    console.log("执行移动设备逻辑");
+    showEditWindow("#moveFurnitureWindow", () => {
+        const selectedIndex = document.querySelector('.modal-box select').selectedIndex + 1; // +1即为对应的RoomId
+
+        var postData = {
+            Fid: id,
+            newRoomId: selectedIndex
+        }
+
+        // 向服务端发起更名请求
+        return new Promise((resolve, reject) => {
+            fetch("/api/moveFurniture", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(postData)
+            })
+                .then(response => {
+                    response.json().then(data => {
+                        // 更改前端显示
+                        const select = document.querySelector('.modal-box select');
+                        var selectedOption = select.options[select.selectedIndex];
+                        var currRoom = baseDiv().querySelectorAll(".detail-property")[0].textContent.split("：");
+                        currRoom[1] = selectedOption.textContent;
+                        baseDiv().querySelectorAll(".detail-property")[0].textContent = currRoom.join("：");
+
+                        // 使用 resolve 将布尔值传递出去
+                        resolve(data);
+                    })
+                })
+                .catch(error => {
+                    // 处理请求错误
+                    console.log('请求错误:', error);
+                    showWrongMessage("出现了一些小问题");
+                    reject(error); // 使用 reject 将错误信息传递出去
+                });
+        });
+    })
 }
 
 
@@ -244,7 +378,22 @@ contentEl.addEventListener('click', (e) => {
             var id = clicked_btn.parentElement.querySelector(".furniture-id").textContent
         }
 
-        console.log(id)
+        // 给规则添加 select 填入选项
+        const select = document.querySelector("#editRuleSelect");
+        const detailProperties = baseDiv().querySelectorAll(".detail-property");
+        // 移除当前的选项
+        while (select.firstChild) {
+            select.removeChild(select.firstChild);
+        }
+        // 填入新的选项
+        for (var i = 2; i < detailProperties.length; i++) {
+            // console.log(detailProperties[i].textContent.split("：")[0]);
+            const option = document.createElement('option');
+            option.value = '${index1}'.replace("${index1}", (i - 2).toString());
+            option.text = detailProperties[i].textContent.split("：")[0];
+            // 添加到select中
+            select.appendChild(option);
+        }
 
         // 执行菜单项对应命令
         eval(e.target.id + "(" + id + ")");

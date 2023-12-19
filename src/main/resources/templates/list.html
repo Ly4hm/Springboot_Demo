@@ -1,17 +1,46 @@
 <!doctype html>
-<!--suppress HtmlFormInputWithoutLabel -->
+<!--suppress HtmlFormInputWithoutLabel, HtmlUnknownTag -->
 <html lang="ch" xmlns:th="http://www.thymeleaf.org">
 
 <div class="page-content" id="list-content" th:fragment="list">
     <!-- 局部样式引入 -->
     <link href="../static/css/index/list.css" rel="stylesheet" th:href="@{css/index/list.css}">
 
-    <h2>智能家居列表</h2>
+    <div class="line-item">
+        <h2>智能家居列表</h2>
+        <div class="filter-buttons">
+            <input type="checkbox" id="airConditionerFilter" name="filter" value="0" class="FilterCheckBox">
+            <label for="airConditionerFilter">空调</label>
+
+            <input type="checkbox" id="RefrigeratorFilter" name="filter" value="1" class="FilterCheckBox">
+            <label for="RefrigeratorFilter">冰箱</label>
+
+            <input type="checkbox" id="HumiFilter" name="filter" value="2" class="FilterCheckBox">
+            <label for="HumiFilter">加湿器</label>
+
+            <input type="checkbox" id="CurtainFilter" name="filter" value="3" class="FilterCheckBox">
+            <label for="CurtainFilter">窗帘</label>
+
+            <button class="addBtn">
+                <svg class="icon" height="200" p-id="2583" t="1702984575536"
+                     version="1.1" viewBox="0 0 1024 1024" width="200" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M67.661 517.598a447.654 455.375 0 1 0 895.308 0 447.654 455.375 0 1 0-895.308 0Z"
+                          fill="#5E7BF7" p-id="2584"></path>
+                    <path d="M791.948 578.987H237.607c-6.6 0-12-5.4-12-12V460.209c0-6.6 5.4-12 12-12h554.341c6.6 0 12 5.4 12 12v106.779c0 6.599-5.4 11.999-12 11.999zM564.541 434.094h-103c-6.6 0-12-5.4-12-12V267.756c0-6.6 5.4-12 12-12h103c6.6 0 12 5.4 12 12v154.338c0 6.6-5.4 12-12 12zM564.541 776.143h-103c-6.6 0-12-5.4-12-12V609.805c0-6.6 5.4-12 12-12h103c6.6 0 12 5.4 12 12v154.338c0 6.6-5.4 12-12 12z"
+                          fill="#ffffff" p-id="2585"></path>
+                </svg>
+                添加新的家居
+            </button>
+
+        </div>
+    </div>
+
     <div id="furnitures-lst">
         <!-- 空调 -->
         <div class="furniture-item" th:each="airConditioner : ${airConditioners}">
             <p class="furniture-title" th:text="${airConditioner.Fname}">空调</p>
             <p class="furniture-id" th:text="${airConditioner.Fid}">1</p>
+            <p class="furniture-variety">0</p>
             <!-- 操作按钮 -->
             <svg class="handle-btn" height="200" p-id="1507" version="1.1"
                  viewBox="0 0 1024 1024" width="200" x="1701763328709" xmlns="http://www.w3.org/2000/svg">
@@ -41,6 +70,7 @@
         <div class="furniture-item" th:each="Refrigerator : ${Refrigerators}">
             <p class="furniture-title" th:text="${Refrigerator.Fname}">冰箱</p>
             <p class="furniture-id" th:text="${Refrigerator.Fid}">1</p>
+            <p class="furniture-variety">1</p>
             <!-- 操作按钮 -->
             <svg class="handle-btn" height="200" p-id="1507" version="1.1"
                  viewBox="0 0 1024 1024" width="200" x="1701763328709" xmlns="http://www.w3.org/2000/svg">
@@ -70,6 +100,7 @@
         <div class="furniture-item" th:each="Humidifier : ${Humidifiers}">
             <p class="furniture-title" th:text="${Humidifier.Fname}">加湿器</p>
             <p class="furniture-id" th:text="${Humidifier.Fid}">Fid</p>
+            <p class="furniture-variety">2</p>
             <!-- 操作按钮 -->
             <svg class="handle-btn" height="200" p-id="1507" version="1.1"
                  viewBox="0 0 1024 1024" width="200" x="1701763328709" xmlns="http://www.w3.org/2000/svg">
@@ -98,6 +129,7 @@
         <div class="furniture-item" th:each="Curtain : ${Curtains}">
             <p class="furniture-title" th:text="${Curtain.Fname}">加湿器</p>
             <p class="furniture-id" th:text="${Curtain.Fid}">1</p>
+            <p class="furniture-variety">3</p>
             <!-- 操作按钮 -->
             <svg class="handle-btn" height="200" p-id="1507" version="1.1"
                  viewBox="0 0 1024 1024" width="200" x="1701763328709" xmlns="http://www.w3.org/2000/svg">
@@ -154,8 +186,6 @@
             <p>要修改的规则：</p>
             <select id="editRuleSelect">
                 <!-- 在js中动态填入选项 -->
-                <option value="1">选项一</option>
-                <option value="2">选项二</option>
             </select>
         </div>
         <input id="editRuleInput" placeholder="请输入新的值~" type="text">
@@ -166,7 +196,39 @@
         </div>
     </div>
 
+    <!-- 弹出删除家居窗口 -->
+    <div id="removeFurnitureWindow">
+        <p>确认删除家居吗？</p>
+        <p>确认校验码：ConfirmDelete</p>
+        <input id="removeFurnitureInput" placeholder="请输入确认校验码" style="margin-top: 10px" type="text">
+
+        <div class="buttons">
+            <button class="blue-btn" style="background: #f44336;">确认删除</button>
+            <button class="close-btn">取消</button>
+        </div>
+    </div>
+
+    <!-- 弹出移动家居窗口 -->
+    <div id="moveFurnitureWindow">
+        <div class="line-item">
+            <p>将家居移动至:</p>
+            <select id="moveFurnitureSelect">
+                <option value="1">主卧</option>
+                <option value="2">客卧_1</option>
+                <option value="3">客卧_2</option>
+                <option value="4">客厅_1</option>
+                <option value="5">厨房</option>
+            </select>
+        </div>
+
+        <div class="buttons" style="margin-top: -5px">
+            <button class="blue-btn">提交</button>
+            <button class="close-btn">取消</button>
+        </div>
+    </div>
+
     <script src="../static/js/index/contextmenu.js" th:src="@{js/index/contextmenu.js}" type="module"></script>
+    <script src="../static/js/index/filter.js" th:src="@{js/index/filter.js}" type="module"></script>
 
 </div>
 
