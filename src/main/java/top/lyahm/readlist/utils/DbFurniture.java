@@ -2,10 +2,7 @@ package top.lyahm.readlist.utils;
 
 import top.lyahm.readlist.vo.*;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -179,33 +176,62 @@ public class DbFurniture {
 
 
     //    删除家具，只删除Furniture表
-    public static Result rmFurniture(int Fid){
-        Connection conn=null;
-        PreparedStatement pstmt=null;
-        int code=0;
-        String result="删除失败";
-//        预编译sql语句
-        try{
+    public static Result rmFurniture(int Fid) {
+        Connection conn = null;
+        PreparedStatement pstmtSelect = null;
+        PreparedStatement pstmtDelete = null;
+        ResultSet resultSet = null;
+        int code = 0;
+        String result = "删除失败";
+        int deletedType = -1; // Variable to store the deleted Type
+
+        try {
             conn = DbUtil.getConnection();
-            String sql="DELETE FROM Furniture WHERE Fid=?";
 
-            pstmt=conn.prepareStatement(sql);
-            pstmt.setInt(1,Fid);
+            // 查询要删除的家具的Type
+            String selectSql = "SELECT Type FROM Furniture WHERE Fid=?";
+            pstmtSelect = conn.prepareStatement(selectSql);
+            pstmtSelect.setInt(1, Fid);
+            resultSet = pstmtSelect.executeQuery();
 
-            int affectedRows = pstmt.executeUpdate();
-            if (affectedRows > 0) {
-                code=1;
-                result="修改成功";
+            if (resultSet.next()) {
+                deletedType = resultSet.getInt("Type"); // 获取要删除的家具的Type
             }
 
-        }catch (SQLException e) {
+            if(deletedType==1){
+                DbRemove.rmAirConditioner(Fid);
+            }else if (deletedType==2){
+                DbRemove.rmRefrigerator(Fid);
+            } else if (deletedType==3) {
+                DbRemove.rmCurtain(Fid);
+            }else{
+                DbRemove.rmHumidifier(Fid);
+            }
+
+            // 执行删除操作
+            String deleteSql = "DELETE FROM Furniture WHERE Fid=?";
+            pstmtDelete = conn.prepareStatement(deleteSql);
+            pstmtDelete.setInt(1, Fid);
+
+            int affectedRows = pstmtDelete.executeUpdate();
+            if (affectedRows > 0) {
+                code = 1;
+                result = "删除成功";
+            }
+
+        } catch (SQLException e) {
             // 记录数据库异常信息
-            LOGGER.log(Level.SEVERE,"数据库异常： "+ e.getMessage(),e);
-        }finally {
-            DbUtil.release(conn, pstmt, null);
+            LOGGER.log(Level.SEVERE, "数据库异常： " + e.getMessage(), e);
+        } finally {
+            DbUtil.release(conn, pstmtSelect, resultSet);
+            DbUtil.release(null, pstmtDelete, null); // 注意释放的是另一个PreparedStatement
         }
-        return new Result(code,result);
+
+        return new Result(code, result);
     }
+
+
+
 
     public static ArrayList<HumidifierData> getHumiDifierData() {
         Connection conn = null;
@@ -437,37 +463,59 @@ public class DbFurniture {
         return fidArray;
     }
 
-    public static Result insertFurniture(String Fname,int roomId,int Type){
+    public static Result insertFurniture(String Fname, int roomId, int Type) {
         Connection conn = null;
         PreparedStatement pstmt = null;
-        int code=0;
-        int statue=0;
+        ResultSet generatedKeys = null; // 用于获取生成的键
+        int code = 0;
+        int statue = 0;
         int rs;
-        String result="插入失败";
-        try{
+        String result = "插入失败";
+        int generatedFid = -1; // 用于存储生成的家具ID（Fid）
+
+        try {
             conn = DbUtil.getConnection();
             String sql = "INSERT INTO Furniture (Fname, RoomId, statue, Type) VALUES (?, ?, ?, ?)";
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1,Fname);
-            pstmt.setInt(2,roomId);
-            pstmt.setInt(3,statue);
-            pstmt.setInt(4,Type);
-            rs=pstmt.executeUpdate();
-            if(rs>0){
-                result="插入成功";
+            pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS); // 指定RETURN_GENERATED_KEYS
+            pstmt.setString(1, Fname);
+            pstmt.setInt(2, roomId);
+            pstmt.setInt(3, statue);
+            pstmt.setInt(4, Type);
+            rs = pstmt.executeUpdate();
+
+            if (rs > 0) {
+                result = "插入成功";
+
+                // 获取生成的键（家具ID - Fid）
+                generatedKeys = pstmt.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    generatedFid = generatedKeys.getInt(1); // 假设Fid是整数类型，请根据实际情况进行调整
+                }
+            }
+            if(Type==1){
+                DbInsert.insertAirConditioner(generatedFid,roomId);
+            } else if (Type==2) {
+                DbInsert.insertRefrigerator(generatedFid,roomId);
+            } else if (Type==3) {
+                DbInsert.insertCurtain(generatedFid,roomId);
+            }else {
+                DbInsert.insertHumidifier(generatedFid,roomId);
             }
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "数据库异常： " + e.getMessage(), e);
-        }finally {
-            DbUtil.release(conn, pstmt, null);
+        } finally {
+            DbUtil.release(conn, pstmt, generatedKeys); // 释放资源，包括ResultSet
         }
 
-        return new Result(code,result);
+        return new Result(generatedFid, result); // 将generatedFid包含在返回的Result对象中
     }
+
+
+
 
     public static void main(String[] args){
 //        moveFurniture(5,5);
-        System.out.println(getCurtainData());
+        System.out.println(rmFurniture(17));
     }
 }

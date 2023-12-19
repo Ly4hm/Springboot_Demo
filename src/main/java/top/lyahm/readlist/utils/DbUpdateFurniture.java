@@ -140,7 +140,37 @@ public class DbUpdateFurniture {
         return new Result(code,result);
     }
 
-//    修改制冷器阈值
+    public static Result updateAirconditionerWSpeed(int Fid, int newWSpeed) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        int code = 0;
+        String result = null;
+
+        try {
+            conn = DbUtil.getConnection();
+            String sql = "UPDATE airConditioner SET WSpeed = ? WHERE Fid = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, newWSpeed);
+            pstmt.setInt(2, Fid);
+
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                code = 1;
+                result = "Air-conditioner WSpeed updated successfully.";
+            } else {
+                result = "No rows were updated.";
+            }
+        } catch (SQLException e) {
+            // Handle database exception
+            LOGGER.log(Level.SEVERE, "Database exception: " + e.getMessage(), e);
+        } finally {
+            DbUtil.release(conn, pstmt, null);
+        }
+        return new Result(code, result);
+    }
+
+
+    //    修改制冷器阈值
     public static Result updateHumidifierThreshold(int Fid,int newThreshold) {
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -261,6 +291,6 @@ public class DbUpdateFurniture {
         return new Result(code,result);
     }
     public static void main(String[] args){
-        System.out.println(updateFurnitureStatue(3,0));
+        System.out.println(updateAirconditionerWSpeed(1,5));
     }
 }
