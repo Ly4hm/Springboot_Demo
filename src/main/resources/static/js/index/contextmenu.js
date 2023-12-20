@@ -278,7 +278,7 @@ function removeFurniture(id) {
     showEditWindow("#removeFurnitureWindow", () => {
         // 构造数据
         var postData = {
-            Fid : id
+            Fid: id
         }
 
         // 发送请求
@@ -294,13 +294,13 @@ function removeFurniture(id) {
                 })
                     .then(response => {
                         response.json().then(data => {
-                            if (!!data["code"]) {
-                                // TODO:更改前端显示
-
-                            }
-
                             // 使用 resolve 将布尔值传递出去
                             resolve(data);
+
+                            setTimeout(() => {
+                                location.reload(); // 两秒后刷新页面
+                                document.querySelector(".sidebar-menu").querySelectorAll('li')[1].click();
+                            }, 2000)
                         })
                     })
                     .catch(error => {
@@ -402,3 +402,49 @@ contentEl.addEventListener('click', (e) => {
         hideContextMenu()
     }
 }, false)
+
+
+// 添加家居功能实现
+const addBtn = document.querySelector(".addBtn");
+addBtn.addEventListener("click", () => {
+    showEditWindow("#addFurnitureWindow", () => {
+        const alertWindow = document.querySelector(".modal-box");
+        const VarietySelect = alertWindow.querySelector("#addFurnitureVarietySelect");
+        const RoomSelect = alertWindow.querySelector("#addFurnitureRoomSelect");
+        const newFurnitureName = alertWindow.querySelector("#addFurnitureInput");
+
+        var postData = {
+            newName: newFurnitureName.value,
+            newRoomId: RoomSelect.selectedIndex + 1,
+            variety: VarietySelect.selectedIndex + 1
+        }
+
+        // 向服务端发起请求
+        return new Promise((resolve, reject) => {
+            fetch("/api/addFurniture", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(postData)
+            })
+                .then(response => {
+                    response.json().then(data => {
+                        // 使用 resolve 将布尔值传递出去
+                        resolve(data);
+
+                        setTimeout(() => {
+                            location.reload(); // 两秒后刷新页面
+                            document.querySelector(".sidebar-menu").querySelectorAll('li')[1].click();
+                        }, 2000)
+                    })
+                })
+                .catch(error => {
+                    // 处理请求错误
+                    console.log('请求错误:', error);
+                    showWrongMessage("出现了一些小问题");
+                    reject(error); // 使用 reject 将错误信息传递出去
+                });
+        })
+    })
+})

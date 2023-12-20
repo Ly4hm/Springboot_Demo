@@ -15,6 +15,7 @@
     color: rgb(128, 128, 128);
 }
 
+#addFurnitureWindow,
 #removeFurnitureWindow,
 #editNameWindow,
 #editRuleWindow,
@@ -44,9 +45,10 @@
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    font-size: 16px;
     color: #333;
     /* 添加其他样式属性 */
+    height: min-content;
+    font-size: 15px;
 }
 
 .modal-box input {

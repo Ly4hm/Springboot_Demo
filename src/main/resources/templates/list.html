@@ -227,6 +227,36 @@
         </div>
     </div>
 
+    <!-- 添加家居窗口 -->
+    <div id="addFurnitureWindow">
+        <div class="line-item">
+            <p>家居种类：</p>
+            <select id="addFurnitureVarietySelect">
+                <option value="1">空调</option>
+                <option value="2">冰箱</option>
+                <option value="3">窗帘</option>
+                <option value="4">加湿器</option>
+            </select>
+        </div>
+        <div class="line-item">
+            <p>所在房间：</p>
+            <select id="addFurnitureRoomSelect">
+                <option value="1">主卧</option>
+                <option value="2">客卧_1</option>
+                <option value="3">客卧_2</option>
+                <option value="4">客厅_1</option>
+                <option value="5">厨房</option>
+            </select>
+        </div>
+
+        <input id="addFurnitureInput" placeholder="请输入家居名称" style="margin-bottom: 30px" type="text">
+
+        <div class="buttons" style="margin-top: -5px">
+            <button class="blue-btn">提交</button>
+            <button class="close-btn">取消</button>
+        </div>
+    </div>
+
     <script src="../static/js/index/contextmenu.js" th:src="@{js/index/contextmenu.js}" type="module"></script>
     <script src="../static/js/index/filter.js" th:src="@{js/index/filter.js}" type="module"></script>
 

@@ -108,4 +108,13 @@ public class api_Furniture {
 
         return DbFurniture.moveFurniture(Fid, newRoomId);
     }
+
+    @RequestMapping("addFurniture")
+    public Result addFurniture(@RequestBody HandleParam data) {
+        String newFurnitureName = data.getNewName();
+        int RoomId = data.getNewRoomId();
+        int variety = data.getVariety();
+
+        return DbFurniture.insertFurniture(newFurnitureName, RoomId, variety);
+    }
 }

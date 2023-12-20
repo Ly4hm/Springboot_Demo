@@ -129,3 +129,16 @@ userItems.forEach(function(userItem) {
     });
 
 });
+
+// 当页面加载完成后执行的函数
+window.onload = function() {
+    // 获取当前 URL 中的锚点值
+    var hash = window.location.hash;
+    document.querySelector(hash).click();
+};
+
+// 实现用户登出
+document.querySelector(".logout").addEventListener("click", () => {
+    // 重定向到新的路由
+    window.location.href = "/logout";
+})

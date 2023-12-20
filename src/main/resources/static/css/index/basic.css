@@ -37,6 +37,7 @@ body {
 .sidebar-menu li {
     margin: 0 auto;
     width: 50%;
+    outline: none;
 }
 
 .sidebar-menu a {
@@ -46,6 +47,7 @@ body {
     margin-top: 30px;
     display: block;
     border: 1px solid #ffffff00;
+    outline: none;
 }
 
 .main-content {
@@ -123,6 +125,13 @@ body {
 
 .page-content {
     margin-top: 20px;
+}
+
+.logout {
+    position: absolute;
+    bottom: 2vh;
+    left: 2vh;
+    filter: invert(100%);
 }
 
 
