@@ -127,4 +127,11 @@ body {
     margin-top: 20px;
 }
 
+.logout {
+    position: absolute;
+    bottom: 2vh;
+    left: 2vh;
+    filter: invert(100%);
+}
+
 

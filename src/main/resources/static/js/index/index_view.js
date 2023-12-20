@@ -136,3 +136,9 @@ window.onload = function() {
     var hash = window.location.hash;
     document.querySelector(hash).click();
 };
+
+// 实现用户登出
+document.querySelector(".logout").addEventListener("click", () => {
+    // 重定向到新的路由
+    window.location.href = "/logout";
+})
