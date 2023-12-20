@@ -37,6 +37,7 @@ body {
 .sidebar-menu li {
     margin: 0 auto;
     width: 50%;
+    outline: none;
 }
 
 .sidebar-menu a {

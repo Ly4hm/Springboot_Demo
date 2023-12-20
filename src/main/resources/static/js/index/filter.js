@@ -5,7 +5,7 @@ filterBtns.forEach(function (Element) {
     Element.checked = true;
 })
 
-// 为其添加监听器
+// 为复选框添加监听器
 filterBtns.forEach(function (Element) {
     Element.addEventListener("change", (e) => {
         if (!Element.checked) {
